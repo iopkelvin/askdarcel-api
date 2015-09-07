@@ -1,28 +1,31 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+=== Prerequisites
 
-Things you may want to cover:
+* PostgreSQL
+* Ruby 2.2.2
+* Bundler
 
-* Ruby version
+=== Setup
 
-* System dependencies
+  ./bin/setup
 
-* Configuration
+=== Running
 
-* Database creation
+  ./bin/rails server
 
-* Database initialization
+See
 
-* How to run the test suite
+  ./bin/rake routes
 
-* Services (job queues, cache servers, search engines, etc.)
+for available routes.
 
-* Deployment instructions
+=== Testing
 
-* ...
+  ./bin/rake
 
+=== Deployment
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+  heroku login
+  heroku git:remote -a sfhomeless-api
+  heroku push
