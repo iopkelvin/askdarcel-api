@@ -4,10 +4,11 @@ class ResourcesController < ApplicationController
   # GET /resources
   # GET /resources.json
   def index
-    params[:page] ||= {}
-    @resources = Resource.page(params[:page][:number]).per(params[:page][:size])
+    @resources = Resource.page(params[:page]).per(params[:per_page])
 
-    render json: @resources, include: [:phone_numbers, :categories, :addresses]
+    render json: @resources,
+           include: [:phone_numbers, :categories, :addresses],
+           serializer: PaginatedSerializer
   end
 
   # GET /resources/1
