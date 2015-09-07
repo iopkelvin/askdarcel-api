@@ -4,8 +4,6 @@ namespace :wikia do
     ARGV.shift
 
     normalizer = Wikia::Normalizer.new(Rails.logger)
-    point_factory = RGeo::ActiveRecord::SpatialFactoryStore.instance.factory(geo_type: "point")
-
     Wikia::Parser.new(ARGF, Rails.logger).resources.each do |r|
       normalized = normalizer.normalize_resource(r)
 
@@ -43,7 +41,8 @@ namespace :wikia do
             postal_code: normalized.address.postal_code,
             country: normalized.address.country,
             country_code: normalized.address.country_code,
-            lonlat: point_factory.point(normalized.address.longitude, normalized.address.latitude)
+            longitude: normalized.address.longitude,
+            latitude: normalized.address.latitude
           )
         end
       end

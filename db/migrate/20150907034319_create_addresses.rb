@@ -9,7 +9,8 @@ class CreateAddresses < ActiveRecord::Migration
       t.string :postal_code
       t.string :country
       t.string :country_code
-      t.st_point :lonlat, geographic: true, srid: 4326
+      t.float :longitude
+      t.float :latitude
 
       t.timestamps null: false
     end
