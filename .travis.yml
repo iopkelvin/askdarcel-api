@@ -1,6 +1,12 @@
----
 language: ruby
 rvm:
 - 2.2.2
 before_script:
-- ./bin/rake db:setup
+- "./bin/rake db:setup"
+deploy:
+  provider: heroku
+  api_key:
+    secure: sMV3NJxzmmYSV9UAy/b7XuuT81aIqDVZJLiCDlS4IGzZaE/ogKj+GV12HY4FW7lENG6/YLX29Q9TH7z1VbiCsdSO8JeLu9YEmG0DRLQ6iUlwlsyssuNC6aYim5BnO2rWzF7mUY2cBlU/a2Ebpggw7yxJufxefARe5V1CdLyeeBzpqvCUdw/r0kzmT8o/ushSm6l/Ff/wA/HsnBFBCPoClqan1rtIobsw/bYWKKbGCe1rV8Vilxbq3RWT4ChEyKZ445euJog7k/bEopr3NFC85LyunZJqPsZe2Zv9uMRCajMucM92t7hIh34Xu8r61pVbNR7p2Ahv+NQmv4t07ESlKztJVbtZD7WvyFqrQzeM/Md5uo4+Qo1rs4WXGDNprGpPf4XZShCykiBizvxy8pDNCyA/Zp50UJHM/ncqhtr8ERsVuTJlvkEbrBOqbe8T3bK0Id8rCE6HEPXIYcROw/tuDaeH2Wlnz+goHEZ9ttnMgFRYNEvyO1JptFibRV9pM2+No+I8p1vwt/U+iXnE9x2BArJzBwhcgkIdkP4sdc6K/2tU+a3sZzmqgJ/md+FvNwv/WCRUD0c90wXBCKTrnl5sQixzIlyYaTpuwZ1nWpT9w4c3MjR7++Co/ur79VjjwdMWc2ZEfkUvbFpUSlNkdZ+4/XaU8UIZx/OCuCfWv1LvtU8=
+  app: sfhomeless-api
+  on:
+    repo: ShelterTech/sfhomeless-api
