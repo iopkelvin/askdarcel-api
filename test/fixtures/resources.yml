@@ -4,10 +4,12 @@ one:
   page_id: 1
   title: MyString
   email: MyString
-  summary_text: MyText
+  summary: MySummary
+  content: MyText
 
 two:
-  page_id: 1
+  page_id: 2
   title: MyString
   email: MyString
-  summary_text: MyText
+  summary: MySummary
+  content: MyText

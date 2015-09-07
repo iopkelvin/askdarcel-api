@@ -13,7 +13,7 @@ class ResourcesControllerTest < ActionController::TestCase
 
   test "should create resource" do
     assert_difference('Resource.count') do
-      post :create, resource: { email: @resource.email, page_id: @resource.page_id, summary_text: @resource.summary_text, title: @resource.title }
+      post :create, resource: { email: @resource.email, page_id: Resource.count + 1, summary: @resource.summary, title: @resource.title, content: @resource.content }
     end
 
     assert_response 201
@@ -25,7 +25,7 @@ class ResourcesControllerTest < ActionController::TestCase
   end
 
   test "should update resource" do
-    put :update, id: @resource, resource: { email: @resource.email, page_id: @resource.page_id, summary_text: @resource.summary_text, title: @resource.title }
+    put :update, id: @resource, resource: { email: @resource.email, page_id: @resource.page_id, summary: @resource.summary, title: @resource.title , content: @resource.content }
     assert_response 204
   end
 
