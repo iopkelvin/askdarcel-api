@@ -13,6 +13,5 @@ gem 'phone', '~> 1.3.0.beta1'
 gem 'geocoder', '~> 1.2.9'
 
 gem 'pg', '~> 0.18.3'
-gem 'sqlite3'
 
 gem 'spring', :group => :development
