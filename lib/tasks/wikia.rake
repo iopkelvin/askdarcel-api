@@ -4,10 +4,12 @@ namespace :wikia do
     ARGV.shift
 
     normalizer = Wikia::Normalizer.new(Rails.logger)
-    Wikia::Parser.new(ARGF, Rails.logger).resources.each do |r|
-      normalized = normalizer.normalize_resource(r)
+    Wikia::Parser.new(ARGF, Rails.logger).resources.each do |resource|
+      Resource.find_or_initialize_by(page_id: resource.page_id).tap do |r|
+        next if r.revision_id == resource.revision_id.to_i
 
-      Resource.find_or_initialize_by(page_id: normalized.page_id).tap do |r|
+        normalized = normalizer.normalize_resource(r)
+
         r.assign_attributes(
           revision_id: normalized.revision_id,
           title: normalized.title,
