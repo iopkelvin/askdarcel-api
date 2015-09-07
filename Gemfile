@@ -4,7 +4,7 @@ ruby "2.2.2"
 
 gem 'rails', '4.2.4'
 gem 'rails-api', '~> 0.4.0'
-gem 'rails_stdout_logging'
+gem 'rails_12factor'
 gem 'kaminari', '~> 0.16.3'
 
 #gem 'ffi-geos', '~> 1.0.0' #TODO figure out why this is needed
@@ -16,4 +16,4 @@ gem 'geocoder', '~> 1.2.9'
 
 gem 'pg', '~> 0.18.3'
 
-gem 'spring', :group => :development
+gem 'spring', group: :development
