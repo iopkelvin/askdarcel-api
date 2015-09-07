@@ -1,5 +1,7 @@
 == README
 
+{<img src="https://travis-ci.org/ShelterTech/sfhomeless-api.svg" alt="Build Status" />}[https://travis-ci.org/ShelterTech/sfhomeless-api]
+
 === Prerequisites
 
 * PostgreSQL
