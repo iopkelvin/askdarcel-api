@@ -2,6 +2,9 @@ require 'phone'
 
 module Wikia
   class Normalizer
+    class Resource < Struct.new(:page_id, :revision_id, :title, :address, :phone, :email, :website, :contacts, :hours, :languages, :summary, :content, :categories)
+    end
+
     attr_reader :logger
 
     def initialize(logger)
@@ -16,38 +19,46 @@ module Wikia
 
     class ResourceNormalizer
       attr_reader :resource, :logger
+
       def initialize(resource, logger)
         @resource = resource
         @logger = logger
       end
 
       def execute()
-        {
+        resource_hash = {
           page_id: resource.page_id,
+          revision_id: resource.revision_id,
           title: resource.title,
-          address: resource.address,
-          phone: resource.phone,
+          address: normalize_address(resource.address),
+          phone: normalize_phone_number(resource.phone),
           email: resource.email,
           website: resource.website,
           contacts: resource.contacts,
           hours: resource.hours,
           languages: resource.languages,
-          summary_text: resource.summary_text,
-          text: ""
+          summary: resource.summary,
+          content: resource.content,
+          categories: resource.categories,
         }
+        Resource.new(*resource_hash.values_at(*Resource.members))
+      end
+
+      def normalize_address(address)
+        return nil unless address.to_s.strip.length > 0
+
+        Geocoder.search(address).first
       end
 
       def normalize_phone_number(phone)
         return nil unless phone.to_s.strip.length > 0
-
         #TODO ask about handling of multiple phone numbers
         Phoner::Phone.parse(phone, country_code: '1').tap do |pn|
-          @logger.warn("#{resource.id}: could not parse #{phone} as a phone number") unless pn
+          @logger.warn("#{resource.page_id}: could not parse #{phone} as a phone number") unless pn
         end
       rescue Phoner::AreaCodeError
-        @logger.warn("#{phone} missing area code)")
+        @logger.warn("#{resource.page_id}: #{phone} missing area code)")
       end
     end
-
   end
 end

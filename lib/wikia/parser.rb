@@ -2,7 +2,7 @@ require 'nokogiri'
 
 module Wikia
   class Parser
-    class Resource < Struct.new(:page_id, :title, :address, :phone, :email, :website, :contacts, :hours, :languages, :summary_text, :text)
+    class Resource < Struct.new(:page_id, :revision_id, :title, :address, :phone, :email, :website, :contacts, :hours, :languages, :summary, :content, :categories)
     end
     @@namespace = "http://www.mediawiki.org/xml/export-0.6/"
 
@@ -24,6 +24,7 @@ module Wikia
 
       resource_hash = {
         page_id: page.at_xpath("x:id", "x" => @@namespace).text,
+        revision_id: page.at_xpath("x:revision/x:id", "x" => @@namespace).text,
         title: page.at_xpath("x:title", "x" => @@namespace).text,
         address: summary_info['Address'],
         phone: summary_info['Phone'],
@@ -32,11 +33,16 @@ module Wikia
         contacts: summary_info['Contact(s)'],
         hours: summary_info['Hours'],
         laguages: summary_info['Language(s)'],
-        summary_text: summary_info['SummaryText'],
-        text: content
+        summary: summary_info['SummaryText'],
+        categories: categories(content),
+        content: content
       }
 
       Resource.new(*resource_hash.values_at(*Resource.members))
+    end
+
+    def categories(text)
+      text.scan(/\[\[Category:([^\]]+)\]\]/).flatten
     end
 
     # Extract summary info attributes from text
@@ -44,7 +50,7 @@ module Wikia
       summary_info = /{{SummaryInfo(.*?)}}/m.match(text)
       return {} unless summary_info
 
-      Hash[summary_info[1].scan(/^|(?<key>.*)=(?<value>.*)$/)]
+      Hash[summary_info[1].scan(/^\|(?<key>[^=]*)=(?<value>[^|]*)/).map { |pair| pair.map(&:strip) }]
     end
   end
 end
