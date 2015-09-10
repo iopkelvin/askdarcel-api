@@ -14,3 +14,8 @@ gem 'geocoder', '~> 1.2.9'
 gem 'pg', '~> 0.18.3'
 
 gem 'spring', group: :development
+
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0'
+  gem 'apivore'
+end
