@@ -24,5 +24,13 @@ module Sfhomeless
     config.active_record.raise_in_transactional_callbacks = true
 
     config.autoload_paths << Rails.root.join('lib')
+
+    config.middleware.insert_before 0, "Rack::Cors", :debug => true, :logger => (-> { Rails.logger }) do
+      allow do
+        origins '*'
+
+        resource '/v1/swagger.json', :headers => :any, :methods => [:get], :max_age => 0
+      end
+    end
   end
 end
