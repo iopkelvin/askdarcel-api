@@ -28,7 +28,7 @@
           }
         ],
         "tags": [
-          "Resources"
+          "Resource"
         ],
         "responses": {
           "200": {
@@ -61,7 +61,7 @@
         ],
         "summary": "Fetch resource",
         "tags": [
-          "Resources"
+          "Resource"
         ],
         "responses": {
           "200": {
@@ -83,7 +83,7 @@
         "summary": "Fetch list of categories",
         "description": "The categories endpoint returns a list of categories ordered by id'\n",
         "tags": [
-          "Categories"
+          "Category"
         ],
         "responses": {
           "200": {
