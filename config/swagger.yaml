@@ -21,7 +21,7 @@ paths:
         - $ref: '#/parameters/page'
         - $ref: '#/parameters/perPage'
       tags:
-        - Resources
+        - Resource
       responses:
         '200':
           description: An array of resources
@@ -42,7 +42,7 @@ paths:
         type: integer
       summary: Fetch resource
       tags:
-        - Resources
+        - Resource
       responses:
         '200':
           description: A resource
@@ -57,7 +57,7 @@ paths:
       description: |
         The categories endpoint returns a list of categories ordered by id'
       tags:
-        - Categories
+        - Category
       responses:
         '200':
           description: An array of categories

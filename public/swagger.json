@@ -1,0 +1,297 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ShelterTech API",
+    "description": "Access information about homeless resources",
+    "version": "1.0.0"
+  },
+  "host": "sfhomeless-api.herokuapp.com",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "basePath": "/v1",
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/resources": {
+      "get": {
+        "summary": "Fetch list of resources",
+        "description": "The Resources endpoint returns a paginated list\nof resources ordered by id.\n",
+        "parameters": [
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/perPage"
+          }
+        ],
+        "tags": [
+          "Resource"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of resources",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "resources": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Resource"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resources/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of resource",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "summary": "Fetch resource",
+        "tags": [
+          "Resource"
+        ],
+        "responses": {
+          "200": {
+            "description": "A resource",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "resource": {
+                  "$ref": "#/definitions/Resource"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories": {
+      "get": {
+        "summary": "Fetch list of categories",
+        "description": "The categories endpoint returns a list of categories ordered by id'\n",
+        "tags": [
+          "Category"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of categories",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "categories": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Category"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of category",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "summary": "Fetch category",
+        "tags": [
+          "Category"
+        ],
+        "responses": {
+          "200": {
+            "description": "A category",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "resource": {
+                  "$ref": "#/definitions/Category"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Resource": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Unique id"
+        },
+        "title": {
+          "type": "string",
+          "description": "Name"
+        },
+        "email": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Contact email"
+        },
+        "website": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Website for resource"
+        },
+        "summary": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Short summary of resource (currently unsanitized)"
+        },
+        "content": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Full description of resource (currently unsanitized)"
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Category"
+          }
+        },
+        "phone_numbers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PhoneNumber"
+          }
+        },
+        "addresses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Address"
+          }
+        }
+      }
+    },
+    "PhoneNumber": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Unique id"
+        },
+        "country_code": {
+          "type": "integer",
+          "description": "Country code (e.g. 1 for US)"
+        },
+        "area_code": {
+          "type": "integer",
+          "description": "Area code"
+        },
+        "number": {
+          "type": "integer",
+          "description": "Local exchange and line number"
+        },
+        "extension": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Exchange number"
+        },
+        "comment": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Metadata about phone number (currently empty)"
+        }
+      }
+    },
+    "Category": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Unique id"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of category"
+        }
+      }
+    },
+    "Address": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Unique id"
+        },
+        "full_street_address": {
+          "type": "string",
+          "description": "Fully normalized street address"
+        },
+        "city": {
+          "type": "string",
+          "description": "City part of address"
+        },
+        "state": {
+          "type": "string",
+          "description": "State part of address"
+        },
+        "state_code": {
+          "type": "string",
+          "description": "Short code for state"
+        },
+        "country": {
+          "type": "string",
+          "description": "Country of address"
+        },
+        "country_code": {
+          "type": "string",
+          "description": "Short code for country"
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Longitude of geocoded address"
+        },
+        "latitude": {
+          "type": "number",
+          "description": "Latitude of geocoded address"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "page": {
+      "name": "page",
+      "in": "query",
+      "description": "number of page in paginated records",
+      "type": "integer"
+    },
+    "perPage": {
+      "name": "per_page",
+      "in": "query",
+      "description": "records to return per page",
+      "type": "integer"
+    }
+  }
+}
