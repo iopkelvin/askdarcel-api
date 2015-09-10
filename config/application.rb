@@ -30,6 +30,15 @@ module Sfhomeless
         origins '*'
 
         resource '/v1/swagger.json', :headers => :any, :methods => [:get], :max_age => 0
+
+      end
+
+      allow do
+        origins 'petstore.swagger.io'
+        resource '*',
+          :headers => :any,
+          :methods => [:get, :post, :delete, :put, :options, :head],
+          :max_age => 0
       end
     end
   end
