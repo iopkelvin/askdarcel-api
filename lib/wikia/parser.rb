@@ -2,7 +2,10 @@ require 'nokogiri'
 
 module Wikia
   class Parser
-    class Resource < Struct.new(:page_id, :revision_id, :title, :address, :phone, :email, :website, :contacts, :hours, :languages, :summary, :content, :categories)
+    class Resource < Struct.new(:page_id, :revision_id, :title, :address, :phone, :email, :website, :contacts, :hours, :languages, :summary, :content, :categories, :images)
+    end
+
+    class Image < Struct.new(:name, :caption)
     end
     @@namespace = "http://www.mediawiki.org/xml/export-0.6/"
 
@@ -35,10 +38,24 @@ module Wikia
         laguages: summary_info['Language(s)'],
         summary: summary_info['SummaryText'],
         categories: categories(content),
+        images: images(content),
         content: content
       }
 
       Resource.new(*resource_hash.values_at(*Resource.members))
+    end
+
+    def images(text)
+      # Parse out markup like [[File:West_Hotel_and_environs.jpg|320px|thumb|left|West Hotel and environs]]
+      # If there are more than 3 parts, assume the last part is the caption (seems to be the pattern)
+      text.scan(/\[\[File:([^\]]*)\]\]/).map do |file|
+        parts = file[0].split('|')
+
+        name = parts[0]
+        caption = parts.length > 3 ? parts[-1] : nil
+
+        Image.new(name, caption)
+      end
     end
 
     def categories(text)

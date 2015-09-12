@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150907034319) do
+ActiveRecord::Schema.define(version: 20150912045714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,19 @@ ActiveRecord::Schema.define(version: 20150907034319) do
 
   add_index "phone_numbers", ["resource_id"], name: "index_phone_numbers_on_resource_id", using: :btree
 
+  create_table "resource_images", force: :cascade do |t|
+    t.integer  "resource_id"
+    t.string   "caption"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+  end
+
+  add_index "resource_images", ["resource_id"], name: "index_resource_images_on_resource_id", using: :btree
+
   create_table "resources", force: :cascade do |t|
     t.string   "title"
     t.string   "email"
@@ -82,4 +95,5 @@ ActiveRecord::Schema.define(version: 20150907034319) do
   add_foreign_key "categories_resources", "categories"
   add_foreign_key "categories_resources", "resources"
   add_foreign_key "phone_numbers", "resources"
+  add_foreign_key "resource_images", "resources"
 end

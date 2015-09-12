@@ -2,7 +2,10 @@ require 'phone'
 
 module Wikia
   class Normalizer
-    class Resource < Struct.new(:page_id, :revision_id, :title, :address, :phone, :email, :website, :contacts, :hours, :languages, :summary, :content, :categories)
+    class Resource < Struct.new(:page_id, :revision_id, :title, :address, :phone, :email, :website, :contacts, :hours, :languages, :summary, :content, :categories, :images)
+    end
+
+    class Image < Struct.new(:name, :caption, :url)
     end
 
     attr_reader :logger
@@ -40,6 +43,7 @@ module Wikia
           summary: resource.summary,
           content: resource.content,
           categories: resource.categories,
+          images: resource.images.map { |i| normalize_image(i) },
         }
         Resource.new(*resource_hash.values_at(*Resource.members))
       end
@@ -48,6 +52,10 @@ module Wikia
         return nil unless address.to_s.strip.length > 0
 
         Geocoder.search(address).first
+      end
+
+      def normalize_image(image)
+        
       end
 
       def normalize_phone_number(phone)
