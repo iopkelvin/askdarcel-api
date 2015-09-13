@@ -76,8 +76,8 @@ namespace :wikia do
             open("#{wikia_host}/api.php?action=query&titles=File:#{i.name}&prop=imageinfo&iiprop=url&format=json") do |f|
               data = JSON.parse(f.read)
               urls =  data["query"]["pages"].map do |id, page|
-                if id == -1
-                  logger.warn("photo missing for #{i.name}")
+                if id == "-1"
+                  Rails.logger.warn("photo missing for page #{r.page_id} with name #{i.name}")
                   next
                 end
 
