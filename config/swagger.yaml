@@ -120,6 +120,39 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Address'
+      resource_images:
+        type: array
+        items:
+          $ref: '#/definitions/ResourceImage'
+  ResourceImage:
+    properties:
+      id:
+        type: integer
+        description: Unique id
+      caption:
+        type: ["string", "null"]
+        description: Image caption
+      photo_content_type:
+        type: string
+        description: Image content type
+      photo_file_size:
+        type: integer
+        description: Image file size in bytes
+      photo_url:
+        type: string
+        description: URL of image original
+      photo_styles:
+        type: object
+        properties:
+          thumbnail:
+            description: URL to thumbnail sized image (50x50)
+            type: string
+          medium:
+            description: URL to medium sized image (<200x200)
+            type: string
+          large:
+            description: URL to large sized image (<400x400)
+            type: string
   PhoneNumber:
     properties:
       id:

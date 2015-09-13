@@ -4,4 +4,5 @@ class ResourceSerializer < ActiveModel::Serializer
   has_many :phone_numbers
   has_many :categories
   has_many :addresses
+  has_many :resource_images
 end

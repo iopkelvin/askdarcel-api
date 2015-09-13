@@ -6,7 +6,8 @@ RSpec.describe 'the API', type: :apivore, order: :defined do
 
   before do
     category = Category.create(id: 1, name: "Some category")
-    Resource.create(id: 1, title: "Some resource", categories: [category])
+    image = ResourceImage.new(id: 1, caption: "Apple", photo: File.open('spec/fixtures/apple.png'))
+    Resource.create(id: 1, title: "Some resource", categories: [category], resource_images: [image])
   end
 
   it { is_expected.to validate( :get, '/resources', 200, params ) }
