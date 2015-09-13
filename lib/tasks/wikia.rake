@@ -76,8 +76,13 @@ namespace :wikia do
             open("#{wikia_host}/api.php?action=query&titles=File:#{i.name}&prop=imageinfo&iiprop=url&format=json") do |f|
               data = JSON.parse(f.read)
               urls =  data["query"]["pages"].map do |id, page|
+                if id == -1
+                  logger.warn("photo missing for #{i.name}")
+                  next
+                end
+
                 page["imageinfo"].map { |i| i["url"] }
-              end.flatten
+              end.flatten.reject(&:blank?)
 
               urls.map do |url|
                 ResourceImage.create!(resource: r, caption: i.caption, photo: open(url))
