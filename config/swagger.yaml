@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  title: ShelterTech API
+  title: ShelterTech API (work in progress)
   description: Access information about homeless resources
   version: 1.0.0
 host: sfhomeless-api.herokuapp.com
@@ -26,6 +26,12 @@ paths:
           type: array
           items:
             type: string
+        - name: category_ids
+          in: query
+          description: filter resources by category id
+          type: array
+          items:
+            type: integer
       tags:
         - Resource
       responses:

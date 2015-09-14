@@ -10,6 +10,10 @@ class ResourcesController < ApplicationController
       @resources = @resources.joins(:categories).where('categories.name IN (?)', params["category_names"])
     end
 
+    if params["category_ids"]
+      @resources = @resources.joins(:categories).where('categories.id IN (?)', params["category_ids"])
+    end
+
     render json: @resources,
            include: [:phone_numbers, :categories, :addresses],
            serializer: PaginatedSerializer
