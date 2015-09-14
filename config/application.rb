@@ -25,6 +25,8 @@ module Sfhomeless
 
     config.autoload_paths << Rails.root.join('lib')
 
+    config.middleware.use Rack::Deflater
+
     config.middleware.insert_before 0, "Rack::Cors", :debug => true, :logger => (-> { Rails.logger }) do
       allow do
         origins '*'
