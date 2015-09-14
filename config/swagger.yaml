@@ -226,7 +226,7 @@ parameters:
   page:
     name: page
     in: query
-    description: number of page in paginated records
+    description: number of page in paginated records (index starting at 1)
     type: integer
   perPage:
     name: per_page
