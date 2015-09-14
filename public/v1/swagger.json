@@ -59,6 +59,9 @@
                   "items": {
                     "$ref": "#/definitions/Resource"
                   }
+                },
+                "meta": {
+                  "$ref": "#/definitions/PaginationMeta"
                 }
               }
             }
@@ -153,6 +156,49 @@
     }
   },
   "definitions": {
+    "PaginationMeta": {
+      "properties": {
+        "current_page": {
+          "type": "integer",
+          "description": "Current page index"
+        },
+        "next_page": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Next page index"
+        },
+        "prev_page": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Previous page index"
+        },
+        "self_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Current page url"
+        },
+        "prev_page_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Previous page url"
+        },
+        "next_page_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Next page url"
+        }
+      }
+    },
     "Resource": {
       "properties": {
         "id": {
