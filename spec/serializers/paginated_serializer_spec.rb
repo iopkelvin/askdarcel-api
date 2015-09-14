@@ -9,7 +9,7 @@ RSpec.describe PaginatedSerializer, :type => :serializer do
 
     let(:resources) { Resource.page(2).per(1) }
     let(:serializer) {
-      PaginatedSerializer.new(resources, context: OpenStruct.new(url: 'http://localhost/v1/resources?page=2'))
+      PaginatedSerializer.new(resources, context: OpenStruct.new(url: 'http://localhost/v1/resources?page=2&category=foo'))
     }
     let(:serialization) { ActiveModel::Serializer::Adapter.create(serializer) }
     let(:response) { JSON.parse(serialization.to_json) }
@@ -28,15 +28,15 @@ RSpec.describe PaginatedSerializer, :type => :serializer do
     end
 
     it "includes self page url" do
-      expect(response["meta"]["self"]).to eql("http://localhost/v1/resources?page=2")
+      expect(response["meta"]["self"]).to eql("http://localhost/v1/resources?page=2&category=foo")
     end
 
     it "includes next page url" do
-      expect(response["meta"]["next_url"]).to eql("http://localhost/v1/resources?page=3")
+      expect(response["meta"]["next_url"]).to eql("http://localhost/v1/resources?page=3&category=foo")
     end
 
     it "includes prev page url" do
-      expect(response["meta"]["prev_url"]).to eql("http://localhost/v1/resources?page=1")
+      expect(response["meta"]["prev_url"]).to eql("http://localhost/v1/resources?page=1&category=foo")
     end
   end
 end
