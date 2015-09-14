@@ -11,13 +11,13 @@ class PaginatedSerializer < ActiveModel::Serializer::ArraySerializer
 
     prev_url = if object.prev_page
                  url.clone.tap do |u|
-                   url.query = Rack::Utils.build_query(params.merge(page: object.prev_page))
+                   u.query = Rack::Utils.build_query(params.merge('page' => object.prev_page))
                  end
                end
 
     next_url = if object.next_page
                  url.clone.tap do |u|
-                   url.query = Rack::Utils.build_query(params.merge(page: object.next_page))
+                   u.query = Rack::Utils.build_query(params.merge('page' => object.next_page))
                  end
                end
 

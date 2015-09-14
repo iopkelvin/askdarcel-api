@@ -17,11 +17,11 @@ gem 'aws-sdk', '< 2'
 gem 'pg', '~> 0.18.3'
 
 gem 'spring', group: :development
-gem 'pry', group: :development
 
 group :development, :test do
   gem 'apivore'
   gem 'factory_girl_rails'
   gem 'faker'
+  gem 'pry'
   gem 'rspec-rails', '~> 3.0'
 end
