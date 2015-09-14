@@ -6,6 +6,10 @@ class ResourcesController < ApplicationController
   def index
     @resources = Resource.page(params[:page]).per(params[:per_page])
 
+    if params["category_names"]
+      @resources = @resources.joins(:categories).where('categories.name IN (?)', params["category_names"])
+    end
+
     render json: @resources,
            include: [:phone_numbers, :categories, :addresses],
            serializer: PaginatedSerializer

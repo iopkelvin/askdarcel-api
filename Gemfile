@@ -20,6 +20,8 @@ gem 'spring', group: :development
 gem 'pry', group: :development
 
 group :development, :test do
-  gem 'rspec-rails', '~> 3.0'
   gem 'apivore'
+  gem 'factory_girl_rails'
+  gem 'faker'
+  gem 'rspec-rails', '~> 3.0'
 end

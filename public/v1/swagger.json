@@ -25,6 +25,15 @@
           },
           {
             "$ref": "#/parameters/perPage"
+          },
+          {
+            "name": "category_names",
+            "in": "query",
+            "description": "filter resources by category name",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         ],
         "tags": [
