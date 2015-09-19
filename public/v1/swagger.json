@@ -331,11 +331,21 @@
       "properties": {
         "id": {
           "type": "integer",
-          "description": "Unique id"
+          "description": "Unique id",
+          "readOnly": true
         },
         "full_street_address": {
           "type": "string",
-          "description": "Fully normalized street address"
+          "description": "Fully normalized street address",
+          "readOnly": true
+        },
+        "street1": {
+          "type": "string",
+          "description": "First part of street address"
+        },
+        "street2": {
+          "type": "string",
+          "description": "Second part of street address"
         },
         "city": {
           "type": "string",
@@ -347,7 +357,8 @@
         },
         "state_code": {
           "type": "string",
-          "description": "Short code for state"
+          "description": "Short code for state",
+          "readOnly": true
         },
         "country": {
           "type": "string",
@@ -355,15 +366,18 @@
         },
         "country_code": {
           "type": "string",
-          "description": "Short code for country"
+          "description": "Short code for country",
+          "readOnly": true
         },
         "longitude": {
           "type": "number",
-          "description": "Longitude of geocoded address"
+          "description": "Longitude of geocoded address",
+          "readOnly": true
         },
         "latitude": {
           "type": "number",
-          "description": "Latitude of geocoded address"
+          "description": "Latitude of geocoded address",
+          "readOnly": true
         }
       }
     }

@@ -27,12 +27,12 @@ FactoryGirl.define do
   end
 
   factory :address do
+    street1 { Faker::Address.street_address }
+    street2 { Faker::Address.secondary_address }
     city { Faker::Address.city }
     state { Faker::Address.state }
-    state_code { Faker::Address.state_abbr }
     postal_code { Faker::Address.postcode }
     country { Faker::Address.country }
-    country_code { Faker::Address.country_code }
     longitude { Faker::Address.longitude }
     latitude { Faker::Address.latitude }
 
