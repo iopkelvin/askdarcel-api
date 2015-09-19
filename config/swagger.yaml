@@ -108,20 +108,24 @@ definitions:
         type: integer
         description: Current page index
       next_page:
-        type: ["integer", "null"]
+        type: "integer"
         description: Next page index
+        x-nullable: true
       prev_page:
-        type: ["integer", "null"]
+        type: "integer"
         description: Previous page index
+        x-nullable: true
       self_url:
-        type: ["string", "null"]
+        type: "string"
         description: Current page url
       prev_page_url:
-        type: ["string", "null"]
+        type: "string"
         description: Previous page url
+        x-nullable: true
       next_page_url:
-        type: ["string", "null"]
+        type: "string"
         description: Next page url
+        x-nullable: true
   Resource:
     properties:
       id:
@@ -131,17 +135,21 @@ definitions:
         type: string
         description: Name
       email:
-        type: ["string", "null"]
+        type: string
         description: Contact email
+        x-nullable: true
       website:
-        type: ["string", "null"]
+        type: string
         description: Website for resource
+        x-nullable: true
       summary:
-        type: ["string", "null"]
+        type: string
         description: Short summary of resource (currently unsanitized)
+        x-nullable: true
       content:
-        type: ["string", "null"]
+        type: string
         description: Full description of resource (currently unsanitized)
+        x-nullable: true
       categories:
         type: array
         items:
@@ -164,7 +172,7 @@ definitions:
         type: integer
         description: Unique id
       caption:
-        type: ["string", "null"]
+        type: string
         description: Image caption
       photo_content_type:
         type: string
@@ -202,11 +210,13 @@ definitions:
         type: integer
         description: Local exchange and line number
       extension:
-        type: ["integer", "null"]
+        type: integer
         description: Exchange number
+        x-nullable: true
       comment:
-        type: ["string", "null"]
+        type: string
         description: Metadata about phone number (currently empty)
+        x-nullable: true
   Category:
     properties:
       id:

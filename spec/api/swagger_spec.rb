@@ -1,22 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe 'the API', type: :apivore, order: :defined do
-  let(:params) { { "id" => 1 } }
   subject { Apivore::SwaggerChecker.instance_for('/v1/swagger.json') }
 
-  before do
-    category = Category.create(id: 1, name: "Some category")
-    image = ResourceImage.new(id: 1, caption: "Apple", photo: File.open('spec/fixtures/apple.png'))
-    Resource.create(id: 1, title: "Some resource", categories: [category], resource_images: [image])
+  describe 'resource endpoints' do
+    before do
+      FactoryGirl.create_list(:resource, 10)
+    end
+    it { is_expected.to validate( :get, '/resources', 200, "_query_string" => "page=2&per_page=2" ) }
+    it { is_expected.to validate( :get, '/resources/{id}', 200, 'id' => Resource.first.id ) }
   end
 
-  it { is_expected.to validate( :get, '/resources', 200, params ) }
-  it { is_expected.to validate( :get, '/resources/{id}', 200, params ) }
+  describe 'category endpoints' do
+    before do
+      FactoryGirl.create_list(:category, 10)
+    end
 
-  it { is_expected.to validate( :get, '/categories', 200, params ) }
-  it { is_expected.to validate( :get, '/categories/{id}', 200, params ) }
+    it { is_expected.to validate( :get, '/categories', 200 ) }
+    it { is_expected.to validate( :get, '/categories/{id}', 200, 'id' => Category.first.id ) }
+  end
 
-  it 'tests all documented routes' do
-    expect(subject).to validate_all_paths
+  describe 'routes' do
+    it 'tests all documented routes' do
+      expect(subject).to validate_all_paths
+    end
   end
 end

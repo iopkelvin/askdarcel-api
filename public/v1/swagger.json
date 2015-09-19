@@ -163,39 +163,28 @@
           "description": "Current page index"
         },
         "next_page": {
-          "type": [
-            "integer",
-            "null"
-          ],
-          "description": "Next page index"
+          "type": "integer",
+          "description": "Next page index",
+          "x-nullable": true
         },
         "prev_page": {
-          "type": [
-            "integer",
-            "null"
-          ],
-          "description": "Previous page index"
+          "type": "integer",
+          "description": "Previous page index",
+          "x-nullable": true
         },
         "self_url": {
-          "type": [
-            "string",
-            "null"
-          ],
+          "type": "string",
           "description": "Current page url"
         },
         "prev_page_url": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "description": "Previous page url"
+          "type": "string",
+          "description": "Previous page url",
+          "x-nullable": true
         },
         "next_page_url": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "description": "Next page url"
+          "type": "string",
+          "description": "Next page url",
+          "x-nullable": true
         }
       }
     },
@@ -210,32 +199,24 @@
           "description": "Name"
         },
         "email": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "description": "Contact email"
+          "type": "string",
+          "description": "Contact email",
+          "x-nullable": true
         },
         "website": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "description": "Website for resource"
+          "type": "string",
+          "description": "Website for resource",
+          "x-nullable": true
         },
         "summary": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "description": "Short summary of resource (currently unsanitized)"
+          "type": "string",
+          "description": "Short summary of resource (currently unsanitized)",
+          "x-nullable": true
         },
         "content": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "description": "Full description of resource (currently unsanitized)"
+          "type": "string",
+          "description": "Full description of resource (currently unsanitized)",
+          "x-nullable": true
         },
         "categories": {
           "type": "array",
@@ -270,10 +251,7 @@
           "description": "Unique id"
         },
         "caption": {
-          "type": [
-            "string",
-            "null"
-          ],
+          "type": "string",
           "description": "Image caption"
         },
         "photo_content_type": {
@@ -326,18 +304,14 @@
           "description": "Local exchange and line number"
         },
         "extension": {
-          "type": [
-            "integer",
-            "null"
-          ],
-          "description": "Exchange number"
+          "type": "integer",
+          "description": "Exchange number",
+          "x-nullable": true
         },
         "comment": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "description": "Metadata about phone number (currently empty)"
+          "type": "string",
+          "description": "Metadata about phone number (currently empty)",
+          "x-nullable": true
         }
       }
     },
