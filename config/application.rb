@@ -32,11 +32,10 @@ module Sfhomeless
         origins '*'
 
         resource '/v1/swagger.json', :headers => :any, :methods => [:get], :max_age => 0
-
       end
 
       allow do
-        origins 'petstore.swagger.io'
+        origins 'petstore.swagger.io', 'localhost', 'sheltertech-ui.s3-website-us-east-1.amazonaws.com'
         resource '*',
           :headers => :any,
           :methods => [:get, :post, :delete, :put, :options, :head],
