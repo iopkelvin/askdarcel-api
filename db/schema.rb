@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150919232050) do
+ActiveRecord::Schema.define(version: 20150920172017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 20150919232050) do
   add_index "resource_images", ["resource_id"], name: "index_resource_images_on_resource_id", using: :btree
 
   create_table "resources", force: :cascade do |t|
-    t.string   "title"
+    t.string   "title",       null: false
     t.string   "email"
     t.text     "summary"
     t.text     "content"
