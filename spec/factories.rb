@@ -4,9 +4,9 @@ FactoryGirl.define do
 
   factory :resource do
     title { Faker::Company.name }
-    summary { Faker::Lorem.paragraphs(1) }
-    content { Faker::Lorem.paragraphs(3) }
+    summary { Faker::Lorem.paragraph }
     page_id
+    content { Faker::Lorem.paragraphs(3).join("\n") }
     email { Faker::Internet.email }
     website { Faker::Internet.url }
 
