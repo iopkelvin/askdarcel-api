@@ -1,9 +1,12 @@
 FactoryGirl.define do
+  sequence(:page_id)
+  sequence(:name) { |n| "Example #{n}" }
+
   factory :resource do
     title { Faker::Company.name }
     summary { Faker::Lorem.paragraphs(1) }
     content { Faker::Lorem.paragraphs(3) }
-    page_id { Faker::Number.number(3) }
+    page_id
     email { Faker::Internet.email }
     website { Faker::Internet.url }
 
@@ -23,7 +26,7 @@ FactoryGirl.define do
   end
 
   factory :category do
-    name { Faker::Company.name }
+    name
   end
 
   factory :address do
