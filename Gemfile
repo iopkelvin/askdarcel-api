@@ -16,6 +16,8 @@ gem 'aws-sdk', '< 2'
 
 gem 'pg', '~> 0.18.3'
 
+gem 'faraday'
+
 gem 'spring', group: :development
 
 group :development, :test do
