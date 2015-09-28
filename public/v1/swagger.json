@@ -5,7 +5,6 @@
     "description": "Access information about homeless resources",
     "version": "1.0.0"
   },
-  "host": "sfhomeless-api.herokuapp.com",
   "schemes": [
     "https",
     "http"
@@ -417,6 +416,13 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/ResourceImage"
+          }
+        },
+        "rating_counts": {
+          "type": "object",
+          "description": "Keys represent rating types, values represent the number of ratings of that\ntype for the given resource. See /rating_options for a list of possible\noptions.\n",
+          "additionalProperties": {
+            "type": "integer"
           }
         }
       }

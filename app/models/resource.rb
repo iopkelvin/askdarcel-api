@@ -7,4 +7,5 @@ class Resource < ActiveRecord::Base
   has_many :phone_numbers, dependent: :destroy
   has_many :addresses, dependent: :destroy
   has_many :resource_images, dependent: :destroy
+  has_many :ratings, dependent: :destroy
 end
