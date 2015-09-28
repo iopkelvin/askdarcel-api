@@ -5,7 +5,7 @@ class ApplicationController < ActionController::API
   rescue_from ActionController::RoutingError, with: :not_found
 
   def not_found
-    render json: { message: "Not found" }
+    render json: { message: "Not found" }, status: :not_found
   end
 
   def routing_error
