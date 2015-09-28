@@ -11,6 +11,19 @@ RSpec.describe 'the API', type: :apivore, order: :defined do
     it { is_expected.to validate( :get, '/resources/{id}', 200, 'id' => Resource.first.id ) }
   end
 
+  describe 'ratings endpoints' do
+    before do
+      FactoryGirl.create_list(:resource, 10)
+    end
+    it { is_expected.to validate( :get, '/ratings', 200, "_query_string" => "page=2&per_page=2" ) }
+    it { is_expected.to validate( :post, '/ratings', 201,  "_data" => { "rating" => FactoryGirl.build(:rating, resource_id: Resource.first.id).attributes } ) }
+    it { is_expected.to validate( :delete, '/ratings/{id}', 204, 'id' => Rating.first.id ) }
+    it { is_expected.to validate( :get, '/ratings/{id}', 200, 'id' => Rating.first.id ) }
+    it { is_expected.to validate( :put, '/ratings/{id}', 200,  "_data" => { "rating" => FactoryGirl.build(:rating, resource_id: Resource.first.id).attributes }, 'id' => Rating.first.id ) }
+
+    it { is_expected.to validate( :get, '/rating_options', 200 ) }
+  end
+
   describe 'category endpoints' do
     before do
       FactoryGirl.create_list(:category, 10)

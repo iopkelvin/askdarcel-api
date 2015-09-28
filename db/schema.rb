@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150920172017) do
+ActiveRecord::Schema.define(version: 20150927052656) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,26 @@ ActiveRecord::Schema.define(version: 20150920172017) do
 
   add_index "phone_numbers", ["resource_id"], name: "index_phone_numbers_on_resource_id", using: :btree
 
+  create_table "rating_options", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "rating_options", ["name"], name: "index_rating_options_on_name", unique: true, using: :btree
+
+  create_table "ratings", force: :cascade do |t|
+    t.string   "device_id",        null: false
+    t.integer  "resource_id",      null: false
+    t.integer  "rating_option_id", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "ratings", ["device_id", "resource_id"], name: "index_ratings_on_device_id_and_resource_id", unique: true, using: :btree
+  add_index "ratings", ["rating_option_id"], name: "index_ratings_on_rating_option_id", using: :btree
+  add_index "ratings", ["resource_id"], name: "index_ratings_on_resource_id", using: :btree
+
   create_table "resource_images", force: :cascade do |t|
     t.integer  "resource_id"
     t.string   "caption"
@@ -97,5 +117,7 @@ ActiveRecord::Schema.define(version: 20150920172017) do
   add_foreign_key "categories_resources", "categories"
   add_foreign_key "categories_resources", "resources"
   add_foreign_key "phone_numbers", "resources"
+  add_foreign_key "ratings", "rating_options"
+  add_foreign_key "ratings", "resources"
   add_foreign_key "resource_images", "resources"
 end

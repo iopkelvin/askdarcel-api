@@ -102,7 +102,7 @@
     "/categories": {
       "get": {
         "summary": "Fetch list of categories",
-        "description": "The categories endpoint returns a list of categories ordered by id'\n",
+        "description": "The categories endpoint returns a list of categories ordered by id\n",
         "tags": [
           "Category"
         ],
@@ -147,6 +147,183 @@
               "properties": {
                 "resource": {
                   "$ref": "#/definitions/Category"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ratings": {
+      "get": {
+        "summary": "Fetch list of ratings",
+        "description": "Fetches list of ratings of resources\n",
+        "tags": [
+          "Resource"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/perPage"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of resource ratings",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ratings": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Rating"
+                  }
+                },
+                "meta": {
+                  "$ref": "#/definitions/PaginationMeta"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new rating",
+        "description": "Create a new rating of a resource. Name of rating option\nmust correspond to an existing option.\n",
+        "tags": [
+          "Resource"
+        ],
+        "parameters": [
+          {
+            "name": "rating",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "rating": {
+                  "$ref": "#/definitions/Rating"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "An resource rating",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "rating": {
+                  "$ref": "#/definitions/Rating"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ratings/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of rating",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "summary": "Fetch rating",
+        "description": "Fetches a rating of a resource by ID\n",
+        "tags": [
+          "Resource"
+        ],
+        "responses": {
+          "200": {
+            "description": "An resource rating",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "rating": {
+                  "$ref": "#/definitions/Rating"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of rating",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "summary": "Update rating",
+        "description": "Update a rating of a resource by ID\n",
+        "tags": [
+          "Resource"
+        ],
+        "responses": {
+          "200": {
+            "description": "An resource rating",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "rating": {
+                  "$ref": "#/definitions/Rating"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of rating",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "summary": "Delete rating",
+        "description": "Fetches a rating of a resources by ID\n",
+        "tags": [
+          "Resource"
+        ],
+        "responses": {
+          "204": {
+            "description": "Rating successfully deleted"
+          }
+        }
+      }
+    },
+    "/rating_options": {
+      "get": {
+        "summary": "Fetch list of rating options",
+        "description": "Returns list of rating options\n",
+        "tags": [
+          "Resource"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of rating options",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "rating-options": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/RatingOption"
+                  }
                 }
               }
             }
@@ -378,6 +555,34 @@
           "type": "number",
           "description": "Latitude of geocoded address",
           "readOnly": true
+        }
+      }
+    },
+    "Rating": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Unique id",
+          "readOnly": true
+        },
+        "device_id": {
+          "type": "string",
+          "description": "Unique device identifier"
+        },
+        "resource_id": {
+          "type": "integer",
+          "description": "Resource this rating applies to"
+        },
+        "rating_option": {
+          "$ref": "#/definitions/RatingOption"
+        }
+      }
+    },
+    "RatingOption": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of option"
         }
       }
     }

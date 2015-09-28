@@ -2,6 +2,11 @@ FactoryGirl.define do
   sequence(:page_id)
   sequence(:name) { |n| "Example #{n}" }
 
+  factory :rating do
+    device_id { SecureRandom.uuid }
+    rating_option { RatingOption.all.sample }
+  end
+
   factory :resource do
     title { Faker::Company.name }
     summary { Faker::Lorem.paragraph }
@@ -15,6 +20,7 @@ FactoryGirl.define do
       phone_numbers_count 1
       addresses_count 1
       resource_images_count 1
+      ratings_count 5
     end
 
     after(:create) do |resource, evaluator|
@@ -22,6 +28,7 @@ FactoryGirl.define do
       create_list(:phone_number, evaluator.phone_numbers_count, resource: resource)
       create_list(:address, evaluator.addresses_count, resource: resource)
       create_list(:resource_image, evaluator.resource_images_count, resource: resource)
+      create_list(:rating, evaluator.ratings_count, resource: resource)
     end
   end
 

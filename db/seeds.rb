@@ -5,3 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+["positive", "negative", "no service"].each do |option|
+  RatingOption.find_or_create_by(name: option)
+end

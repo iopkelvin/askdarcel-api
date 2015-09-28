@@ -28,5 +28,11 @@ RSpec.configure do |config|
       FactoryGirl.lint
       raise ActiveRecord::Rollback
     end
+    Rails.application.load_seed
   end
+end
+
+def build_attributes_for(*args)
+  build_object = FactoryGirl.build(*args)
+  build_object.attributes.slice(*build_object.class.accessible_attributes).symbolize_keys
 end
