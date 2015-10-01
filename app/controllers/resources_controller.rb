@@ -16,48 +16,21 @@ class ResourcesController < ApplicationController
 
     render json: @resources,
            include: [:phone_numbers, :categories, :addresses],
-           serializer: PaginatedSerializer
+           serializer: PaginatedSerializer,
+           device_id: device_id
   end
 
   # GET /resources/1
   # GET /resources/1.json
   def show
-    render json: @resource, include: [:phone_numbers, :categories, :addresses]
-  end
-
-  # POST /resources
-  # POST /resources.json
-  def create
-    @resource = Resource.new(resource_params)
-
-    if @resource.save
-      render json: @resource, include: [:phone_numbers, :categories, :addresses], status: :created, location: @resource
-    else
-      render json: @resource.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /resources/1
-  # PATCH/PUT /resources/1.json
-  def update
-    @resource = Resource.find(params[:id])
-
-    if @resource.update(resource_params)
-      head :no_content
-    else
-      render json: @resource.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /resources/1
-  # DELETE /resources/1.json
-  def destroy
-    @resource.destroy
-
-    head :no_content
+    render json: @resource, include: [:phone_numbers, :categories, :addresses], device_id: device_id
   end
 
   private
+
+  def device_id
+    request.headers['DEVICE-ID']
+  end
 
   def set_resource
     @resource = Resource.find(params[:id])

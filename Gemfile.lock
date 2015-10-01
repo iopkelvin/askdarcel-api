@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/rails-api/active_model_serializers.git
-  revision: 83975fc5befe308f61347d40216a81a9ce58db67
+  revision: 345f8f30c15bc0f7e7f3c0ec3d59ace47337bd7a
   specs:
-    active_model_serializers (0.10.0.rc2)
+    active_model_serializers (0.10.0.rc3)
       actionpack (>= 4.0)
       activemodel (>= 4.0)
       railties (>= 4.0)
@@ -186,7 +186,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_model_serializers!
+  active_model_serializers (= 0.10.0.rc3)!
   apivore
   aws-sdk (< 2)
   factory_girl_rails

@@ -1,12 +1,13 @@
 class RatingsController < ApplicationController
+  before_action :require_device_id
+
   before_action :set_rating, only: [:show, :update, :destroy]
   before_action :update_nested_params, only: [:create, :update]
 
   # GET /ratings
   # GET /ratings.json
   def index
-    @ratings = Rating.all
-
+    @ratings = Rating.created_by(device_id)
     render json: @ratings
   end
 
@@ -31,8 +32,6 @@ class RatingsController < ApplicationController
   # PATCH/PUT /ratings/1
   # PATCH/PUT /ratings/1.json
   def update
-    @rating = Rating.find(params[:id])
-
     if @rating.update(rating_params)
       render json: @rating, status: :ok
     else
@@ -59,11 +58,21 @@ class RatingsController < ApplicationController
     end
   end
 
+  def require_device_id
+    if device_id.blank?
+      raise Errors::BlankHeader.new('DEVICE-ID')
+    end
+  end
+
+  def device_id
+    request.headers['DEVICE-ID']
+  end
+
   def set_rating
-    @rating = Rating.find(params[:id])
+    @rating = Rating.created_by(device_id).find(params[:id])
   end
 
   def rating_params
-    params.require(:rating).permit(:device_id, :resource_id, :rating_option_id, rating_option_attributes: [:name])
+    params.require(:rating).permit(:resource_id, :rating_option_id, rating_option_attributes: [:name]).merge(device_id: device_id)
   end
 end

@@ -50,5 +50,36 @@ RSpec.describe ResourcesController, type: :controller do
       expect(body["resources"][0]["rating_counts"]["negative"]).to eql(3)
       expect(body["resources"][0]["rating_counts"]["no service"]).to eql(1)
     end
+
+    it "returns my rating" do
+      resource = FactoryGirl.create(:resource, ratings_count: 0, ratings: [
+        FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('negative'), device_id: '4567'),
+        FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('positive'), device_id: '1234'),
+      ])
+
+      request.headers['DEVICE-ID'] = '1234'
+      get :index
+      expect(response).to have_http_status(:success)
+
+      body = JSON.parse(response.body)
+      expect(body["resources"].length).to eql(1)
+      expect(body["resources"][0]["my_rating"]["device_id"]).to eql('1234')
+    end
+  end
+
+  describe "GET #show" do
+    it "returns my rating" do
+      resource = FactoryGirl.create(:resource, ratings_count: 0, ratings: [
+        FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('negative'), device_id: '4567'),
+        FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('positive'), device_id: '1234'),
+      ])
+
+      request.headers['DEVICE-ID'] = '1234'
+      get :show, id: resource.id
+      expect(response).to have_http_status(:success)
+
+      body = JSON.parse(response.body)
+      expect(body["resource"]["my_rating"]["device_id"]).to eql('1234')
+    end
   end
 end

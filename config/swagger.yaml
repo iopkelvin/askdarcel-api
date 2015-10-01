@@ -11,11 +11,14 @@ produces:
   - application/json
 paths:
   /resources:
+    parameters:
+    - $ref: '#/parameters/deviceId'
     get:
       summary: Fetch list of resources
       description: |
-        The Resources endpoint returns a paginated list
-        of resources ordered by id.
+        The Resources endpoint returns a paginated list of resources ordered by
+        id. If device id is specified returns the rating of each resource for
+        the given device.
       parameters:
         - $ref: '#/parameters/page'
         - $ref: '#/parameters/perPage'
@@ -46,14 +49,16 @@ paths:
               meta:
                 $ref: '#/definitions/PaginationMeta'
   '/resources/{id}':
-    get:
-      parameters:
+    parameters:
       - name: id
         in: path
         description: ID of resource
         required: true
         type: integer
+      - $ref: '#/parameters/deviceId'
+    get:
       summary: Fetch resource
+      description: Fetches rating of resource by the given device if device id header is specified.
       tags:
         - Resource
       responses:
@@ -101,10 +106,16 @@ paths:
               resource:
                 $ref: '#/definitions/Category'
   /ratings:
+    parameters:
+    - name: DEVICE-ID
+      required: true
+      in: header
+      type: string
+      description: Unique device identifier
     get:
       summary: Fetch list of ratings
       description: |
-        Fetches list of ratings of resources
+        Fetches list of ratings of resources for the given device.
       tags:
         - Resource
       parameters:
@@ -125,8 +136,8 @@ paths:
     post:
       summary: Create new rating
       description: |
-        Create a new rating of a resource. Name of rating option
-        must correspond to an existing option.
+        Create a new rating of a resource. Name of rating option must
+        correspond to an existing option.
       tags:
         - Resource
       parameters:
@@ -147,16 +158,21 @@ paths:
               rating:
                 $ref: '#/definitions/Rating'
   '/ratings/{id}':
-    get:
-      parameters:
+    parameters:
       - name: id
         in: path
         description: ID of rating
         required: true
         type: integer
+      - name: DEVICE-ID
+        required: true
+        in: header
+        type: string
+        description: Unique device identifier
+    get:
       summary: Fetch rating
       description: |
-        Fetches a rating of a resource by ID
+        Fetches a rating
       tags:
         - Resource
       responses:
@@ -168,15 +184,9 @@ paths:
               rating:
                 $ref: '#/definitions/Rating'
     put:
-      parameters:
-      - name: id
-        in: path
-        description: ID of rating
-        required: true
-        type: integer
       summary: Update rating
       description: |
-        Update a rating of a resource by ID
+        Update a rating
       tags:
         - Resource
       responses:
@@ -188,15 +198,9 @@ paths:
               rating:
                 $ref: '#/definitions/Rating'
     delete:
-      parameters:
-      - name: id
-        in: path
-        description: ID of rating
-        required: true
-        type: integer
       summary: Delete rating
       description: |
-        Fetches a rating of a resources by ID
+        Deletes a rating
       tags:
         - Resource
       responses:
@@ -287,11 +291,14 @@ definitions:
       rating_counts:
         type: object
         description: |
-          Keys represent rating types, values represent the number of ratings of that
-          type for the given resource. See /rating_options for a list of possible
-          options.
+          Keys represent rating types, values represent the number of ratings
+          of that type for the given resource. See /rating_options for a list
+          of possible options.
         additionalProperties:
           type: integer
+      my_rating:
+        description: The rating for the given device if DEVICE-ID is set.
+        $ref: '#/definitions/Rating'
   ResourceImage:
     properties:
       id:
@@ -400,7 +407,7 @@ definitions:
         readOnly: true
       device_id:
         type: string
-        description: Unique device identifier
+        description: ID of the device that left the rating
       resource_id:
         type: integer
         description: Resource this rating applies to
@@ -422,3 +429,8 @@ parameters:
     in: query
     description: records to return per page
     type: integer
+  deviceId:
+    name: DEVICE-ID
+    in: header
+    type: string
+    description: Unique device identifier

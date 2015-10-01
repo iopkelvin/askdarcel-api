@@ -2,6 +2,8 @@ class Rating < ActiveRecord::Base
   belongs_to :resource
   belongs_to :rating_option
 
+  scope :created_by, ->(device_id) { where(device_id: device_id) }
+
   accepts_nested_attributes_for :rating_option
 
   validates :device_id, presence: true

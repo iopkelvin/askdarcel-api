@@ -15,9 +15,14 @@
   ],
   "paths": {
     "/resources": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/deviceId"
+        }
+      ],
       "get": {
         "summary": "Fetch list of resources",
-        "description": "The Resources endpoint returns a paginated list\nof resources ordered by id.\n",
+        "description": "The Resources endpoint returns a paginated list of resources ordered by\nid. If device id is specified returns the rating of each resource for\nthe given device.\n",
         "parameters": [
           {
             "$ref": "#/parameters/page"
@@ -69,17 +74,21 @@
       }
     },
     "/resources/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "ID of resource",
+          "required": true,
+          "type": "integer"
+        },
+        {
+          "$ref": "#/parameters/deviceId"
+        }
+      ],
       "get": {
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of resource",
-            "required": true,
-            "type": "integer"
-          }
-        ],
         "summary": "Fetch resource",
+        "description": "Fetches rating of resource by the given device if device id header is specified.",
         "tags": [
           "Resource"
         ],
@@ -154,9 +163,18 @@
       }
     },
     "/ratings": {
+      "parameters": [
+        {
+          "name": "DEVICE-ID",
+          "required": true,
+          "in": "header",
+          "type": "string",
+          "description": "Unique device identifier"
+        }
+      ],
       "get": {
         "summary": "Fetch list of ratings",
-        "description": "Fetches list of ratings of resources\n",
+        "description": "Fetches list of ratings of resources for the given device.\n",
         "tags": [
           "Resource"
         ],
@@ -190,7 +208,7 @@
       },
       "post": {
         "summary": "Create new rating",
-        "description": "Create a new rating of a resource. Name of rating option\nmust correspond to an existing option.\n",
+        "description": "Create a new rating of a resource. Name of rating option must\ncorrespond to an existing option.\n",
         "tags": [
           "Resource"
         ],
@@ -225,18 +243,25 @@
       }
     },
     "/ratings/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "ID of rating",
+          "required": true,
+          "type": "integer"
+        },
+        {
+          "name": "DEVICE-ID",
+          "required": true,
+          "in": "header",
+          "type": "string",
+          "description": "Unique device identifier"
+        }
+      ],
       "get": {
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of rating",
-            "required": true,
-            "type": "integer"
-          }
-        ],
         "summary": "Fetch rating",
-        "description": "Fetches a rating of a resource by ID\n",
+        "description": "Fetches a rating\n",
         "tags": [
           "Resource"
         ],
@@ -255,17 +280,8 @@
         }
       },
       "put": {
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of rating",
-            "required": true,
-            "type": "integer"
-          }
-        ],
         "summary": "Update rating",
-        "description": "Update a rating of a resource by ID\n",
+        "description": "Update a rating\n",
         "tags": [
           "Resource"
         ],
@@ -284,17 +300,8 @@
         }
       },
       "delete": {
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of rating",
-            "required": true,
-            "type": "integer"
-          }
-        ],
         "summary": "Delete rating",
-        "description": "Fetches a rating of a resources by ID\n",
+        "description": "Deletes a rating\n",
         "tags": [
           "Resource"
         ],
@@ -420,10 +427,14 @@
         },
         "rating_counts": {
           "type": "object",
-          "description": "Keys represent rating types, values represent the number of ratings of that\ntype for the given resource. See /rating_options for a list of possible\noptions.\n",
+          "description": "Keys represent rating types, values represent the number of ratings\nof that type for the given resource. See /rating_options for a list\nof possible options.\n",
           "additionalProperties": {
             "type": "integer"
           }
+        },
+        "my_rating": {
+          "description": "The rating for the given device if DEVICE-ID is set.",
+          "$ref": "#/definitions/Rating"
         }
       }
     },
@@ -573,7 +584,7 @@
         },
         "device_id": {
           "type": "string",
-          "description": "Unique device identifier"
+          "description": "ID of the device that left the rating"
         },
         "resource_id": {
           "type": "integer",
@@ -605,6 +616,12 @@
       "in": "query",
       "description": "records to return per page",
       "type": "integer"
+    },
+    "deviceId": {
+      "name": "DEVICE-ID",
+      "in": "header",
+      "type": "string",
+      "description": "Unique device identifier"
     }
   }
 }
