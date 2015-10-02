@@ -34,7 +34,7 @@ module Sfhomeless
       end
 
       allow do
-        origins 'petstore.swagger.io', 'localhost', 'sheltertech-ui.s3-website-us-east-1.amazonaws.com'
+        origins 'localhost', 'sheltertech-ui.s3-website-us-east-1.amazonaws.com', 'sheltertech.github.io'
         resource '*',
           :headers => :any,
           :methods => [:get, :post, :delete, :put, :head],
