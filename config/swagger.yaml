@@ -115,7 +115,9 @@ paths:
     get:
       summary: Fetch list of ratings
       description: |
-        Fetches list of ratings of resources for the given device.
+        Fetches list of ratings of resources for the given device id.
+
+        Requires DEVICE-ID header.
       tags:
         - Resource
       parameters:
@@ -138,6 +140,8 @@ paths:
       description: |
         Create a new rating of a resource. Name of rating option must
         correspond to an existing option.
+
+        Requires DEVICE-ID header.
       tags:
         - Resource
       parameters:
@@ -173,6 +177,8 @@ paths:
       summary: Fetch rating
       description: |
         Fetches a rating
+
+        Requires DEVICE-ID header.
       tags:
         - Resource
       responses:
@@ -187,6 +193,8 @@ paths:
       summary: Update rating
       description: |
         Update a rating
+
+        Requires DEVICE-ID header.
       tags:
         - Resource
       responses:
@@ -201,6 +209,8 @@ paths:
       summary: Delete rating
       description: |
         Deletes a rating
+
+        Requires DEVICE-ID header.
       tags:
         - Resource
       responses:

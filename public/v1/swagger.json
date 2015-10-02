@@ -174,7 +174,7 @@
       ],
       "get": {
         "summary": "Fetch list of ratings",
-        "description": "Fetches list of ratings of resources for the given device.\n",
+        "description": "Fetches list of ratings of resources for the given device id.\n\nRequires DEVICE-ID header.\n",
         "tags": [
           "Resource"
         ],
@@ -208,7 +208,7 @@
       },
       "post": {
         "summary": "Create new rating",
-        "description": "Create a new rating of a resource. Name of rating option must\ncorrespond to an existing option.\n",
+        "description": "Create a new rating of a resource. Name of rating option must\ncorrespond to an existing option.\n\nRequires DEVICE-ID header.\n",
         "tags": [
           "Resource"
         ],
@@ -261,7 +261,7 @@
       ],
       "get": {
         "summary": "Fetch rating",
-        "description": "Fetches a rating\n",
+        "description": "Fetches a rating\n\nRequires DEVICE-ID header.\n",
         "tags": [
           "Resource"
         ],
@@ -281,7 +281,7 @@
       },
       "put": {
         "summary": "Update rating",
-        "description": "Update a rating\n",
+        "description": "Update a rating\n\nRequires DEVICE-ID header.\n",
         "tags": [
           "Resource"
         ],
@@ -301,7 +301,7 @@
       },
       "delete": {
         "summary": "Delete rating",
-        "description": "Deletes a rating\n",
+        "description": "Deletes a rating\n\nRequires DEVICE-ID header.\n",
         "tags": [
           "Resource"
         ],
