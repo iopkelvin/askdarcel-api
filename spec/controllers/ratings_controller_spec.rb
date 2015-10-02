@@ -14,11 +14,11 @@ RSpec.describe RatingsController, type: :controller do
           resource = FactoryGirl.create(:resource)
 
           post :create,
-               { rating: { resource_id: resource.id, rating_option: { name: 'positive' } } }
+               { rating: { resource_id: resource.id, rating_option_name: 'positive' } }
 
           expect(response).to have_http_status(:created)
           body = JSON.parse(response.body)
-          body['rating']['rating_option']['name'] = 'positive'
+          body['rating']['rating_option_name'] = 'positive'
         end
       end
 
@@ -27,7 +27,7 @@ RSpec.describe RatingsController, type: :controller do
           resource = FactoryGirl.create(:resource)
           rating = FactoryGirl.create(:rating, resource_id: resource.id, device_id: device_id)
 
-          post :create, rating: { resource_id: resource.id, rating_option: { name: 'positive' } }
+          post :create, rating: { resource_id: resource.id, rating_option_name: 'positive' }
 
           expect(response).to have_http_status(:unprocessable_entity)
         end
@@ -39,7 +39,7 @@ RSpec.describe RatingsController, type: :controller do
         it 'returns 404' do
           resource = FactoryGirl.create(:resource)
 
-          put :update, id: 89374, rating: { resource_id: resource.id, rating_option: { name: 'positive' } }
+          put :update, id: 89374, rating: { resource_id: resource.id, rating_option_name: 'positive' }
 
           expect(response).to have_http_status(:not_found)
         end
@@ -50,11 +50,11 @@ RSpec.describe RatingsController, type: :controller do
           resource = FactoryGirl.create(:resource)
           rating = FactoryGirl.create(:rating, resource_id: resource.id, device_id: device_id, rating_option: RatingOption.find_by(name: 'negative'))
 
-          put :update, id: rating.id, rating: { resource_id: resource.id, rating_option: { name: 'positive' } }
+          put :update, id: rating.id, rating: { resource_id: resource.id, rating_option_name: 'positive' }
 
           expect(response).to have_http_status(:success)
           body = JSON.parse(response.body)
-          body['rating']['rating_option']['name'] = 'positive'
+          body['rating']['rating_option_name'] = 'positive'
         end
       end
     end
@@ -64,7 +64,7 @@ RSpec.describe RatingsController, type: :controller do
         it 'returns 404' do
           resource = FactoryGirl.create(:resource)
 
-          delete :destroy, id: 89374, rating: { resource_id: resource.id, rating_option: { name: 'positive' } }
+          delete :destroy, id: 89374, rating: { resource_id: resource.id, rating_option_name: 'positive' }
 
           expect(response).to have_http_status(:not_found)
         end

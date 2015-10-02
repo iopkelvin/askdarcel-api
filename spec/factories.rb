@@ -5,6 +5,7 @@ FactoryGirl.define do
   factory :rating do
     device_id { SecureRandom.uuid }
     rating_option { RatingOption.all.sample }
+    resource
   end
 
   factory :resource do

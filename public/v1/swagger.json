@@ -311,31 +311,6 @@
           }
         }
       }
-    },
-    "/rating_options": {
-      "get": {
-        "summary": "Fetch list of rating options",
-        "description": "Returns list of rating options\n",
-        "tags": [
-          "Resource"
-        ],
-        "responses": {
-          "200": {
-            "description": "An array of rating options",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "rating-options": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/RatingOption"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "definitions": {
@@ -590,16 +565,13 @@
           "type": "integer",
           "description": "Resource this rating applies to"
         },
-        "rating_option": {
-          "$ref": "#/definitions/RatingOption"
-        }
-      }
-    },
-    "RatingOption": {
-      "properties": {
-        "name": {
+        "rating_option_name": {
           "type": "string",
-          "description": "Name of option"
+          "enum": [
+            "positive",
+            "negative",
+            "no_service"
+          ]
         }
       }
     }

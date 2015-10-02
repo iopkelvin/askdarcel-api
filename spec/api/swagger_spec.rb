@@ -34,7 +34,10 @@ RSpec.describe 'the API', type: :apivore, order: :defined do
                                 '/ratings',
                                 201,
                                 "_data" => {
-                                  "rating" => FactoryGirl.build(:rating, resource_id: resource.id).attributes
+                                  "rating" => {
+                                    'resource_id' => resource.id,
+                                    'rating_option_name' => 'positive'
+                                  }
                                 },
                                 "_headers" => { 'DEVICE-ID' => device_id })
       end
@@ -73,14 +76,14 @@ RSpec.describe 'the API', type: :apivore, order: :defined do
           :put,
           '/ratings/{id}',
           200,
-          "_data" => { "rating" => FactoryGirl.build(:rating, resource_id: resource.id).attributes },
+          "_data" => {
+            "rating" => { resource_id: resource.id, rating_option_name: 'positive' }
+          },
           "_headers" => { 'DEVICE-ID' => device_id },
           'id' => rating.id,
         )
       end
     end
-
-    it { is_expected.to validate( :get, '/rating_options', 200 ) }
   end
 
   describe 'category endpoints' do

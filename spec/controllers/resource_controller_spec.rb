@@ -32,14 +32,13 @@ RSpec.describe ResourcesController, type: :controller do
     end
 
     it "returns counts of ratings" do
-      resource = FactoryGirl.create(:resource, ratings_count: 0, ratings: [
-        FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('positive')),
-        FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('negative')),
-        FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('no service')),
-        FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('positive')),
-        FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('negative')),
-        FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('negative')),
-      ])
+      resource = FactoryGirl.create(:resource, ratings_count: 0)
+      FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('positive'), resource: resource)
+      FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('negative'), resource: resource)
+      FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('no service'), resource: resource)
+      FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('positive'), resource: resource)
+      FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('negative'), resource: resource)
+      FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('negative'), resource: resource)
 
       get :index
       expect(response).to have_http_status(:success)
@@ -52,10 +51,11 @@ RSpec.describe ResourcesController, type: :controller do
     end
 
     it "returns my rating" do
-      resource = FactoryGirl.create(:resource, ratings_count: 0, ratings: [
-        FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('negative'), device_id: '4567'),
-        FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('positive'), device_id: '1234'),
-      ])
+      resource = FactoryGirl.create(:resource, ratings_count: 0)
+      FactoryGirl.create(:rating,
+                         rating_option: RatingOption.find_by_name('negative'), device_id: '4567', resource: resource)
+      FactoryGirl.create(:rating,
+                         rating_option: RatingOption.find_by_name('positive'), device_id: '1234', resource: resource)
 
       request.headers['DEVICE-ID'] = '1234'
       get :index

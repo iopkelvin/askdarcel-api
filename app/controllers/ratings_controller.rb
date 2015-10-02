@@ -2,7 +2,6 @@ class RatingsController < ApplicationController
   before_action :require_device_id
 
   before_action :set_rating, only: [:show, :update, :destroy]
-  before_action :update_nested_params, only: [:create, :update]
 
   # GET /ratings
   # GET /ratings.json
@@ -20,7 +19,11 @@ class RatingsController < ApplicationController
   # POST /ratings
   # POST /ratings.json
   def create
-    @rating = Rating.new(rating_params)
+    @rating = Rating.new(
+      resource_id: params[:rating][:resource_id],
+      device_id: device_id,
+      rating_option_attributes: {name: params[:rating][:rating_option_name]},
+    )
 
     if @rating.save
       render json: @rating, status: :created
@@ -32,7 +35,10 @@ class RatingsController < ApplicationController
   # PATCH/PUT /ratings/1
   # PATCH/PUT /ratings/1.json
   def update
-    if @rating.update(rating_params)
+    if @rating.update(
+        resource_id: params[:rating][:resource_id],
+        device_id: device_id,
+        rating_option_attributes: {name: params[:rating][:rating_option_name]})
       render json: @rating, status: :ok
     else
       render json: @rating.errors, status: :unprocessable_entity
@@ -48,16 +54,6 @@ class RatingsController < ApplicationController
   end
 
   private
-
-  # Rails expects the associations to be X_attributes to work with accepts_attributes_for
-  def update_nested_params
-    [:rating_option].each do |field|
-      if params[:rating].key?(field)
-        params[:rating][:"#{field}_attributes"] = params[:rating][field]
-      end
-    end
-  end
-
   def require_device_id
     if device_id.blank?
       raise Errors::BlankHeader.new('DEVICE-ID')
@@ -73,6 +69,9 @@ class RatingsController < ApplicationController
   end
 
   def rating_params
-    params.require(:rating).permit(:resource_id, :rating_option_id, rating_option_attributes: [:name]).merge(device_id: device_id)
+    params[:rating][:rating_option_attributes] = {name: params[:rating_option_name]}
+    params.require(:rating).permit(:resource_id, :rating_option_attributes).merge(
+      device_id: device_id,
+    )
   end
 end

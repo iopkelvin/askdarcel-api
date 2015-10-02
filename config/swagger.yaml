@@ -206,23 +206,6 @@ paths:
       responses:
         '204':
           description: Rating successfully deleted
-  /rating_options:
-    get:
-      summary: Fetch list of rating options
-      description: |
-        Returns list of rating options
-      tags:
-        - Resource
-      responses:
-        '200':
-          description: An array of rating options
-          schema:
-            type: object
-            properties:
-              rating-options:
-                type: array
-                items:
-                  $ref: '#/definitions/RatingOption'
 definitions:
   PaginationMeta:
     properties:
@@ -411,13 +394,12 @@ definitions:
       resource_id:
         type: integer
         description: Resource this rating applies to
-      rating_option:
-        $ref: '#/definitions/RatingOption'
-  RatingOption:
-    properties:
-      name:
+      rating_option_name:
         type: string
-        description: Name of option
+        enum:
+        - positive
+        - negative
+        - no_service
 parameters:
   page:
     name: page

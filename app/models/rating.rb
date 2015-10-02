@@ -7,6 +7,7 @@ class Rating < ActiveRecord::Base
   accepts_nested_attributes_for :rating_option
 
   validates :device_id, presence: true
+  validates_presence_of :resource
   validates_presence_of :rating_option
   validates :resource_id,
             uniqueness: {
@@ -19,7 +20,7 @@ class Rating < ActiveRecord::Base
   protected
 
   def valid_option
-    errors.add(:rating_option, "does not exist") unless RatingOption.find_by(name: self.rating_option.name)
+    errors.add(:rating_option_name, "is not valid") unless RatingOption.find_by(name: self.rating_option.name)
   end
 
   def autosave_associated_records_for_rating_option
