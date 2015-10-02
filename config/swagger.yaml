@@ -4,8 +4,8 @@ info:
   description: Access information about homeless resources
   version: 1.0.0
 schemes:
-  - https
   - http
+  - https
 basePath: /v1
 produces:
   - application/json

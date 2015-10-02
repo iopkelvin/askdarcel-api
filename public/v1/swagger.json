@@ -6,8 +6,8 @@
     "version": "1.0.0"
   },
   "schemes": [
-    "https",
-    "http"
+    "http",
+    "https"
   ],
   "basePath": "/v1",
   "produces": [

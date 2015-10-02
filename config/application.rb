@@ -1,7 +1,6 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
-
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -27,7 +26,7 @@ module Sfhomeless
 
     config.middleware.use Rack::Deflater
 
-    config.middleware.insert_before 0, "Rack::Cors", :debug => true, :logger => (-> { Rails.logger }) do
+    config.middleware.insert_before ActionDispatch::Static, Rack::Cors, :debug => true, :logger => (-> { Rails.logger }) do
       allow do
         origins '*'
 
@@ -35,10 +34,10 @@ module Sfhomeless
       end
 
       allow do
-        origins 'petstore.swagger.io', 'localhost', 'sheltertech-ui.s3-website-us-east-1.amazonaws.com'
+        origins 'petstore.swagger.io', 'localhost', nil, 'sheltertech-ui.s3-website-us-east-1.amazonaws.com'
         resource '*',
           :headers => :any,
-          :methods => [:get, :post, :delete, :put, :options, :head],
+          :methods => [:get, :post, :delete, :put, :head],
           :max_age => 0
       end
     end
