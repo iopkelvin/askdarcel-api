@@ -15,7 +15,7 @@ class ResourcesController < ApplicationController
     end
 
     render json: @resources,
-           include: [:phone_numbers, :categories, :addresses],
+           include: [:phone_numbers, :categories, :addresses, :resource_images],
            serializer: PaginatedSerializer,
            device_id: device_id
   end
@@ -23,7 +23,7 @@ class ResourcesController < ApplicationController
   # GET /resources/1
   # GET /resources/1.json
   def show
-    render json: @resource, include: [:phone_numbers, :categories, :addresses], device_id: device_id
+    render json: @resource, include: [:phone_numbers, :categories, :addresses, :resource_images], device_id: device_id
   end
 
   private
