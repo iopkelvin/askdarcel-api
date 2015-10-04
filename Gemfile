@@ -21,7 +21,7 @@ gem 'faraday'
 gem 'spring', group: :development
 
 group :development, :test do
-  gem 'apivore'
+  gem 'apivore', branch: '59_skip_path_parameters', git: 'https://github.com/jszwedko/apivore.git' # need https://github.com/westfieldlabs/apivore/pull/60
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'pry'
