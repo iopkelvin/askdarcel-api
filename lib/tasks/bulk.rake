@@ -11,6 +11,8 @@ namespace :bulk do
         r.phone_numbers.first.try { |pn| "(#{pn.area_code}) #{pn.number}" },
         r.resource_images.map(&:photo).map(&:url).join(";"),
         r.website,
+        r.summary,
+        r.content,
         "http://sfhomeless.wikia.com/wiki/#{URI.escape(r.title)}",
       ]
 
