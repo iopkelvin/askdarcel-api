@@ -24,11 +24,11 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 
   config.before(:suite) do
+    Rails.application.load_seed
     ActiveRecord::Base.transaction do
       FactoryGirl.lint
       raise ActiveRecord::Rollback
     end
-    Rails.application.load_seed
   end
 end
 
