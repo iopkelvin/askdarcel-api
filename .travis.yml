@@ -3,8 +3,8 @@ rvm:
 - 2.2.2
 cache: bundler
 before_script:
-- psql -U postgres -d sfhomeless -c "create extension postgis"
 - "./bin/rake db:setup"
+- psql -U postgres -d sfhomeless -c "create extension postgis"
 deploy:
   provider: heroku
   api_key:
