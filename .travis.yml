@@ -1,10 +1,12 @@
+sudo: true # :( :(
 language: ruby
 rvm:
 - 2.2.2
 cache: bundler
+before_install:
+- sudo ln -s /usr/lib/libgeos-3.3.8.so /usr/lib/libgeos.so
 before_script:
 - "./bin/rake db:setup"
-- psql -U postgres -d sfhomeless -c "create extension postgis"
 deploy:
   provider: heroku
   api_key:
