@@ -3,7 +3,7 @@ class Address < ActiveRecord::Base
 
   geocoded_by :address do |obj,results|
     if geo = results.first
-      obj.lonlat = "POINT(#{geo.longitude} #{geo.latitude})"
+      obj.lonlat = POINT_FACTORY.point(geo.longitude, geo.latitude)
     end
   end
 
@@ -29,4 +29,6 @@ class Address < ActiveRecord::Base
   def address
       [street1, street2, city, state, country].compact.join(', ')
   end
+
+  POINT_FACTORY = RGeo::ActiveRecord::SpatialFactoryStore.instance.factory(geo_type: "point")
 end
