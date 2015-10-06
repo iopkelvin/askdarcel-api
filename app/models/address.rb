@@ -1,9 +1,11 @@
 class Address < ActiveRecord::Base
   belongs_to :resource
 
-  geocoded_by :address
-  reverse_geocoded_by :latitude, :longitude
-  after_validation :geocode, :reverse_geocode
+  geocoded_by :address do |obj,results|
+    if geo = results.first
+      obj.lonlat = "POINT(#{geo.longitude} #{geo.latitude})"
+    end
+  end
 
   reverse_geocoded_by :latitude, :longitude do |obj,results|
     if geo = results.first
@@ -11,6 +13,15 @@ class Address < ActiveRecord::Base
       obj.state_code = geo.state_code
       obj.country_code = geo.country_code
     end
+  end
+  after_validation :geocode, :reverse_geocode
+
+  def longitude
+    lonlat.y
+  end
+
+  def latitude
+    lonlat.x
   end
 
   private

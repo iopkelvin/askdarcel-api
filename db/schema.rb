@@ -11,26 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150927052656) do
+ActiveRecord::Schema.define(version: 20151006050200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "postgis"
 
   create_table "addresses", force: :cascade do |t|
-    t.integer  "resource_id"
-    t.string   "full_street_address"
-    t.string   "city"
-    t.string   "state"
-    t.string   "state_code"
-    t.string   "postal_code"
-    t.string   "country"
-    t.string   "country_code"
-    t.float    "longitude"
-    t.float    "latitude"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
-    t.string   "street1"
-    t.string   "street2"
+    t.integer   "resource_id"
+    t.string    "full_street_address"
+    t.string    "city"
+    t.string    "state"
+    t.string    "state_code"
+    t.string    "postal_code"
+    t.string    "country"
+    t.string    "country_code"
+    t.datetime  "created_at",                                                                   null: false
+    t.datetime  "updated_at",                                                                   null: false
+    t.string    "street1"
+    t.string    "street2"
+    t.geography "lonlat",              limit: {:srid=>4326, :type=>"point", :geographic=>true}
   end
 
   add_index "addresses", ["resource_id"], name: "index_addresses_on_resource_id", using: :btree

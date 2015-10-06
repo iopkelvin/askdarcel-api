@@ -35,7 +35,7 @@ RSpec.describe ResourcesController, type: :controller do
       resource = FactoryGirl.create(:resource, ratings_count: 0)
       FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('positive'), resource: resource)
       FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('negative'), resource: resource)
-      FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('no service'), resource: resource)
+      FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('no_service'), resource: resource)
       FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('positive'), resource: resource)
       FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('negative'), resource: resource)
       FactoryGirl.create(:rating, rating_option: RatingOption.find_by_name('negative'), resource: resource)
@@ -47,7 +47,7 @@ RSpec.describe ResourcesController, type: :controller do
       expect(body["resources"].length).to eql(1)
       expect(body["resources"][0]["rating_counts"]["positive"]).to eql(2)
       expect(body["resources"][0]["rating_counts"]["negative"]).to eql(3)
-      expect(body["resources"][0]["rating_counts"]["no service"]).to eql(1)
+      expect(body["resources"][0]["rating_counts"]["no_service"]).to eql(1)
     end
 
     it "returns my rating" do
