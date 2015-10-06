@@ -25,10 +25,6 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     Rails.application.load_seed
-    ActiveRecord::Base.transaction do
-      FactoryGirl.lint
-      raise ActiveRecord::Rollback
-    end
   end
 end
 
