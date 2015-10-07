@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/rgeo/rgeo.git
+  revision: 988962d808ced233ac74e380b4811e3f97f8472f
+  specs:
+    rgeo (0.4.0)
+
+GIT
   remote: https://github.com/rails-api/active_model_serializers.git
   revision: 345f8f30c15bc0f7e7f3c0ec3d59ace47337bd7a
   specs:
@@ -156,7 +162,6 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
-    rgeo (0.4.0)
     rgeo-activerecord (4.0.0)
       activerecord (~> 4.2)
       rgeo (~> 0.3)
@@ -215,6 +220,7 @@ DEPENDENCIES
   rails (= 4.2.4)
   rails-api (~> 0.4.0)
   rails_12factor
+  rgeo!
   rspec-rails (~> 3.0)
   spring
 
