@@ -1,6 +1,6 @@
 namespace :places do
   # Quick and dirty for a research spike
-  desc "export resources with associated google place results"
+  desc 'export resources with associated google place results'
   task export: :environment do
     Rails.logger.level = 1
 
@@ -18,7 +18,7 @@ namespace :places do
         nil,
         r.resource_images.count,
         r.website,
-        "http://sfhomeless.wikia.com/wiki/#{URI.escape(r.title)}",
+        "http://sfhomeless.wikia.com/wiki/#{URI.escape(r.title)}"
       ]
 
       response = Faraday.get(nearby_search_template % URI.escape(r.title))
@@ -37,11 +37,11 @@ namespace :places do
           details.key?('opening_hours') ? 'yes' : nil,
           details.fetch('photos', []).length,
           details['website'],
-          details['url'],
+          details['url']
         ])
       else
         STDERR.puts response.body
-        raise "error: #{list['status']}"
+        fail "error: #{list['status']}"
       end
 
       csv << row

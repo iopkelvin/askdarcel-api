@@ -7,8 +7,8 @@ RSpec.describe 'the API', type: :apivore, order: :defined do
     before do
       FactoryGirl.create_list(:resource, 10)
     end
-    it { is_expected.to validate( :get, '/resources', 200, "_query_string" => "page=2&per_page=2" ) }
-    it { is_expected.to validate( :get, '/resources/{id}', 200, 'id' => Resource.first.id ) }
+    it { is_expected.to validate(:get, '/resources', 200, '_query_string' => 'page=2&per_page=2') }
+    it { is_expected.to validate(:get, '/resources/{id}', 200, 'id' => Resource.first.id) }
   end
 
   describe 'ratings endpoints' do
@@ -24,8 +24,8 @@ RSpec.describe 'the API', type: :apivore, order: :defined do
         is_expected.to validate(:get,
                                 '/ratings',
                                 200,
-                                "_query_string" => "page=2&per_page=2",
-                                "_headers" => { 'DEVICE-ID' => device_id })
+                                '_query_string' => 'page=2&per_page=2',
+                                '_headers' => { 'DEVICE-ID' => device_id })
       end
 
       it do
@@ -33,13 +33,13 @@ RSpec.describe 'the API', type: :apivore, order: :defined do
         is_expected.to validate(:post,
                                 '/ratings',
                                 201,
-                                "_data" => {
-                                  "rating" => {
+                                '_data' => {
+                                  'rating' => {
                                     'resource_id' => resource.id,
                                     'rating_option_name' => 'positive'
                                   }
                                 },
-                                "_headers" => { 'DEVICE-ID' => device_id })
+                                '_headers' => { 'DEVICE-ID' => device_id })
       end
     end
 
@@ -54,13 +54,12 @@ RSpec.describe 'the API', type: :apivore, order: :defined do
                            ratings: [FactoryGirl.create(:rating, device_id: device_id)])
       end
 
-
       it do
         is_expected.to validate(:delete,
                                 '/ratings/{id}',
                                 204,
                                 'id' => rating.id,
-                                "_headers" => { 'DEVICE-ID' => device_id })
+                                '_headers' => { 'DEVICE-ID' => device_id })
       end
 
       it do
@@ -68,7 +67,7 @@ RSpec.describe 'the API', type: :apivore, order: :defined do
                                 '/ratings/{id}',
                                 200,
                                 'id' => rating.id,
-                                "_headers" => { 'DEVICE-ID' => device_id })
+                                '_headers' => { 'DEVICE-ID' => device_id })
       end
 
       it do
@@ -76,11 +75,11 @@ RSpec.describe 'the API', type: :apivore, order: :defined do
           :put,
           '/ratings/{id}',
           200,
-          "_data" => {
-            "rating" => { resource_id: resource.id, rating_option_name: 'positive' }
+          '_data' => {
+            'rating' => { resource_id: resource.id, rating_option_name: 'positive' }
           },
-          "_headers" => { 'DEVICE-ID' => device_id },
-          'id' => rating.id,
+          '_headers' => { 'DEVICE-ID' => device_id },
+          'id' => rating.id
         )
       end
     end
@@ -91,8 +90,8 @@ RSpec.describe 'the API', type: :apivore, order: :defined do
       FactoryGirl.create_list(:category, 10)
     end
 
-    it { is_expected.to validate( :get, '/categories', 200 ) }
-    it { is_expected.to validate( :get, '/categories/{id}', 200, 'id' => Category.first.id ) }
+    it { is_expected.to validate(:get, '/categories', 200) }
+    it { is_expected.to validate(:get, '/categories/{id}', 200, 'id' => Category.first.id) }
   end
 
   describe 'routes' do

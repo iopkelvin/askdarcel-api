@@ -7,15 +7,13 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
-  config.example_status_persistence_file_path = "spec/examples.txt"
+  config.example_status_persistence_file_path = 'spec/examples.txt'
 
   config.disable_monkey_patching!
 
   config.warnings = false
 
-  if config.files_to_run.one?
-    config.default_formatter = 'doc'
-  end
+  config.default_formatter = 'doc' if config.files_to_run.one?
 
   config.profile_examples = 10
 

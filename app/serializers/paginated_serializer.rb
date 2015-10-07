@@ -1,11 +1,11 @@
 class PaginatedSerializer < ActiveModel::Serializer::ArraySerializer
-  def initialize(object, options={})
+  def initialize(object, options = {})
     meta_key = options[:meta_key] || :meta
 
     url = URI(options[:context].url)
     params = Rack::Utils.parse_query(url.query)
 
-    self_url = url.clone.tap do |u|
+    self_url = url.clone.tap do |_u|
       url.query = Rack::Utils.build_query(params)
     end
 

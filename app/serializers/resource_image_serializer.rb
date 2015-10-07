@@ -6,7 +6,7 @@ class ResourceImageSerializer < ActiveModel::Serializer
   end
 
   def photo_styles
-    Hash[object.photo.styles.keys.map { |style| [style, object.photo(style)] } ]
+    Hash[object.photo.styles.keys.map { |style| [style, object.photo(style)] }]
   end
 
   belongs_to :resource

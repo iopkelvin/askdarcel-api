@@ -7,7 +7,7 @@ module Wikia
 
     class Image < Struct.new(:name, :caption)
     end
-    @@namespace = "http://www.mediawiki.org/xml/export-0.6/"
+    @@namespace = 'http://www.mediawiki.org/xml/export-0.6/'
 
     def initialize(file, logger)
       @file = file
@@ -15,20 +15,20 @@ module Wikia
       @doc = Nokogiri::XML(@file.read)
     end
 
-    def resources()
-      @doc.xpath("//x:page[x:ns = '0']", "x" => @@namespace).map { |page| parse_page(page) }
+    def resources
+      @doc.xpath("//x:page[x:ns = '0']", 'x' => @@namespace).map { |page| parse_page(page) }
     end
 
     private
 
     def parse_page(page)
-      content = page.at_xpath("x:revision/x:text", "x" => @@namespace).text
+      content = page.at_xpath('x:revision/x:text', 'x' => @@namespace).text
       summary_info = summary_info(content)
 
       resource_hash = {
-        page_id: page.at_xpath("x:id", "x" => @@namespace).text,
-        revision_id: page.at_xpath("x:revision/x:id", "x" => @@namespace).text,
-        title: page.at_xpath("x:title", "x" => @@namespace).text,
+        page_id: page.at_xpath('x:id', 'x' => @@namespace).text,
+        revision_id: page.at_xpath('x:revision/x:id', 'x' => @@namespace).text,
+        title: page.at_xpath('x:title', 'x' => @@namespace).text,
         address: summary_info['Address'],
         phone: summary_info['Phone'],
         email: summary_info['Email'],

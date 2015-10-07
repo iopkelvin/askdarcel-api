@@ -1,6 +1,5 @@
 module ErrorSerializer
-
-  def ErrorSerializer.serialize(errors)
+  def self.serialize(errors)
     return if errors.nil?
 
     json = {}
@@ -12,5 +11,4 @@ module ErrorSerializer
     json[:errors] = new_hash
     json
   end
-
 end

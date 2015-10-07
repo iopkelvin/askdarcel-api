@@ -22,7 +22,7 @@ class RatingsController < ApplicationController
     @rating = Rating.new(
       resource_id: params[:rating][:resource_id],
       device_id: device_id,
-      rating_option_attributes: {name: params[:rating][:rating_option_name]},
+      rating_option_attributes: { name: params[:rating][:rating_option_name] }
     )
 
     if @rating.save
@@ -36,9 +36,9 @@ class RatingsController < ApplicationController
   # PATCH/PUT /ratings/1.json
   def update
     if @rating.update(
-        resource_id: params[:rating][:resource_id],
-        device_id: device_id,
-        rating_option_attributes: {name: params[:rating][:rating_option_name]})
+      resource_id: params[:rating][:resource_id],
+      device_id: device_id,
+      rating_option_attributes: { name: params[:rating][:rating_option_name] })
       render json: @rating, status: :ok
     else
       render json: @rating.errors, status: :unprocessable_entity
@@ -54,10 +54,9 @@ class RatingsController < ApplicationController
   end
 
   private
+
   def require_device_id
-    if device_id.blank?
-      raise Errors::BlankHeader.new('DEVICE-ID')
-    end
+    fail Errors::BlankHeader.new('DEVICE-ID') if device_id.blank?
   end
 
   def device_id
@@ -69,9 +68,9 @@ class RatingsController < ApplicationController
   end
 
   def rating_params
-    params[:rating][:rating_option_attributes] = {name: params[:rating_option_name]}
+    params[:rating][:rating_option_attributes] = { name: params[:rating_option_name] }
     params.require(:rating).permit(:resource_id, :rating_option_attributes).merge(
-      device_id: device_id,
+      device_id: device_id
     )
   end
 end

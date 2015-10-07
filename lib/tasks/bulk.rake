@@ -9,11 +9,11 @@ namespace :bulk do
         r.title,
         r.addresses.first.try(:full_street_address),
         r.phone_numbers.first.try { |pn| "(#{pn.area_code}) #{pn.number}" },
-        r.resource_images.map(&:photo).map(&:url).join(";"),
+        r.resource_images.map(&:photo).map(&:url).join(';'),
         r.website,
         r.summary,
         r.content,
-        "http://sfhomeless.wikia.com/wiki/#{URI.escape(r.title)}",
+        "http://sfhomeless.wikia.com/wiki/#{URI.escape(r.title)}"
       ]
 
       csv << row
@@ -23,6 +23,6 @@ namespace :bulk do
   end
 
   task import: :environment do
-    puts "TODO"
+    puts 'TODO'
   end
 end

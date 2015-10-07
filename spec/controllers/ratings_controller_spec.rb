@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe RatingsController, type: :controller do
   context 'device id is specified' do
-
     let(:device_id) { '1234' }
     before do
       request.headers['DEVICE-ID'] = device_id
@@ -14,7 +13,7 @@ RSpec.describe RatingsController, type: :controller do
           resource = FactoryGirl.create(:resource)
 
           post :create,
-               { rating: { resource_id: resource.id, rating_option_name: 'positive' } }
+               rating: { resource_id: resource.id, rating_option_name: 'positive' }
 
           expect(response).to have_http_status(:created)
           body = JSON.parse(response.body)
@@ -39,7 +38,7 @@ RSpec.describe RatingsController, type: :controller do
         it 'returns 404' do
           resource = FactoryGirl.create(:resource)
 
-          put :update, id: 89374, rating: { resource_id: resource.id, rating_option_name: 'positive' }
+          put :update, id: 89_374, rating: { resource_id: resource.id, rating_option_name: 'positive' }
 
           expect(response).to have_http_status(:not_found)
         end
@@ -64,7 +63,7 @@ RSpec.describe RatingsController, type: :controller do
         it 'returns 404' do
           resource = FactoryGirl.create(:resource)
 
-          delete :destroy, id: 89374, rating: { resource_id: resource.id, rating_option_name: 'positive' }
+          delete :destroy, id: 89_374, rating: { resource_id: resource.id, rating_option_name: 'positive' }
 
           expect(response).to have_http_status(:not_found)
         end
@@ -75,9 +74,9 @@ RSpec.describe RatingsController, type: :controller do
           resource = FactoryGirl.create(:resource)
           rating = FactoryGirl.create(:rating, resource_id: resource.id, device_id: device_id, rating_option: RatingOption.find_by(name: 'negative'))
 
-          expect {
+          expect do
             delete :destroy, id: rating.id
-          }.to change { Rating.count }.by(-1)
+          end.to change { Rating.count }.by(-1)
 
           expect(response).to have_http_status(:no_content)
         end

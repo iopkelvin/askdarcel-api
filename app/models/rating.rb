@@ -12,7 +12,7 @@ class Rating < ActiveRecord::Base
   validates :resource_id,
             uniqueness: {
               scope: :device_id,
-              message: 'has already been rated by this device id',
+              message: 'has already been rated by this device id'
             }
 
   validate :valid_option
@@ -20,10 +20,10 @@ class Rating < ActiveRecord::Base
   protected
 
   def valid_option
-    errors.add(:rating_option_name, "is not valid") unless RatingOption.find_by(name: self.rating_option.name)
+    errors.add(:rating_option_name, 'is not valid') unless RatingOption.find_by(name: rating_option.name)
   end
 
   def autosave_associated_records_for_rating_option
-    self.rating_option = RatingOption.find_by(name: self.rating_option.name)
+    self.rating_option = RatingOption.find_by(name: rating_option.name)
   end
 end

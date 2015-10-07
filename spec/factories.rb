@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  point_factory = RGeo::ActiveRecord::SpatialFactoryStore.instance.factory(geo_type: "point")
+  point_factory = RGeo::ActiveRecord::SpatialFactoryStore.instance.factory(geo_type: 'point')
 
   sequence(:page_id)
   sequence(:name) { |n| "Example #{n}" }
@@ -62,7 +62,7 @@ FactoryGirl.define do
   factory :resource_image do
     caption { Faker::Lorem.sentence }
     photo_file_name { Faker::Internet.url }
-    photo_content_type "image/jpeg"
+    photo_content_type 'image/jpeg'
     photo_file_size { Faker::Number.number(5) }
   end
 end

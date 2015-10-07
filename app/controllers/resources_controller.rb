@@ -6,12 +6,12 @@ class ResourcesController < ApplicationController
   def index
     @resources = Resource.page(params[:page]).per(params[:per_page])
 
-    if params["category_names"]
-      @resources = @resources.joins(:categories).where('categories.name IN (?)', params["category_names"])
+    if params['category_names']
+      @resources = @resources.joins(:categories).where('categories.name IN (?)', params['category_names'])
     end
 
-    if params["category_ids"]
-      @resources = @resources.joins(:categories).where('categories.id IN (?)', params["category_ids"])
+    if params['category_ids']
+      @resources = @resources.joins(:categories).where('categories.id IN (?)', params['category_ids'])
     end
 
     render json: @resources,

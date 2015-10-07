@@ -7,17 +7,16 @@ Bundler.require(*Rails.groups)
 
 # Override DATABASE_URL to use postgis:// rather than postgres://
 class ActiveRecordOverrideRailtie < Rails::Railtie
-  initializer "active_record.initialize_database.override" do |app|
-
+  initializer 'active_record.initialize_database.override' do |_app|
     ActiveSupport.on_load(:active_record) do
       if url = ENV['DATABASE_URL']
         ActiveRecord::Base.connection_pool.disconnect!
         parsed_url = URI.parse(url)
-        config =  {
+        config = {
           adapter:             'postgis',
           host:                parsed_url.host,
           encoding:            'unicode',
-          database:            parsed_url.path.split("/")[-1],
+          database:            parsed_url.path.split('/')[-1],
           port:                parsed_url.port,
           username:            parsed_url.user,
           password:            parsed_url.password
@@ -49,19 +48,19 @@ module Sfhomeless
 
     config.middleware.use Rack::Deflater
 
-    config.middleware.insert_before ActionDispatch::Static, Rack::Cors, :debug => true, :logger => (-> { Rails.logger }) do
+    config.middleware.insert_before ActionDispatch::Static, Rack::Cors, debug: true, logger: (-> { Rails.logger }) do
       allow do
         origins '*'
 
-        resource '/v1/swagger.json', :headers => :any, :methods => [:get], :max_age => 0
+        resource '/v1/swagger.json', headers: :any, methods: [:get], max_age: 0
       end
 
       allow do
         origins 'localhost', 'sheltertech-ui.s3-website-us-east-1.amazonaws.com', 'sheltertech.github.io'
         resource '*',
-          :headers => :any,
-          :methods => [:get, :post, :delete, :put, :head],
-          :max_age => 0
+                 headers: :any,
+                 methods: [:get, :post, :delete, :put, :head],
+                 max_age: 0
       end
     end
   end

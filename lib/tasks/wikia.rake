@@ -1,14 +1,13 @@
 namespace :wikia do
-  desc "import wikia XML export"
+  desc 'import wikia XML export'
   task import: :environment do
     ARGV.shift
 
-    wikia_host = ENV['WIKIA_HOST'] || "http://sfhomeless.wikia.com/"
+    wikia_host = ENV['WIKIA_HOST'] || 'http://sfhomeless.wikia.com/'
 
     normalizer = Wikia::Normalizer.new(Rails.logger)
-    point_factory = RGeo::ActiveRecord::SpatialFactoryStore.instance.factory(geo_type: "point")
+    point_factory = RGeo::ActiveRecord::SpatialFactoryStore.instance.factory(geo_type: 'point')
     Wikia::Parser.new(ARGF, Rails.logger).resources.each do |wikia_resource|
-
       ActiveRecord::Base.transaction do
         Resource.find_or_initialize_by(page_id: wikia_resource.page_id).tap do |r|
           next if r.revision_id == wikia_resource.revision_id.to_i
@@ -21,7 +20,7 @@ namespace :wikia do
             email: normalized.email,
             summary: normalized.summary,
             content: normalized.content,
-            website: normalized.website,
+            website: normalized.website
           )
           r.categories = normalized.categories.map { |c| Category.find_or_create_by(name: c) }
           r.save!
@@ -55,7 +54,7 @@ namespace :wikia do
           r.resource_images.delete_all
           wikia_resource.images.each do |i|
             # Example image JSON:
-            #{
+            # {
             #  "query": {
             #    "pages": {
             #      "3097": {
@@ -72,16 +71,16 @@ namespace :wikia do
             #      }
             #    }
             #  }
-            #}
+            # }
             open("#{wikia_host}/api.php?action=query&titles=File:#{i.name}&prop=imageinfo&iiprop=url&format=json") do |f|
               data = JSON.parse(f.read)
-              urls =  data["query"]["pages"].map do |id, page|
-                if id == "-1"
+              urls =  data['query']['pages'].map do |id, page|
+                if id == '-1'
                   Rails.logger.warn("photo missing for page #{r.page_id} with name #{i.name}")
                   next
                 end
 
-                page["imageinfo"].map { |i| i["url"] }
+                page['imageinfo'].map { |i| i['url'] }
               end.flatten.reject(&:blank?)
 
               urls.map do |url|

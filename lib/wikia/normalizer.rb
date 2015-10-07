@@ -15,7 +15,7 @@ module Wikia
     end
 
     def normalize_resource(resource)
-      ResourceNormalizer.new(resource, logger).execute()
+      ResourceNormalizer.new(resource, logger).execute
     end
 
     private
@@ -28,7 +28,7 @@ module Wikia
         @logger = logger
       end
 
-      def execute()
+      def execute
         resource_hash = {
           page_id: resource.page_id,
           revision_id: resource.revision_id,
@@ -43,7 +43,7 @@ module Wikia
           summary: resource.summary,
           content: resource.content,
           categories: resource.categories,
-          images: resource.images.map { |i| normalize_image(i) },
+          images: resource.images.map { |i| normalize_image(i) }
         }
         Resource.new(*resource_hash.values_at(*Resource.members))
       end
@@ -54,13 +54,12 @@ module Wikia
         Geocoder.search(address).first
       end
 
-      def normalize_image(image)
-        
+      def normalize_image(_image)
       end
 
       def normalize_phone_number(phone)
         return nil unless phone.to_s.strip.length > 0
-        #TODO ask about handling of multiple phone numbers
+        # TODO: ask about handling of multiple phone numbers
         Phoner::Phone.parse(phone, country_code: '1').tap do |pn|
           @logger.warn("#{resource.page_id}: could not parse #{phone} as a phone number") unless pn
         end
