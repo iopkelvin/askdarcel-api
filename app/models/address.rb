@@ -17,11 +17,11 @@ class Address < ActiveRecord::Base
   after_validation :geocode, :reverse_geocode
 
   def longitude
-    lonlat.y
+    lonlat.x
   end
 
   def latitude
-    lonlat.x
+    lonlat.y
   end
 
   private
