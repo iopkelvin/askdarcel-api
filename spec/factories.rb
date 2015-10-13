@@ -44,8 +44,10 @@ FactoryGirl.define do
     street2 { Faker::Address.secondary_address }
     city { Faker::Address.city }
     state { Faker::Address.state }
+    state_code { Faker::Address.state_abbr }
     postal_code { Faker::Address.postcode }
     country { Faker::Address.country }
+    country_code { Faker::Address.country_code }
     lonlat { point_factory.point(Faker::Address.longitude, Faker::Address.latitude) }
 
     full_street_address { "#{Faker::Address.street_address}, #{Faker::Address.city}, #{Faker::Address.state}, #{Faker::Address.postcode}, #{Faker::Address.country}" }
