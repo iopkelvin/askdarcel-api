@@ -1,6 +1,4 @@
 FactoryGirl.define do
-  point_factory = RGeo::ActiveRecord::SpatialFactoryStore.instance.factory(geo_type: 'point')
-
   sequence(:page_id)
   sequence(:name) { |n| "Example #{n}" }
 
@@ -48,7 +46,8 @@ FactoryGirl.define do
     postal_code { Faker::Address.postcode }
     country { Faker::Address.country }
     country_code { Faker::Address.country_code }
-    lonlat { point_factory.point(Faker::Address.longitude, Faker::Address.latitude) }
+    longitude { Faker::Address.longitude }
+    latitude { Faker::Address.latitude }
 
     full_street_address { "#{Faker::Address.street_address}, #{Faker::Address.city}, #{Faker::Address.state}, #{Faker::Address.postcode}, #{Faker::Address.country}" }
   end

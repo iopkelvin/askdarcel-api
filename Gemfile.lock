@@ -1,12 +1,7 @@
 GIT
-  remote: git://github.com/rgeo/rgeo.git
-  revision: 988962d808ced233ac74e380b4811e3f97f8472f
-  specs:
-    rgeo (0.4.0)
-
-GIT
   remote: https://github.com/rails-api/active_model_serializers.git
   revision: 345f8f30c15bc0f7e7f3c0ec3d59ace47337bd7a
+  ref: 345f8f30c15bc0f7e7f3c0ec3d59ace47337bd7a
   specs:
     active_model_serializers (0.10.0.rc3)
       actionpack (>= 4.0)
@@ -57,9 +52,6 @@ GEM
       activemodel (= 4.2.4)
       activesupport (= 4.2.4)
       arel (~> 6.0)
-    activerecord-postgis-adapter (3.0.0)
-      activerecord (~> 4.2)
-      rgeo-activerecord (~> 4.0)
     activesupport (4.2.4)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
@@ -169,9 +161,6 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (2.0.0)
     rake (10.4.2)
-    rgeo-activerecord (4.0.0)
-      activerecord (~> 4.2)
-      rgeo (~> 0.3)
     rspec (3.3.0)
       rspec-core (~> 3.3.0)
       rspec-expectations (~> 3.3.0)
@@ -217,8 +206,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_model_serializers (= 0.10.0.rc3)!
-  activerecord-postgis-adapter (~> 3.0.0)
+  active_model_serializers!
   apivore!
   aws-sdk (< 2)
   factory_girl_rails
@@ -234,7 +222,6 @@ DEPENDENCIES
   rails (= 4.2.4)
   rails-api (~> 0.4.0)
   rails_12factor
-  rgeo!
   rspec-rails (~> 3.0)
   rubocop
   spring

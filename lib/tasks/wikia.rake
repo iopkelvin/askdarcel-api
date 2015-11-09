@@ -6,7 +6,6 @@ namespace :wikia do
     wikia_host = ENV['WIKIA_HOST'] || 'http://sfhomeless.wikia.com/'
 
     normalizer = Wikia::Normalizer.new(Rails.logger)
-    point_factory = RGeo::ActiveRecord::SpatialFactoryStore.instance.factory(geo_type: 'point')
     Wikia::Parser.new(ARGF, Rails.logger).resources.each do |wikia_resource|
       ActiveRecord::Base.transaction do
         Resource.find_or_initialize_by(page_id: wikia_resource.page_id).tap do |r|
@@ -47,7 +46,8 @@ namespace :wikia do
               postal_code: normalized.address.postal_code,
               country: normalized.address.country,
               country_code: normalized.address.country_code,
-              lonlat: point_factory.point(normalized.address.longitude, normalized.address.latitude)
+              longitude: normalized.address.longitude,
+              latitude: normalized.address.latitude
             )
           end
 

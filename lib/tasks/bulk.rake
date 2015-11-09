@@ -25,7 +25,7 @@ namespace :bulk do
   task import: :environment do
     ARGV.shift
     Rails.logger.level = 1
-    csv = CSV.new(ARGF, headers: :first_row).each do |row|
+    CSV.new(ARGF, headers: :first_row).each do |row|
       case (row['Done'] || '').upcase.strip
       when ''
         puts "deleting incomplete #{row.fetch('ID')}"
@@ -49,16 +49,16 @@ namespace :bulk do
     point_factory = RGeo::ActiveRecord::SpatialFactoryStore.instance.factory(geo_type: 'point')
 
     resource = if row.fetch('ID').blank?
-            Resource.find_or_create_by(title: row.fetch('Title'))
-          else
-            Resource.find(row.fetch('ID'))
-          end
+                 Resource.find_or_create_by(title: row.fetch('Title'))
+               else
+                 Resource.find(row.fetch('ID'))
+               end
 
     resource.assign_attributes(
       title: row.fetch('Title'),
       summary: row.fetch('Summary'),
       content: '',
-      website: row.fetch('Website'),
+      website: row.fetch('Website')
     )
 
     resource.save!
