@@ -1,0 +1,8 @@
+AllCops:
+  RunRailsCops: true
+  Exclude:
+  - 'bin/**/*'
+  - 'vendor/**/*'
+  - 'db/**/*'
+
+inherit_from: .rubocop_todo.yml
