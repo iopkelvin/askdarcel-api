@@ -1,16 +1,18 @@
-sudo: true # :( :(
+sudo: false
+
 language: ruby
+
 rvm:
 - 2.2.2
+
 cache: bundler
-before_install:
-- sudo ln -s /usr/lib/libgeos-3.3.8.so /usr/lib/libgeos.so
-before_script:
-- "./bin/rake db:setup"
-deploy:
-  provider: heroku
-  api_key:
-    secure: rtrWXDwaJuJuRWvDafsQ9qFlbpOBoTRPX/Is3VR/fwzrm03WF/XZiq8h5wK7q8kTwJSh2k0udwdYielr6rthb6qHO7uztyE0hacjempuB6C+uwMOYaDywg+syEfTd4ZCnPGAd/Sp3SnhRue/jHhhSBu4t9mMyzbaCdwi748dw66wl+8JxJrWRg8uPxaSCONixtw1oeqAgCC+QWOiswpu2zki6167ZZOADx38MWGVjdHJ7IJJlBHSbD6OH8m820FTnfiXleyFvoCoY5DLpGTwwHpFUjlu6tITBo1P4CzUJaSAFCtFG51BTJ/DwyFS+WFYyhAQ9pA+TyEd4UrLzMW1XLLT4ETfB2UMxbDuIhHGokj72MBDp/4vBlIyD0F5WF5zA4k/DcQoqUhRCEWGvl8G1ys7h6BnhC3LOKW6NwQPESNVyC3PAXNjTyBy3cSciR+QHWppjiWGKlxc4q+0lChjvb2ywzQWR9Q2RyAWhmZwyzL2FHN59a88HeloL9xqGNbmRCxto9ZyzUFPhWBUcVj8JNPEzQQlQhCUdBLXZHwWoCjBO9gPgRrTZpFBT2mfyAJTLXqP28ay6+AJBXLzf89dGRND55v6UxUg9L3a3STi0k2wEtK3RsFpl7K2ZhVSPN7mZ9LAD5DxB3kmlQy57RBqQfTX36WK4+M1a0gzVztgjnA=
-  app: sfhomeless-api-stage
-  on:
-    repo: ShelterTech/sfhomeless-api
+
+addons:
+  # We should be using a newer version (like the latest, 9.5), but
+  # this is working out-of-the-box on Travis, so we'll go with it in
+  # CI for now.
+  postgresql: "9.2"
+
+before_script: bundle exec rake db:create
+
+script: bundle exec rake rubocop db:schema:load test
