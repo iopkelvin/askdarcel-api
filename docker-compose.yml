@@ -10,3 +10,5 @@ services:
       - db
     links:
       - db
+    volumes:
+      - .:/app/
