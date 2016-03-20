@@ -1,1 +1,13 @@
 inherit_from: .rubocop_todo.yml
+
+AllCops:
+  Exclude:
+    - 'bin/*'
+    - 'db/migrate/*'
+    - 'db/schema.rb'
+    - 'Gemfile'
+    - 'Guardfile'
+    - 'vendor/**/*'
+
+Documentation:
+    Enabled: false
