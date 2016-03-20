@@ -15,4 +15,4 @@ addons:
 
 before_script: bundle exec rake db:create
 
-script: bundle exec rake rubocop db:schema:load test
+script: bundle exec rake rubocop db:schema:load spec
