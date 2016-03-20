@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.6'
 gem 'pg', '~> 0.15'
 gem 'sass-rails', '~> 5.0'
+gem 'rails-api', '0.4.0'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
