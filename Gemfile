@@ -17,6 +17,8 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a
   # debugger console
   gem 'byebug'
+  gem 'factory_girl_rails', '~> 4.0'
+  gem 'faker', '~> 1.6'
   gem 'rspec-rails', '~> 3.4'
   gem 'spring'
 end
@@ -26,7 +28,5 @@ group :development do
 end
 
 group :test do
-  gem 'factory_girl_rails', '~> 4.0'
-  gem 'faker', '~> 1.6'
   gem 'rspec-collection_matchers', '~> 1.1'
 end
