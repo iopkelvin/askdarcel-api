@@ -12,9 +12,7 @@ addons:
   # this is working out-of-the-box on Travis, so we'll go with it in
   # CI for now.
   postgresql: "9.2"
-env:
-- RAILS_ENV=test
 
-before_script: bundle exec rake db:create
+before_script: RAILS_ENV=test bundle exec rake db:create
 
 script: bundle exec rake rubocop db:schema:load spec
