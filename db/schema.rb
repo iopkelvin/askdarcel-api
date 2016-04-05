@@ -11,10 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160321021009) do
+ActiveRecord::Schema.define(version: 20160401043947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "addresses", force: :cascade do |t|
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.string   "attention"
+    t.string   "address_1",      null: false
+    t.string   "address_2"
+    t.string   "address_3"
+    t.string   "address_4"
+    t.string   "city",           null: false
+    t.string   "state_province", null: false
+    t.string   "postal_code",    null: false
+    t.string   "country",        null: false
+    t.integer  "resource_id",    null: false
+  end
+
+  add_index "addresses", ["resource_id"], name: "index_addresses_on_resource_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -32,6 +49,18 @@ ActiveRecord::Schema.define(version: 20160321021009) do
   add_index "categories_resources", ["category_id"], name: "index_categories_resources_on_category_id", using: :btree
   add_index "categories_resources", ["resource_id"], name: "index_categories_resources_on_resource_id", using: :btree
 
+  create_table "phones", force: :cascade do |t|
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "number",       null: false
+    t.string   "extension"
+    t.string   "type",         null: false
+    t.string   "country_code", null: false
+    t.integer  "resource_id",  null: false
+  end
+
+  add_index "phones", ["resource_id"], name: "index_phones_on_resource_id", using: :btree
+
   create_table "resources", force: :cascade do |t|
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
@@ -41,4 +70,27 @@ ActiveRecord::Schema.define(version: 20160321021009) do
     t.string   "website"
   end
 
+  create_table "schedule_days", force: :cascade do |t|
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "day",         null: false
+    t.integer  "opens_at",    null: false
+    t.integer  "closes_at",   null: false
+    t.integer  "schedule_id", null: false
+  end
+
+  add_index "schedule_days", ["schedule_id"], name: "index_schedule_days_on_schedule_id", using: :btree
+
+  create_table "schedules", force: :cascade do |t|
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "resource_id", null: false
+  end
+
+  add_index "schedules", ["resource_id"], name: "index_schedules_on_resource_id", using: :btree
+
+  add_foreign_key "addresses", "resources"
+  add_foreign_key "phones", "resources"
+  add_foreign_key "schedule_days", "schedules"
+  add_foreign_key "schedules", "resources"
 end
