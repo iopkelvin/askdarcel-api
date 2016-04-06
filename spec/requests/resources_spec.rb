@@ -41,6 +41,7 @@ RSpec.describe 'Resources' do
       expect(response_json).to include(
         'id' => resource_a.id,
         'addresses' => Array,
+        'categories' => Array,
         'schedule' => Hash,
         'phones' => Array
       )
