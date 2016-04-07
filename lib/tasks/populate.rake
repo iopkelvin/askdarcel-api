@@ -6,16 +6,19 @@ namespace :db do
       exit
     end
 
-    [Category, Resource].each(&:delete_all)
+    require 'faker/sheltertech'
 
-    FactoryGirl.create_list :category, 20
+    [ScheduleDay, Schedule, Phone, Address, Category, Resource].each(&:delete_all)
 
+    %w(Shelter Food Medical Hygiene Technology).each do |category|
+      FactoryGirl.create(:category, name: category)
+    end
     categories = Category.all
 
     128.times do
       name = Faker::Company.name
       short_description = Faker::Lorem.sentence if rand(2) == 0
-      long_description = Faker::Lorem.paragraph if rand(2) == 0
+      long_description = Faker::ShelterTech.description
       website = Faker::Internet.url if rand(2) == 0
 
       FactoryGirl.create(:resource,
