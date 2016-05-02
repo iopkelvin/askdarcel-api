@@ -1,34 +1,36 @@
 class ResourcesController < ApplicationController
   def index
     category_id = params[:category_id]
-    resources = if category_id
-                  Resource.joins(:categories).where('categories.id' => category_id)
-                else
-                  Resource.all
-                end
-    render json: resources.to_json(RENDERED_RESOURCE_ATTRIBUTES)
+    result = if category_id
+               resources.joins(:categories).where('categories.id' => category_id)
+             else
+               Resource.all
+             end
+
+    render json: result.to_json(resource_inclusion)
   end
 
   def show
-    resource = Resource.find(params[:id])
-    render json: resource.to_json(RENDERED_RESOURCE_ATTRIBUTES)
+    resource = resources.find(params[:id])
+    render json: resource.to_json(resource_inclusion)
   end
 
-  # rubocop:disable MutableConstant
-  RENDERED_SCHEDULE_ATTRIBUTES = {
-    include: 'schedule_days'
-  }
+  private
 
-  RENDERED_SERVICE_ATTRIBUTES = {
-    include: ['notes', { schedule: RENDERED_SCHEDULE_ATTRIBUTES }]
-  }
+  def resources
+    Resource.includes(:addresses, :phones, :categories,
+                      schedule: :schedule_days)
+  end
 
-  RENDERED_RESOURCE_ATTRIBUTES = {
-    include: ['addresses', 'phones', 'categories', 'notes', {
-      services: RENDERED_SERVICE_ATTRIBUTES
-    }, {
-      schedule: RENDERED_SCHEDULE_ATTRIBUTES
-    }]
-  }
-  # rubocop:enable MutableConstant
+  def resource_inclusion
+    schedule_attrs = { include: :schedule_days }
+    service_attrs = { include: [:notes, schedule: schedule_attrs] }
+    {
+      include: [:addresses, :phones, :categories, :notes, {
+        services: service_attrs
+      }, {
+        schedule: schedule_attrs
+      }]
+    }
+  end
 end
