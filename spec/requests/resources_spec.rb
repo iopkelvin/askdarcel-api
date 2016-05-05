@@ -34,7 +34,10 @@ RSpec.describe 'Resources' do
   end
   context 'show' do
     let!(:resources) { create_list :resource, 4 }
-    let!(:resource_a) { create :resource, name: 'a' }
+    let!(:resource_a) do
+      create :resource, name: 'a',
+                        services: create_list(:service, 2)
+    end
 
     it 'returns specific resource' do
       get "/resources/#{resource_a.id}"
@@ -43,7 +46,20 @@ RSpec.describe 'Resources' do
         'addresses' => Array,
         'categories' => Array,
         'schedule' => Hash,
-        'phones' => Array
+        'phones' => Array,
+        'services' => Array
+      )
+      service = resource_a.services.first
+      expect(response_json['services'][0]).to include(
+        'id' => service.id,
+        'name' => service.name,
+        'long_description' => service.long_description,
+        'eligibility' => service.eligibility,
+        'required_documents' => service.required_documents,
+        'fee' => service.fee,
+        'application_process' => service.application_process,
+        'notes' => Array,
+        'schedule' => Hash
       )
     end
   end
