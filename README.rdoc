@@ -7,11 +7,25 @@ Things you may want to cover:
 
 * Ruby version
 
+2.2.2
+
 * System dependencies
 
 * Configuration
 
 * Database creation
+
+Requires locally running instance of Postgres
+
+This will create the database in postgres if does not exist.
+rake db:create
+
+This is neccesary to apply any schema changes to existing database.
+rake db:migrate
+
+This will add generated test data using Factory Girl to the database.
+rake db:populate
+
 
 * Database initialization
 
