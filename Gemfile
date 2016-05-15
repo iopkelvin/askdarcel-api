@@ -10,8 +10,8 @@ gem 'rails-api', '0.4.0'
 # Persistence
 gem 'pg', '~> 0.15'
 
-# Use Unicorn as the app server
-# gem 'unicorn'
+# Use Puma as the app server
+gem 'puma'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a
@@ -21,9 +21,6 @@ group :development, :test do
   gem 'faker', '~> 1.6'
   gem 'rspec-rails', '~> 3.4'
   gem 'spring'
-end
-
-group :development do
   gem 'rubocop', '~> 0.38.0', require: false
 end
 
