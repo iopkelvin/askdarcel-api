@@ -6,6 +6,7 @@ gem 'activerecord', '~> 4.2'
 gem 'activesupport', '~> 4.2'
 gem 'railties', '~> 4.2'
 gem 'rails-api', '0.4.0'
+gem 'jsonite', '0.0.3'
 
 # Persistence
 gem 'pg', '~> 0.15'

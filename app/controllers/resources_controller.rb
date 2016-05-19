@@ -7,31 +7,18 @@ class ResourcesController < ApplicationController
                resources.all
              end
 
-    render json: result.to_json(resource_inclusion)
+    render json: ResourcesPresenter.present(result)
   end
 
   def show
     resource = resources.find(params[:id])
-    render json: resource.to_json(resource_inclusion)
+    render json: ResourcesPresenter.present(resource)
   end
 
   private
 
   def resources
-    Resource.includes(:addresses, :phones, :categories, :notes,
-                      services: [:notes, { schedule: :schedule_days }],
-                      schedule: :schedule_days)
-  end
-
-  def resource_inclusion
-    schedule_attrs = { include: :schedule_days }
-    service_attrs = { include: [:notes, schedule: schedule_attrs] }
-    {
-      include: [:addresses, :phones, :categories, :notes, {
-        services: service_attrs
-      }, {
-        schedule: schedule_attrs
-      }]
-    }
+    Resource.includes(:addresses, :phones, :categories, :notes, schedule: :schedule_days,
+                                                                services: [:notes, { schedule: :schedule_days }])
   end
 end
