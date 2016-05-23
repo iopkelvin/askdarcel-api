@@ -17,9 +17,9 @@ namespace :linksf do
     # Drop the first element because it's just an integer count of the number
     # of resource records.
 
-    # %w(Shelter Food Medical Hygiene Technology).each do |category|
-    #   FactoryGirl.create(:category, name: category)
-    # end
+    %w(Shelter Food Medical Hygiene Technology).each do |category|
+       FactoryGirl.create(:category, name: category)
+    end
 
     days_of_week = %w(Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
 
