@@ -66,6 +66,11 @@ namespace :linksf do
       address.postal_code = Faker::Address.postcode
       address.country = 'USA'
 
+      json_location = record[:location]
+      address.latitude = json_location[:latitude]
+      address.longitude = json_location[:longitude]
+      
+
       record[:services].each do |json_service|
         puts '$' + json_service[:name]
         service = resource.services.build
