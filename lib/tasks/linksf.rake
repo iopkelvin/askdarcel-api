@@ -17,9 +17,9 @@ namespace :linksf do
     # Drop the first element because it's just an integer count of the number
     # of resource records.
 
-    # %w(Shelter Food Medical Hygiene Technology).each do |category|
-    #   FactoryGirl.create(:category, name: category)
-    # end
+    %w(Shelter Food Medical Hygiene Technology).each do |category|
+      FactoryGirl.create(:category, name: category)
+    end
 
     days_of_week = %w(Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
 
@@ -32,13 +32,18 @@ namespace :linksf do
       resource.long_description = record[:notes]
 
       category_name = record[:categories]
-      if category_name == 'housing'
-        puts category_name + '?!?!?'
-        category_name = 'shelter'
+      category_name = 'shelter' if category_name == 'housing'
+
+      record[:services].each do |service_json|
+        category_name = service_json[:category]
+        category_name = 'shelter' if category_name == 'housing'
+        puts 'catname' + category_name
+        cat = Category.where('lower(name) = ?', category_name).first
+        resource.categories << cat
       end
 
-      cat = Category.where('lower(name) = ?', category_name).first
-      resource.categories << cat
+      # cat = Category.where('lower(name) = ?', category_name).first
+      # resource.categories << cat
 
       if record[:phoneNumbers].present?
         record[:phoneNumbers].each do |phone_number|
@@ -65,6 +70,10 @@ namespace :linksf do
       address.state_province = 'CA'
       address.postal_code = Faker::Address.postcode
       address.country = 'USA'
+
+      json_location = record[:location]
+      address.latitude = json_location[:latitude]
+      address.longitude = json_location[:longitude]
 
       record[:services].each do |json_service|
         puts '$' + json_service[:name]
