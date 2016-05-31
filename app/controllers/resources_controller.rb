@@ -4,7 +4,7 @@ class ResourcesController < ApplicationController
     result = if category_id
                resources.joins(:categories).where('categories.id' => category_id)
              else
-               Resource.all
+               resources.all
              end
 
     render json: result.to_json(resource_inclusion)
@@ -18,7 +18,8 @@ class ResourcesController < ApplicationController
   private
 
   def resources
-    Resource.includes(:addresses, :phones, :categories,
+    Resource.includes(:addresses, :phones, :categories, :notes,
+                      services: [:notes, { schedule: :schedule_days }],
                       schedule: :schedule_days)
   end
 
