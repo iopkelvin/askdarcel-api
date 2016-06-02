@@ -66,6 +66,7 @@ GEM
       ast (~> 2.2)
     pg (0.18.4)
     powerpack (0.1.1)
+    puma (3.4.0)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -131,6 +132,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.0)
   faker (~> 1.6)
   pg (~> 0.15)
+  puma
   rails-api (= 0.4.0)
   railties (~> 4.2)
   rspec-collection_matchers (~> 1.1)
