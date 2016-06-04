@@ -8,7 +8,7 @@ RSpec.describe 'Resources' do
       it 'returns all resources' do
         get '/resources'
         expect(response_json).to match({})
-        expect(response).to have_http_status(:bad_request)
+        expect(response).to be_bad_request
       end
     end
 
