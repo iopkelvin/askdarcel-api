@@ -45,7 +45,6 @@ namespace :linksf do
       record[:services].each do |service_json|
         category_name = service_json[:category]
         category_name = 'shelter' if category_name == 'housing'
-        puts 'catname' + category_name
         cat = Category.where('lower(name) = ?', category_name).first
         resource.categories << cat
       end
@@ -70,11 +69,11 @@ namespace :linksf do
       #  schedule_day.closes_at = record[:openHours].get[0]
       # end
 
-      puts resource.name
+      puts 'adding ' + resource.name
 
       address = resource.addresses.build
       address.city = record[:city]
-      address.address_1 = Faker::Address.street_address
+      address.address_1 = record[:address]
       address.state_province = 'CA'
       address.postal_code = Faker::Address.postcode
       address.country = 'USA'
@@ -84,7 +83,6 @@ namespace :linksf do
       address.longitude = json_location[:longitude]
 
       record[:services].each do |json_service|
-        puts '$' + json_service[:name]
         service = resource.services.build
         service.name = json_service[:name]
         service.long_description = json_service[:description]
@@ -100,7 +98,6 @@ namespace :linksf do
 
         next unless json_service[:openHours].present?
         json_service[:openHours].each do |key, value|
-          puts "key = #{key}, value= #{value}"
           open = value[0][0] / 100
           close = value[0][1] / 100
           service.schedule.schedule_days.build(opens_at: open, closes_at: close, day: days_of_week[key.to_s.to_i])
