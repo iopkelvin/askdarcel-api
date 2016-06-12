@@ -10,9 +10,14 @@ namespace :db do
 
     [Note, ScheduleDay, Schedule, Phone, Address, Category, Service, Resource].each(&:delete_all)
 
-    %w(Shelter Food Medical Hygiene Technology).each do |category|
-      FactoryGirl.create(:category, name: category)
+    category_names = %w(Shelter Food Medical Hygiene Technology Money)
+    category_image_paths = %w(ic-housing@3x.png ic-food@3x.png
+                              ic-health@3x.png ic-hygiene@3x.png ic-work@3x.png ic-money@3x.png)
+
+    6.times do |i|
+      FactoryGirl.create(:category, name: category_names[i], image_path: category_image_paths[i])
     end
+
     categories = Category.all
 
     128.times do
