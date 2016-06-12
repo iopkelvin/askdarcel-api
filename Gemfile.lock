@@ -56,6 +56,8 @@ GEM
       activesupport (>= 4.1.0)
     i18n (0.7.0)
     json (1.8.3)
+    jsonite (0.0.3)
+      activesupport (>= 3.1.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -136,6 +138,7 @@ DEPENDENCIES
   byebug
   factory_girl_rails (~> 4.0)
   faker (~> 1.6)
+  jsonite (= 0.0.3)
   pg (~> 0.15)
   puma
   rails-api (= 0.4.0)

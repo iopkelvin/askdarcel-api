@@ -7,7 +7,7 @@ RSpec.describe 'Resources' do
 
       it 'returns all resources' do
         get '/resources'
-        returned_ids = response_json.map { |r| r['id'] }
+        returned_ids = response_json['resources'].map { |r| r['id'] }
         expect(returned_ids).to match(resources.map(&:id))
       end
     end
@@ -27,8 +27,8 @@ RSpec.describe 'Resources' do
 
       it 'returns only resources with that category' do
         get "/resources?category_id=#{category_a.id}"
-        returned_ids = response_json.map { |r| r['id'] }
-        expect(returned_ids).to match(resources_a.map(&:id))
+        returned_ids = response_json['resources'].map { |r| r['id'] }
+        expect(returned_ids).to match_array(resources_a.map(&:id))
       end
     end
   end
@@ -41,7 +41,7 @@ RSpec.describe 'Resources' do
 
     it 'returns specific resource' do
       get "/resources/#{resource_a.id}"
-      expect(response_json).to include(
+      expect(response_json['resource']).to include(
         'id' => resource_a.id,
         'addresses' => Array,
         'categories' => Array,
@@ -50,8 +50,7 @@ RSpec.describe 'Resources' do
         'services' => Array
       )
       service = resource_a.services.first
-      expect(response_json['services'][0]).to include(
-        'id' => service.id,
+      expect(response_json['resource']['services'][0]).to include(
         'name' => service.name,
         'long_description' => service.long_description,
         'eligibility' => service.eligibility,
