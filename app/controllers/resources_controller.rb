@@ -17,10 +17,16 @@ class ResourcesController < ApplicationController
     render json: ResourcesPresenter.present(resource)
   end
 
+  def search
+    result = Resources::Search.perform(params.require(:query), scope: resources)
+    render json: ResourcesPresenter.present(result)
+  end
+
   private
 
   def resources
-    Resource.includes(:addresses, :phones, :categories, :notes, schedule: :schedule_days,
-                                                                services: [:notes, { schedule: :schedule_days }])
+    Resource.includes(:addresses, :phones, :categories, :notes,
+                      schedule: :schedule_days,
+                      services: [:notes, { schedule: :schedule_days }])
   end
 end
