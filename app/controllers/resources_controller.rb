@@ -1,15 +1,14 @@
 class ResourcesController < ApplicationController
   def index
     category_id = params[:category_id]
-    result = if category_id
-               resources.joins(:categories).where('categories.id' => category_id)
-             end
+    latitude = params[:lat]
+    longitude = params[:long]
 
-    if result
-      render json: ResourcesPresenter.present(result)
-    else
-      render json: {}, status: :bad_request
+    if category_id
+      relation = resources.joins(:categories).joins(:address).where('categories.id' => category_id)
+      relation = location_sort(relation, latitude, longitude)
     end
+    present(relation)
   end
 
   def show
@@ -25,8 +24,21 @@ class ResourcesController < ApplicationController
   private
 
   def resources
-    Resource.includes(:addresses, :phones, :categories, :notes,
+    Resource.includes(:address, :phones, :categories, :notes,
                       schedule: :schedule_days,
                       services: [:notes, { schedule: :schedule_days }])
+  end
+
+  def present(relation)
+    if relation
+      render json: ResourcesPresenter.present(relation)
+    else
+      render json: {}, status: :bad_request
+    end
+  end
+
+  def location_sort(relation, latitude, longitude)
+    return relation unless latitude && longitude
+    relation.order(Address.distance_sql(Geokit::LatLng.new(latitude, longitude)))
   end
 end

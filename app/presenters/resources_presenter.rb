@@ -7,7 +7,7 @@ class ResourcesPresenter < Jsonite
   property :services, with: ServicesPresenter
   property :schedule, with: SchedulesPresenter
   property :phones, with: PhonesPresenter
-  property :addresses, with: AddressesPresenter
+  property :address, with: AddressPresenter
   property :notes, with: NotesPresenter
   property :categories, with: CategoriesPresenter
 end
