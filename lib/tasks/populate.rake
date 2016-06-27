@@ -8,7 +8,7 @@ namespace :db do
 
     require 'faker/sheltertech'
 
-    [Note, ScheduleDay, Schedule, Phone, Address, Category, Service, Resource].each(&:delete_all)
+    [Review, Rating, User, Note, ScheduleDay, Schedule, Phone, Address, Category, Service, Resource].each(&:delete_all)
 
     category_names = %w(Shelter Food Medical Hygiene Technology Money)
     category_image_paths = %w(ic-housing@3x.png ic-food@3x.png
@@ -39,5 +39,17 @@ namespace :db do
                            services: services)
       end
     end
+
+    resources = Resource.all
+
+    64.times do 
+      user = FactoryGirl.create(:user)
+
+      resources.sample(rand(8)).each do |resource|
+        FactoryGirl.create(:rating, resource: resource)
+      end
+
+    end
+
   end
 end
