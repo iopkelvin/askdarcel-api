@@ -42,14 +42,12 @@ namespace :db do
 
     resources = Resource.all
 
-    64.times do 
+    64.times do
       user = FactoryGirl.create(:user)
 
       resources.sample(rand(8)).each do |resource|
-        FactoryGirl.create(:rating, resource: resource)
+        FactoryGirl.create(:rating, resource: resource, user: user)
       end
-
     end
-
   end
 end

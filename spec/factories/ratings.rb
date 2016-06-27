@@ -8,6 +8,5 @@ FactoryGirl.define do
     after :create do |rating|
       create(:review, rating: rating)
     end
-
   end
 end
