@@ -16,21 +16,6 @@ ActiveRecord::Schema.define(version: 20160626235249) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "Categories_Keywords", id: false, force: :cascade do |t|
-    t.integer "category_id", null: false
-    t.integer "keyword_id",  null: false
-  end
-
-  create_table "Keywords_Resources", id: false, force: :cascade do |t|
-    t.integer "resource_id", null: false
-    t.integer "keyword_id",  null: false
-  end
-
-  create_table "Keywords_Services", id: false, force: :cascade do |t|
-    t.integer "service_id", null: false
-    t.integer "keyword_id", null: false
-  end
-
   create_table "addresses", force: :cascade do |t|
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
@@ -59,6 +44,11 @@ ActiveRecord::Schema.define(version: 20160626235249) do
 
   add_index "categories", ["name"], name: "index_categories_on_name", unique: true, using: :btree
 
+  create_table "categories_keywords", id: false, force: :cascade do |t|
+    t.integer "category_id", null: false
+    t.integer "keyword_id",  null: false
+  end
+
   create_table "categories_resources", id: false, force: :cascade do |t|
     t.integer "category_id", null: false
     t.integer "resource_id", null: false
@@ -74,6 +64,16 @@ ActiveRecord::Schema.define(version: 20160626235249) do
 
   create_table "keywords", force: :cascade do |t|
     t.string "name"
+  end
+
+  create_table "keywords_resources", id: false, force: :cascade do |t|
+    t.integer "resource_id", null: false
+    t.integer "keyword_id",  null: false
+  end
+
+  create_table "keywords_services", id: false, force: :cascade do |t|
+    t.integer "service_id", null: false
+    t.integer "keyword_id", null: false
   end
 
   create_table "notes", force: :cascade do |t|
@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(version: 20160626235249) do
 
   create_table "ratings", force: :cascade do |t|
     t.decimal "rating"
-    t.integer "user_id"
+    t.integer "user_id",     null: false
     t.integer "resource_id"
     t.integer "service_id"
   end
@@ -121,7 +121,7 @@ ActiveRecord::Schema.define(version: 20160626235249) do
 
   create_table "reviews", force: :cascade do |t|
     t.text    "review"
-    t.integer "rating_id"
+    t.integer "rating_id", null: false
   end
 
   add_index "reviews", ["rating_id"], name: "index_reviews_on_rating_id", using: :btree
