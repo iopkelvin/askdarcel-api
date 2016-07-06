@@ -71,7 +71,7 @@ namespace :linksf do
 
       puts 'adding ' + resource.name
 
-      address = resource.addresses.build
+      address = Address.new
       address.city = record[:city]
       address.address_1 = record[:address]
       address.state_province = 'CA'
@@ -81,6 +81,7 @@ namespace :linksf do
       json_location = record[:location]
       address.latitude = json_location[:latitude]
       address.longitude = json_location[:longitude]
+      resource.address = address
 
       record[:services].each do |json_service|
         service = resource.services.build
