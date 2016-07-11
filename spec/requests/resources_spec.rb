@@ -7,8 +7,8 @@ RSpec.describe 'Resources' do
 
       it 'returns all resources' do
         get '/resources'
-        expect(response_json).to match({})
         expect(response).to be_bad_request
+        expect(response.body).to be_empty
       end
     end
 
@@ -33,23 +33,23 @@ RSpec.describe 'Resources' do
     end
 
     context 'with a category_id and latitude/longitude' do
-      close = 10, far = 50, further = 100
-      let!(:category) { create :category, name: 'a' }
-      let!(:resources) do
-        create_list :resource, 3, categories: [category]
-      end
+      let(:close) { 10 }
+      let(:far) { 50 }
+      let(:further) { 100 }
+      let!(:category) { create :category }
+      let!(:resources) { create_list :resource, 3, categories: [category] }
       let!(:address_further) { create :address, latitude: further, longitude: 0, resource: resources[0] }
       let!(:address_close) { create :address, latitude: close, longitude: 0, resource: resources[1] }
       let!(:address_far) { create :address, latitude: far, longitude: 0, resource: resources[2] }
       it 'returns the close resource before the far resource and before the further resource' do
         get "/resources?category_id=#{category.id}&lat=#{close}&long=#{close}"
         returned_address = response_json['resources'].map { |r| r['address'] }
-        expect(returned_address[0]['latitude']).to match(address_close.latitude.to_s('F'))
-        expect(returned_address[0]['longitude']).to match(address_close.longitude.to_s('F'))
-        expect(returned_address[1]['latitude']).to match(address_far.latitude.to_s('F'))
-        expect(returned_address[1]['longitude']).to match(address_far.longitude.to_s('F'))
-        expect(returned_address[2]['latitude']).to match(address_further.latitude.to_s('F'))
-        expect(returned_address[2]['longitude']).to match(address_further.longitude.to_s('F'))
+        expect(returned_address[0]['latitude']).to eq(address_close.latitude.to_s('F'))
+        expect(returned_address[0]['longitude']).to eq(address_close.longitude.to_s('F'))
+        expect(returned_address[1]['latitude']).to eq(address_far.latitude.to_s('F'))
+        expect(returned_address[1]['longitude']).to eq(address_far.longitude.to_s('F'))
+        expect(returned_address[2]['latitude']).to eq(address_further.latitude.to_s('F'))
+        expect(returned_address[2]['longitude']).to eq(address_further.longitude.to_s('F'))
       end
     end
   end

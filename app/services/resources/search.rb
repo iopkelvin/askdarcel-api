@@ -1,18 +1,35 @@
 module Resources
   class Search
-    SEARCH_COLUMNS = %i(
-      name
-      short_description
-      long_description
-      website
-    ).freeze
+    SEARCH_CONFIG = 'english'.freeze
 
-    CLAUSE = SEARCH_COLUMNS.map do |c|
-      "to_tsvector(coalesce(#{c}, ''))"
-    end.join('||').freeze
+    # SEARCH_COLUMNS maps table names to an array of the columns in
+    # that table to search.
+    SEARCH_COLUMNS = {
+      resources: %i(
+        name
+        short_description
+        long_description
+        website
+      ).freeze,
+      services: :long_description,
+      notes: :note,
+      categories: :name
+    }.freeze
+
+    CLAUSE = SEARCH_COLUMNS.map do |t, cols|
+      Array.wrap(cols).map do |c|
+        "to_tsvector('#{SEARCH_CONFIG}', coalesce(#{t}.#{c}, ''))"
+      end
+    end.flatten.join('||').freeze
 
     def self.perform(query, scope: Resource)
-      scope.where "#{CLAUSE} @@ plainto_tsquery(?)", query
+      scope
+        .joins('LEFT JOIN services ON services.resource_id = resources.id')
+        .joins('LEFT JOIN notes ON notes.resource_id = resources.id')
+        .joins('LEFT JOIN categories_resources ON categories_resources.resource_id = resources.id')
+        .joins('LEFT JOIN categories ON categories.id = categories_resources.category_id')
+        .where("#{CLAUSE} @@ plainto_tsquery('#{SEARCH_CONFIG}', ?)", query)
+        .distinct
     end
   end
 end
