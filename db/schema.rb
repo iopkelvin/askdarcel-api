@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160607025257) do
+ActiveRecord::Schema.define(version: 20160626235249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,11 @@ ActiveRecord::Schema.define(version: 20160607025257) do
 
   add_index "categories", ["name"], name: "index_categories_on_name", unique: true, using: :btree
 
+  create_table "categories_keywords", id: false, force: :cascade do |t|
+    t.integer "category_id", null: false
+    t.integer "keyword_id",  null: false
+  end
+
   create_table "categories_resources", id: false, force: :cascade do |t|
     t.integer "category_id", null: false
     t.integer "resource_id", null: false
@@ -55,6 +60,20 @@ ActiveRecord::Schema.define(version: 20160607025257) do
   create_table "categories_services", id: false, force: :cascade do |t|
     t.integer "service_id",  null: false
     t.integer "category_id", null: false
+  end
+
+  create_table "keywords", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "keywords_resources", id: false, force: :cascade do |t|
+    t.integer "resource_id", null: false
+    t.integer "keyword_id",  null: false
+  end
+
+  create_table "keywords_services", id: false, force: :cascade do |t|
+    t.integer "service_id", null: false
+    t.integer "keyword_id", null: false
   end
 
   create_table "notes", force: :cascade do |t|
@@ -80,6 +99,17 @@ ActiveRecord::Schema.define(version: 20160607025257) do
 
   add_index "phones", ["resource_id"], name: "index_phones_on_resource_id", using: :btree
 
+  create_table "ratings", force: :cascade do |t|
+    t.decimal "rating"
+    t.integer "user_id",     null: false
+    t.integer "resource_id"
+    t.integer "service_id"
+  end
+
+  add_index "ratings", ["resource_id"], name: "index_ratings_on_resource_id", using: :btree
+  add_index "ratings", ["service_id"], name: "index_ratings_on_service_id", using: :btree
+  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
+
   create_table "resources", force: :cascade do |t|
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
@@ -88,6 +118,13 @@ ActiveRecord::Schema.define(version: 20160607025257) do
     t.text     "long_description"
     t.string   "website"
   end
+
+  create_table "reviews", force: :cascade do |t|
+    t.text    "review"
+    t.integer "rating_id", null: false
+  end
+
+  add_index "reviews", ["rating_id"], name: "index_reviews_on_rating_id", using: :btree
 
   create_table "schedule_days", force: :cascade do |t|
     t.datetime "created_at",  null: false
@@ -124,10 +161,18 @@ ActiveRecord::Schema.define(version: 20160607025257) do
 
   add_index "services", ["resource_id"], name: "index_services_on_resource_id", using: :btree
 
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+  end
+
   add_foreign_key "addresses", "resources"
   add_foreign_key "notes", "resources"
   add_foreign_key "notes", "services"
   add_foreign_key "phones", "resources"
+  add_foreign_key "ratings", "resources"
+  add_foreign_key "ratings", "services"
+  add_foreign_key "ratings", "users"
+  add_foreign_key "reviews", "ratings"
   add_foreign_key "schedule_days", "schedules"
   add_foreign_key "schedules", "resources"
   add_foreign_key "schedules", "services"
