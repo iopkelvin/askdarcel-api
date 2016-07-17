@@ -51,7 +51,7 @@ namespace :linksf do
         category_name = 'shelter' if category_name == 'housing'
         cat = Category.where('lower(name) = ?', category_name).first
 
-        if (resource.long_description.blank? || resource.long_description.length<15) 
+        if resource.long_description.blank? || resource.long_description.length < 15
           puts 'replacing bad description' + resource.long_description + ' with ' + service_json[:description]
         end
 
@@ -77,8 +77,6 @@ namespace :linksf do
       #  schedule_day.opens_at = record[:openHours].get[0]
       #  schedule_day.closes_at = record[:openHours].get[0]
       # end
-
-      
 
       address = Address.new
       address.city = record[:city]
