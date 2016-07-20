@@ -1,11 +1,7 @@
 source 'https://rubygems.org'
 
 # Rails/Framework
-gem 'actionmailer', '~> 4.2'
-gem 'activerecord', '~> 4.2'
-gem 'activesupport', '~> 4.2'
-gem 'railties', '~> 4.2'
-gem 'rails-api', '0.4.0'
+gem 'rails', '~> 5.0.0'
 gem 'jsonite', '0.0.3'
 gem 'geokit-rails'
 
@@ -20,7 +16,7 @@ group :development, :test do
   # debugger console
   gem 'byebug'
   gem 'bullet'
-  gem 'factory_girl_rails', '~> 4.0'
+  gem 'factory_girl_rails', '~> 4.7'
   gem 'faker', '~> 1.6'
   gem 'rspec-rails', '~> 3.4'
   gem 'spring'

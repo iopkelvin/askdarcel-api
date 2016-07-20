@@ -24,10 +24,9 @@ module Resources
 
     def self.perform(query, scope: Resource)
       scope
-        .joins('LEFT JOIN services ON services.resource_id = resources.id')
-        .joins('LEFT JOIN notes ON notes.resource_id = resources.id')
-        .joins('LEFT JOIN categories_resources ON categories_resources.resource_id = resources.id')
-        .joins('LEFT JOIN categories ON categories.id = categories_resources.category_id')
+        .left_outer_joins(:services)
+        .left_outer_joins(:notes)
+        .left_outer_joins(:categories)
         .where("#{CLAUSE} @@ plainto_tsquery('#{SEARCH_CONFIG}', ?)", query)
         .distinct
     end
