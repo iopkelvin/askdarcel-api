@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160626235249) do
+ActiveRecord::Schema.define(version: 20160721053720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,12 +102,10 @@ ActiveRecord::Schema.define(version: 20160626235249) do
   create_table "ratings", force: :cascade do |t|
     t.decimal "rating"
     t.integer "user_id",     null: false
-    t.integer "resource_id"
-    t.integer "service_id"
+    t.integer "resource_id", null: false
   end
 
   add_index "ratings", ["resource_id"], name: "index_ratings_on_resource_id", using: :btree
-  add_index "ratings", ["service_id"], name: "index_ratings_on_service_id", using: :btree
   add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
 
   create_table "resources", force: :cascade do |t|
@@ -170,7 +168,6 @@ ActiveRecord::Schema.define(version: 20160626235249) do
   add_foreign_key "notes", "services"
   add_foreign_key "phones", "resources"
   add_foreign_key "ratings", "resources"
-  add_foreign_key "ratings", "services"
   add_foreign_key "ratings", "users"
   add_foreign_key "reviews", "ratings"
   add_foreign_key "schedule_days", "schedules"
