@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160721060831) do
+ActiveRecord::Schema.define(version: 20160721065026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,7 +106,7 @@ ActiveRecord::Schema.define(version: 20160721060831) do
   end
 
   add_index "ratings", ["resource_id"], name: "index_ratings_on_resource_id", using: :btree
-  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
+  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", unique: true, using: :btree
 
   create_table "resources", force: :cascade do |t|
     t.datetime "created_at",        null: false
