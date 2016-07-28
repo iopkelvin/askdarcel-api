@@ -52,7 +52,8 @@ namespace :linksf do
         cat = Category.where('lower(name) = ?', category_name).first
 
         if resource.long_description.blank? || resource.long_description.length < 15
-          puts 'replacing bad description' + resource.long_description + ' with ' + service_json[:description]
+          puts 'replacing bad description with nil'
+          resource.long_description = nil
         end
 
         resource.categories << cat
