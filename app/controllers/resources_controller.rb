@@ -13,7 +13,7 @@ class ResourcesController < ApplicationController
   end
 
   def search
-    result = Resources::Search.perform(params.require(:query), scope: resources)
+    result = Resources::Search.perform(params.require(:query), @sort_order, scope: resources)
     render json: ResourcesPresenter.present(result)
   end
 

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Resources::Search do
-  subject { described_class.perform query }
+  subject { described_class.perform query, sort }
 
   let!(:resource) { create :resource }
   let!(:service) do
@@ -9,6 +9,7 @@ RSpec.describe Resources::Search do
   end
 
   let(:query) { 'bed' }
+  let(:sort) { nil }
 
   context 'with no matching associations' do
     let(:service_desc) { 'nothing of use' }
