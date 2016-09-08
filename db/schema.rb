@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -31,18 +30,16 @@ ActiveRecord::Schema.define(version: 20160626235249) do
     t.integer  "resource_id",    null: false
     t.decimal  "latitude"
     t.decimal  "longitude"
+    t.index ["resource_id"], name: "index_addresses_on_resource_id", using: :btree
   end
-
-  add_index "addresses", ["resource_id"], name: "index_addresses_on_resource_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "name",       null: false
     t.string   "image_path"
+    t.index ["name"], name: "index_categories_on_name", unique: true, using: :btree
   end
-
-  add_index "categories", ["name"], name: "index_categories_on_name", unique: true, using: :btree
 
   create_table "categories_keywords", id: false, force: :cascade do |t|
     t.integer "category_id", null: false
@@ -52,10 +49,9 @@ ActiveRecord::Schema.define(version: 20160626235249) do
   create_table "categories_resources", id: false, force: :cascade do |t|
     t.integer "category_id", null: false
     t.integer "resource_id", null: false
+    t.index ["category_id"], name: "index_categories_resources_on_category_id", using: :btree
+    t.index ["resource_id"], name: "index_categories_resources_on_resource_id", using: :btree
   end
-
-  add_index "categories_resources", ["category_id"], name: "index_categories_resources_on_category_id", using: :btree
-  add_index "categories_resources", ["resource_id"], name: "index_categories_resources_on_resource_id", using: :btree
 
   create_table "categories_services", id: false, force: :cascade do |t|
     t.integer "service_id",  null: false
@@ -82,10 +78,9 @@ ActiveRecord::Schema.define(version: 20160626235249) do
     t.integer  "service_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["resource_id"], name: "index_notes_on_resource_id", using: :btree
+    t.index ["service_id"], name: "index_notes_on_service_id", using: :btree
   end
-
-  add_index "notes", ["resource_id"], name: "index_notes_on_resource_id", using: :btree
-  add_index "notes", ["service_id"], name: "index_notes_on_service_id", using: :btree
 
   create_table "phones", force: :cascade do |t|
     t.datetime "created_at",   null: false
@@ -95,20 +90,18 @@ ActiveRecord::Schema.define(version: 20160626235249) do
     t.string   "service_type", null: false
     t.string   "country_code", null: false
     t.integer  "resource_id",  null: false
+    t.index ["resource_id"], name: "index_phones_on_resource_id", using: :btree
   end
-
-  add_index "phones", ["resource_id"], name: "index_phones_on_resource_id", using: :btree
 
   create_table "ratings", force: :cascade do |t|
     t.decimal "rating"
     t.integer "user_id",     null: false
     t.integer "resource_id"
     t.integer "service_id"
+    t.index ["resource_id"], name: "index_ratings_on_resource_id", using: :btree
+    t.index ["service_id"], name: "index_ratings_on_service_id", using: :btree
+    t.index ["user_id"], name: "index_ratings_on_user_id", using: :btree
   end
-
-  add_index "ratings", ["resource_id"], name: "index_ratings_on_resource_id", using: :btree
-  add_index "ratings", ["service_id"], name: "index_ratings_on_service_id", using: :btree
-  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
 
   create_table "resources", force: :cascade do |t|
     t.datetime "created_at",        null: false
@@ -122,9 +115,8 @@ ActiveRecord::Schema.define(version: 20160626235249) do
   create_table "reviews", force: :cascade do |t|
     t.text    "review"
     t.integer "rating_id", null: false
+    t.index ["rating_id"], name: "index_reviews_on_rating_id", using: :btree
   end
-
-  add_index "reviews", ["rating_id"], name: "index_reviews_on_rating_id", using: :btree
 
   create_table "schedule_days", force: :cascade do |t|
     t.datetime "created_at",  null: false
@@ -133,19 +125,17 @@ ActiveRecord::Schema.define(version: 20160626235249) do
     t.integer  "opens_at",    null: false
     t.integer  "closes_at",   null: false
     t.integer  "schedule_id", null: false
+    t.index ["schedule_id"], name: "index_schedule_days_on_schedule_id", using: :btree
   end
-
-  add_index "schedule_days", ["schedule_id"], name: "index_schedule_days_on_schedule_id", using: :btree
 
   create_table "schedules", force: :cascade do |t|
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "resource_id"
     t.integer  "service_id"
+    t.index ["resource_id"], name: "index_schedules_on_resource_id", using: :btree
+    t.index ["service_id"], name: "index_schedules_on_service_id", using: :btree
   end
-
-  add_index "schedules", ["resource_id"], name: "index_schedules_on_resource_id", using: :btree
-  add_index "schedules", ["service_id"], name: "index_schedules_on_service_id", using: :btree
 
   create_table "services", force: :cascade do |t|
     t.datetime "created_at",          null: false
@@ -157,9 +147,8 @@ ActiveRecord::Schema.define(version: 20160626235249) do
     t.decimal  "fee"
     t.text     "application_process"
     t.integer  "resource_id"
+    t.index ["resource_id"], name: "index_services_on_resource_id", using: :btree
   end
-
-  add_index "services", ["resource_id"], name: "index_services_on_resource_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string "name"
