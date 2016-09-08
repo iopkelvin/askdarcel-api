@@ -22,13 +22,17 @@ module Resources
       end
     end.flatten.join('||').freeze
 
-    def self.perform(query, scope: Resource)
+    def self.perform(query, sort, scope: Resource)
+      sort = 'resources.name' unless sort
+
       scope
         .left_outer_joins(:services)
         .left_outer_joins(:notes)
         .left_outer_joins(:categories)
+        .left_outer_joins(:addresses)
         .where("#{CLAUSE} @@ plainto_tsquery('#{SEARCH_CONFIG}', ?)", query)
-        .distinct
+        .group('resources.id, addresses.latitude, addresses.longitude')
+        .order(sort)
     end
   end
 end
