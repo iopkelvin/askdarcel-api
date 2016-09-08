@@ -42,10 +42,20 @@ namespace :linksf do
       category_name = record[:categories]
       category_name = 'shelter' if category_name == 'housing'
 
+      puts 'adding ' + resource.name
+
+      puts 'resource description is :' + resource.long_description
+
       record[:services].each do |service_json|
         category_name = service_json[:category]
         category_name = 'shelter' if category_name == 'housing'
         cat = Category.where('lower(name) = ?', category_name).first
+
+        if resource.long_description.blank? || resource.long_description.length < 15
+          puts 'replacing bad description with nil'
+          resource.long_description = nil
+        end
+
         resource.categories << cat
       end
 
@@ -68,8 +78,6 @@ namespace :linksf do
       #  schedule_day.opens_at = record[:openHours].get[0]
       #  schedule_day.closes_at = record[:openHours].get[0]
       # end
-
-      puts 'adding ' + resource.name
 
       address = Address.new
       address.city = record[:city]

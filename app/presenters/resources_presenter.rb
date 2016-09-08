@@ -10,4 +10,5 @@ class ResourcesPresenter < Jsonite
   property :address, with: AddressPresenter
   property :notes, with: NotesPresenter
   property :categories, with: CategoryPresenter
+  property :ratings, with: RatingPresenter
 end
