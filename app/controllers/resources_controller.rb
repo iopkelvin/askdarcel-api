@@ -13,7 +13,7 @@ class ResourcesController < ApplicationController
   end
 
   def search
-    result = Resources::Search.perform(params.require(:query), scope: resources)
+    result = Resources::Search.perform(params.require(:query), sort_order, scope: resources)
     render json: ResourcesPresenter.present(result)
   end
 
@@ -22,7 +22,8 @@ class ResourcesController < ApplicationController
   def resources
     Resource.includes(:address, :phones, :categories, :notes,
                       schedule: :schedule_days,
-                      services: [:notes, { schedule: :schedule_days }])
+                      services: [:notes, { schedule: :schedule_days }],
+                      ratings: [:review])
   end
 
   def sort_order
