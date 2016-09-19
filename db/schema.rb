@@ -102,11 +102,15 @@ ActiveRecord::Schema.define(version: 20160721065026) do
   create_table "ratings", force: :cascade do |t|
     t.decimal "rating"
     t.integer "user_id",     null: false
-    t.integer "resource_id", null: false
+    t.integer "resource_id"
+    t.integer "service_id"
   end
 
   add_index "ratings", ["resource_id"], name: "index_ratings_on_resource_id", using: :btree
-  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", unique: true, using: :btree
+  add_index "ratings", ["service_id"], name: "index_ratings_on_service_id", using: :btree
+  add_index "ratings", ["user_id", "resource_id", "service_id"], name: "index_ratings_on_user_id_and_resource_id_and_service_id", unique: true, using: :btree
+  add_index "ratings", ["user_id", "resource_id"], name: "index_ratings_on_user_id_and_resource_id", unique: true, using: :btree
+  add_index "ratings", ["user_id", "service_id"], name: "index_ratings_on_user_id_and_service_id", unique: true, using: :btree
 
   create_table "resources", force: :cascade do |t|
     t.datetime "created_at",        null: false
@@ -168,6 +172,7 @@ ActiveRecord::Schema.define(version: 20160721065026) do
   add_foreign_key "notes", "services"
   add_foreign_key "phones", "resources"
   add_foreign_key "ratings", "resources"
+  add_foreign_key "ratings", "services"
   add_foreign_key "ratings", "users"
   add_foreign_key "reviews", "ratings"
   add_foreign_key "schedule_days", "schedules"

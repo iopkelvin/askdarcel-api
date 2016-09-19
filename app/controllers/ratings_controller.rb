@@ -2,16 +2,19 @@ class RatingsController < ApplicationController
   before_action :require_authorization!
 
   def create
-    rating = resource.ratings.create!(rating_params)
+    if params[:resource_id]
+      rating = resource.ratings.create!(rating_params)
+    elsif params[:service_id]
+      rating = service.ratings.create!(rating_params)
+    end
+
     render status: :created, json: RatingPresenter.present(rating)
   end
 
   private
 
   def rating_params
-    @rating_params ||= params.require(:rating).permit(
-      :rating
-    ).merge(user: current_user, review: review)
+    @rating_params ||= params.require(:rating).permit(:rating).merge(user: current_user, review: review)
   end
 
   def review
@@ -19,6 +22,10 @@ class RatingsController < ApplicationController
   end
 
   def resource
-    @resource ||= Resource.find params.require(:resource_id)
+    @resource ||= Resource.find params[:resource_id] if params[:resource_id]
+  end
+
+  def service
+    @service ||= Service.find params[:service_id] if params[:service_id]
   end
 end

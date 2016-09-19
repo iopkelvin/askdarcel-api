@@ -7,4 +7,7 @@ Rails.application.routes.draw do
 
     resources :ratings, only: :create
   end
+  resources :services do
+    resources :ratings, only: :create
+  end
 end
