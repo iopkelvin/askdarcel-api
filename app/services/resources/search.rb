@@ -29,7 +29,7 @@ module Resources
         .left_outer_joins(:services)
         .left_outer_joins(:notes)
         .left_outer_joins(:categories)
-        .left_outer_joins(:addresses)
+        .left_outer_joins(:address)
         .where("#{CLAUSE} @@ plainto_tsquery('#{SEARCH_CONFIG}', ?)", query)
         .group('resources.id, addresses.latitude, addresses.longitude')
         .order(sort)
