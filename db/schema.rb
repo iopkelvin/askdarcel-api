@@ -39,7 +39,6 @@ ActiveRecord::Schema.define(version: 20160721065026) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "name",       null: false
-    t.string   "image_path"
   end
 
   add_index "categories", ["name"], name: "index_categories_on_name", unique: true, using: :btree
