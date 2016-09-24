@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160719055628) do
+ActiveRecord::Schema.define(version: 20160721065026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,7 +107,9 @@ ActiveRecord::Schema.define(version: 20160719055628) do
 
   add_index "ratings", ["resource_id"], name: "index_ratings_on_resource_id", using: :btree
   add_index "ratings", ["service_id"], name: "index_ratings_on_service_id", using: :btree
-  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
+  add_index "ratings", ["user_id", "resource_id", "service_id"], name: "index_ratings_on_user_id_and_resource_id_and_service_id", unique: true, using: :btree
+  add_index "ratings", ["user_id", "resource_id"], name: "index_ratings_on_user_id_and_resource_id", unique: true, using: :btree
+  add_index "ratings", ["user_id", "service_id"], name: "index_ratings_on_user_id_and_service_id", unique: true, using: :btree
 
   create_table "resources", force: :cascade do |t|
     t.datetime "created_at",        null: false
@@ -123,7 +125,7 @@ ActiveRecord::Schema.define(version: 20160719055628) do
     t.integer "rating_id", null: false
   end
 
-  add_index "reviews", ["rating_id"], name: "index_reviews_on_rating_id", using: :btree
+  add_index "reviews", ["rating_id"], name: "index_reviews_on_rating_id", unique: true, using: :btree
 
   create_table "schedule_days", force: :cascade do |t|
     t.datetime "created_at",  null: false
