@@ -8,6 +8,6 @@ Bundler.require(*Rails.groups)
 
 module AskdarcelApi
   class Application < Rails::Application
-    config.active_record.raise_in_transactional_callbacks = true
+    config.api_only = true
   end
 end

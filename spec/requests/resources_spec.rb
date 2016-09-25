@@ -8,7 +8,7 @@ RSpec.describe 'Resources' do
       it 'returns all resources' do
         get '/resources'
         expect(response).to be_bad_request
-        expect(response.body).to be_empty
+        expect(response.body.strip).to be_empty
       end
     end
 

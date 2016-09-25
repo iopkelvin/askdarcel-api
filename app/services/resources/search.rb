@@ -26,11 +26,10 @@ module Resources
       sort = 'resources.name' unless sort
 
       scope
-        .joins('LEFT JOIN services ON services.resource_id = resources.id')
-        .joins('LEFT JOIN notes ON notes.resource_id = resources.id')
-        .joins('LEFT JOIN categories_resources ON categories_resources.resource_id = resources.id')
-        .joins('LEFT JOIN categories ON categories.id = categories_resources.category_id')
-        .joins('LEFT JOIN addresses ON addresses.resource_id = resources.id')
+        .left_outer_joins(:services)
+        .left_outer_joins(:notes)
+        .left_outer_joins(:categories)
+        .left_outer_joins(:address)
         .where("#{CLAUSE} @@ plainto_tsquery('#{SEARCH_CONFIG}', ?)", query)
         .group('resources.id, addresses.latitude, addresses.longitude')
         .order(sort)
