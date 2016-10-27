@@ -13,6 +13,7 @@
 3. Install postgres.
   - `brew install postgresql`
     + Follow further setup instructions displayed after installation.
+  - `brew services start postgres`
 4. Install the `bundle` gem if it isn't yet installed.
   - `which bundle || gem install bundle`
 
@@ -27,4 +28,4 @@ After cloning the repository and `cd`ing into the workspace:
 3. Set up the development database and load dummy data.
   - `bin/rake db:create db:schema:load db:populate`
 4. Run the development server.
-  - `bin/rails s`
+  - `bin/rails s -b 0.0.0.0`
