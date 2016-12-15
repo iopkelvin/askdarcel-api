@@ -27,9 +27,9 @@ before_script: bundle exec rake db:create db:schema:load
 script: bundle exec rake rubocop spec
 
 after_success:
-  - echo 'export DATABASE_URL="'$DATABASE_URL'"' >> .env
-  - echo 'export DATABASE_USERNAME="'$DATABASE_USERNAME'"' >> .env
-  - echo 'export DATABASE_PASSWORD="'$DATABASE_PASSWORD'"' >> .env
+  - echo 'export DATABASE_URL="'$PRECOMPILE_DATABASE_URL'"' >> .env
+  - echo 'export DATABASE_USERNAME="'$PRECOMPILE_USERNAME'"' >> .env
+  - echo 'export DATABASE_PASSWORD="'$PRECOMPILE_PASSWORD'"' >> .env
   - docker login -e $DOCKER_EMAIL -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   - export TAG=`if [[ -n "$TRAVIS_TAG" ]]; then echo "$TRAVIS_TAG"; else if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then echo "pull-request-$TRAVIS_PULL_REQUEST"; else if [ "$SANITIZED_BRANCH" == "master" ]; then echo "latest"; else echo "branch-$SANITIZED_BRANCH"; fi; fi; fi`
   - docker build -f Dockerfile -t $REPO:$COMMIT .
