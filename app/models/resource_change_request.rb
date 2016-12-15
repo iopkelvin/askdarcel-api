@@ -1,0 +1,2 @@
+class ResourceChangeRequest < ChangeRequest
+end

@@ -31,6 +31,11 @@ namespace :linksf do
 
     records = data[:result].drop(1)
 
+    admin = Admin.new
+    admin.email = 'dev-admin@sheltertech.org'
+    admin.password = 'dev-test-01'
+    admin.save
+
     records.each do |record|
       resource = Resource.new
       resource.name = record[:name]
@@ -114,6 +119,48 @@ namespace :linksf do
       # ...
 
       resource.save!
+
+      resource.services.each do |service|
+        change_request = ChangeRequest.new
+        change_request.object_id = service.id
+
+        change_request.type = 'ServiceChangeRequest'
+        change_request.status = ChangeRequest.statuses[:pending]
+
+        field_change = change_request.field_changes.build
+        field_change.field_name = 'name'
+        field_change.field_value = service.name + '(changed)'
+
+        field_change = change_request.field_changes.build
+        field_change.field_name = 'long_description'
+        field_change.field_value = if service.long_description.present?
+                                     service.long_description + '(changed)'
+                                   else
+                                     '(changed)'
+                                   end
+
+        change_request.save!
+      end
+
+      change_request = ChangeRequest.new
+
+      change_request.object_id = resource.id
+      change_request.type = 'ResourceChangeRequest'
+      change_request.status = ChangeRequest.statuses[:pending]
+
+      field_change = change_request.field_changes.build
+      field_change.field_name = 'name'
+      field_change.field_value = resource.name + '(changed)'
+
+      field_change = change_request.field_changes.build
+      field_change.field_name = 'long_description'
+      field_change.field_value = if resource.long_description.present?
+                                   resource.long_description + '(changed)'
+                                 else
+                                   '(changed)'
+                                 end
+
+      change_request.save!
     end
   end
 end

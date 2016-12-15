@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160721065026) do
+ActiveRecord::Schema.define(version: 20161208022001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,23 @@ ActiveRecord::Schema.define(version: 20160721065026) do
     t.decimal  "latitude"
     t.decimal  "longitude"
     t.index ["resource_id"], name: "index_addresses_on_resource_id", using: :btree
+  end
+
+  create_table "admins", force: :cascade do |t|
+    t.string   "provider",           default: "email", null: false
+    t.string   "uid",                default: "",      null: false
+    t.string   "encrypted_password", default: "",      null: false
+    t.integer  "sign_in_count",      default: 0,       null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "email"
+    t.json     "tokens"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.index ["email"], name: "index_admins_on_email", using: :btree
+    t.index ["uid", "provider"], name: "index_admins_on_uid_and_provider", unique: true, using: :btree
   end
 
   create_table "categories", force: :cascade do |t|
@@ -55,6 +72,22 @@ ActiveRecord::Schema.define(version: 20160721065026) do
   create_table "categories_services", id: false, force: :cascade do |t|
     t.integer "service_id",  null: false
     t.integer "category_id", null: false
+  end
+
+  create_table "change_requests", force: :cascade do |t|
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "type"
+    t.integer  "object_id"
+    t.integer  "status",     default: 0
+    t.integer  "action",     default: 1
+  end
+
+  create_table "field_changes", force: :cascade do |t|
+    t.string  "field_name"
+    t.string  "field_value"
+    t.integer "change_request_id", null: false
+    t.index ["change_request_id"], name: "index_field_changes_on_change_request_id", using: :btree
   end
 
   create_table "keywords", force: :cascade do |t|
@@ -156,6 +189,7 @@ ActiveRecord::Schema.define(version: 20160721065026) do
   end
 
   add_foreign_key "addresses", "resources"
+  add_foreign_key "field_changes", "change_requests"
   add_foreign_key "notes", "resources"
   add_foreign_key "notes", "services"
   add_foreign_key "phones", "resources"
