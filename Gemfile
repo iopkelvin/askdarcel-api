@@ -7,7 +7,6 @@ gem 'geokit-rails'
 
 # Persistence
 gem 'pg', '~> 0.15'
-gem 'activerecord-nulldb-adapter'
 
 # Auth
 gem 'devise_token_auth'
@@ -15,6 +14,10 @@ gem 'omniauth'
 
 # Use Puma as the app server
 gem 'puma'
+
+group :production do
+  gem 'activerecord-nulldb-adapter'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a
