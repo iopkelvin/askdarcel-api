@@ -7,6 +7,7 @@ gem 'geokit-rails'
 
 # Persistence
 gem 'pg', '~> 0.15'
+gem 'activerecord-nulldb-adapter'
 
 # Auth
 gem 'devise_token_auth'
