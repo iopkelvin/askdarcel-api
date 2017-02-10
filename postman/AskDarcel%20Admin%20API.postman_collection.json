@@ -81,10 +81,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"rating\": {\n\t\t\"rating\": 4\n\t}\n}"
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -129,10 +126,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"rating\": {\n\t\t\"rating\": 4\n\t}\n}"
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -177,10 +171,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"rating\": {\n\t\t\"rating\": 4\n\t}\n}"
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -212,10 +203,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
