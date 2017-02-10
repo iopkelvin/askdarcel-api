@@ -248,7 +248,7 @@
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
 						]
 					}
 				}
@@ -286,7 +286,7 @@
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
 						]
 					}
 				}
@@ -324,7 +324,7 @@
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
 						]
 					}
 				}
@@ -362,7 +362,7 @@
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
 						]
 					}
 				}
@@ -400,7 +400,7 @@
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
 						]
 					}
 				}
@@ -438,7 +438,7 @@
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
 						]
 					}
 				}
