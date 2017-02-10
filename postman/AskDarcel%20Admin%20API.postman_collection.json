@@ -153,7 +153,7 @@
 				}
 			],
 			"request": {
-				"url": "http://askdarcel.lvh.me:3000/change_requests/1/reject",
+				"url": "http://askdarcel.lvh.me:3000/change_requests/2/reject",
 				"method": "POST",
 				"header": [
 					{
