@@ -81,10 +81,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"rating\": {\n\t\t\"rating\": 4\n\t}\n}"
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -129,10 +126,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"rating\": {\n\t\t\"rating\": 4\n\t}\n}"
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -153,7 +147,7 @@
 				}
 			],
 			"request": {
-				"url": "http://askdarcel.lvh.me:3000/change_requests/1/reject",
+				"url": "http://askdarcel.lvh.me:3000/change_requests/2/reject",
 				"method": "POST",
 				"header": [
 					{
@@ -177,16 +171,26 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"rating\": {\n\t\t\"rating\": 4\n\t}\n}"
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
 		},
 		{
 			"name": "Admin Sign Out",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
 			"request": {
 				"url": "http://askdarcel.lvh.me:3000/admin/auth/sign_out",
 				"method": "DELETE",
@@ -212,10 +216,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
