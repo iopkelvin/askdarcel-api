@@ -40,16 +40,15 @@ namespace :linksf do
 
       puts 'resource description is :' + resource.long_description
 
+      if resource.long_description.blank? || resource.long_description.length < 15
+        puts 'replacing bad description with nil'
+        resource.long_description = nil
+      end
       # Once again, location[:services] is an object with IDs as the keys
       location[:services].each_value do |service_json|
         category_name = service_json[:taxonomy]
         category_name = 'shelter' if category_name == 'housing'
         cat = Category.where('lower(name) = ?', category_name).first
-
-        if resource.long_description.blank? || resource.long_description.length < 15
-          puts 'replacing bad description with nil'
-          resource.long_description = nil
-        end
 
         resource.categories << cat
       end
@@ -88,6 +87,11 @@ namespace :linksf do
 
         resource.schedule = service.schedule
 
+        category_name = json_service[:taxonomy]
+        category_name = 'shelter' if category_name == 'housing'
+        cat = Category.where('lower(name) = ?', category_name).first
+
+        service.categories << cat
         next unless json_service[:schedules].present?
         json_service[:schedules].each do |schedule|
           open = schedule[:opens_at] / 100

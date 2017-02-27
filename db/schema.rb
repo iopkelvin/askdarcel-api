@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170121235411) do
+ActiveRecord::Schema.define(version: 20170223031402) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -145,6 +146,7 @@ ActiveRecord::Schema.define(version: 20170121235411) do
     t.text     "long_description"
     t.string   "website"
     t.datetime "verified_at"
+    t.string   "email"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -179,10 +181,12 @@ ActiveRecord::Schema.define(version: 20170121235411) do
     t.text     "long_description"
     t.string   "eligibility"
     t.string   "required_documents"
-    t.decimal  "fee"
+    t.string   "fee"
     t.text     "application_process"
     t.integer  "resource_id"
     t.datetime "verified_at"
+    t.string   "email"
+    t.integer  "status"
     t.index ["resource_id"], name: "index_services_on_resource_id", using: :btree
   end
 
