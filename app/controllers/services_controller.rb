@@ -15,6 +15,7 @@ class ServicesController < ApplicationController
       render status: :bad_request, json: { services: services.select(&:invalid?).map(&:errors) }
     else
       Service.transaction { services.each(&:save!) }
+
       render status: :created, json: { services: services.map { |s| ServicesPresenter.present(s) } }
     end
   end
