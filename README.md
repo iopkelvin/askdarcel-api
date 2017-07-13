@@ -7,8 +7,13 @@
 1. [Install Homebrew](http://brew.sh/).
 2. Install [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme).
   - `brew install rbenv`
-    + Follow further setup instructions (including updating your bash
+    + Follow further setup instructions (including updating your bash 
       profile) from the link above.
+    + Add the following lines to your `~/.bash_profile`
+    ```
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+    ```
   - `brew install ruby-build`
 3. Install postgres.
   - `brew install postgresql`
