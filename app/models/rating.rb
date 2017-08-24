@@ -2,7 +2,7 @@ class Rating < ActiveRecord::Base
   belongs_to :user
   belongs_to :resource
   belongs_to :service
-  has_one :review
+  has_one :review, dependent: :destroy
 
   validates :rating, numericality: {
     greater_than_or_equal_to: 1,

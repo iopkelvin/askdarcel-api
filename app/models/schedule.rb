@@ -1,8 +1,7 @@
 class Schedule < ActiveRecord::Base
   belongs_to :resource
   belongs_to :service
-  has_many :schedule_days
-  has_one :note
+  has_many :schedule_days, dependent: :destroy
 
   accepts_nested_attributes_for :schedule_days
 end
