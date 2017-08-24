@@ -1,4 +1,6 @@
 class Resource < ActiveRecord::Base
+  enum status: { pending: 0, approved: 1, rejected: 2 }
+
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :keywords
   has_one :address
@@ -8,4 +10,11 @@ class Resource < ActiveRecord::Base
   has_many :services
   has_many :ratings
   has_many :change_requests
+
+  accepts_nested_attributes_for :notes
+  accepts_nested_attributes_for :schedule
+
+  before_create do
+    self.status = :pending unless status
+  end
 end
