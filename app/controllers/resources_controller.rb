@@ -4,7 +4,7 @@ class ResourcesController < ApplicationController
   def index
     category_id = params.require :category_id
     relation = resources.joins(:categories).joins(:address)
-                        .where('categories.id' => category_id).where('status' => :approved)
+                        .where('categories.id' => category_id).where(status: Resource.statuses[:approved])
                         .order(sort_order)
     render json: ResourcesPresenter.present(relation)
   end
