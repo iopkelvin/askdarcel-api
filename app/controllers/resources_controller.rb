@@ -1,6 +1,4 @@
 class ResourcesController < ApplicationController
-  before_action :cachable
-
   def index
     category_id = params.require :category_id
     relation = resources.joins(:categories).joins(:address)
