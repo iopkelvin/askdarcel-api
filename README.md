@@ -7,7 +7,7 @@
 1. [Install Homebrew](http://brew.sh/).
 2. Install [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme).
   - `brew install rbenv`
-    + Follow further setup instructions (including updating your bash 
+    + Follow further setup instructions (including updating your bash
       profile) from the link above.
     + Add the following lines to your `~/.bash_profile`
     ```
@@ -30,6 +30,8 @@ After cloning the repository and `cd`ing into the workspace:
   - `rbenv install`
 2. Install the required gems.
   - `bundle install`
+  If encounter "command not found" error, run
+  -`source ~/.bash_profile`
 3. Set up the development database and load dummy data.
   - `bin/rake db:create:all`
   - `bin/rake db:migrate`
