@@ -19,8 +19,7 @@
   - `brew install postgresql`
     + Follow further setup instructions displayed after installation.
   - `brew services start postgres`
-4. Install the `bundle` gem if it isn't yet installed.
-  - `which bundle || gem install bundle`
+
 
 ### Set up the project
 
@@ -32,12 +31,15 @@ After cloning the repository and `cd`ing into the workspace:
   - `bundle install`
   If encounter "command not found" error, run
   -`source ~/.bash_profile`
-3. Set up the development database and load dummy data.
-  - `bin/rake db:create:all`
-  - `bin/rake db:migrate`
-  - `bin/rake linksf:import`
-4. Run the development server.
-  - `bin/rails s -b 0.0.0.0`
+3. Install the `bundle` gem if it isn't yet installed.
+    - `which bundle || gem install bundle`
+4. Set up the development database and load dummy data.
+  - `rake db:create:all`
+  - `rake db:migrate`
+  - `rake linksf:import`
+5. Run the development server.
+  - `rails s -b 0.0.0.0`
+6. Do NOT do sudo install -rails
 
 
 ## Docker-based Development Set-up Instructions
