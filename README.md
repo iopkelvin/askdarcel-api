@@ -27,12 +27,13 @@ After cloning the repository and `cd`ing into the workspace:
 
 1. Install the required ruby version.
   - `rbenv install`
-2. Install the required gems.
+2. Install the `bundle` gem if it isn't yet installed.
+      - `which bundle || gem install bundle`
+3. Install the required gems.
   - `bundle install`
   If encounter "command not found" error, run
   -`source ~/.bash_profile`
-3. Install the `bundle` gem if it isn't yet installed.
-    - `which bundle || gem install bundle`
+
 4. Set up the development database and load dummy data.
   - `rake db:create:all`
   - `rake db:migrate`
