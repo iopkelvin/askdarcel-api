@@ -6,6 +6,14 @@ namespace :onetime do
   # This is idempotent so it is safe to run more than once
   task add_categories: :environment do
     Category.transaction do
+      renamed_categories = [
+        %w(Shelter Housing),
+        %w(Medical Health)
+      ]
+      renamed_categories.each do |old, new|
+        Category.where(name: old).update(name: new)
+      end
+
       categories = [
         'Emergency',
         'Immediate Safety',
@@ -164,8 +172,6 @@ namespace :onetime do
         'Preschool',
         'Screening & Exams',
         'Citizenship & Immigration',
-        'GED/High-School Equivalency',
-        'English as a Second Language (ESL)',
         'Skills & Training',
         'Basic Literacy',
         'Computer Class',
@@ -191,29 +197,58 @@ namespace :onetime do
         'Mediation',
         'Notary',
         'Representation',
-        'Translation & Interpretation'
+        'Translation & Interpretation',
+        'Homelessness Essentials',
+        'Hygiene',
+        'Toilet',
+        'Shower',
+        'Hygiene Supplies',
+        'Waste Disposal',
+        'Water',
+        'Storage',
+        'Drug Related Services',
+        'Government Homelessness Services',
+        'Technology',
+        'Wifi Access',
+        'Computer Access',
+        'Smartphones'
       ]
       categories.each do |c|
         Category.find_or_create_by(name: c)
       end
 
+      # Take all resources and services under old category and also tag them
+      # under new category.
+      cloned_categories = [
+        ['Hygiene', 'Homelessness Essentials'],
+        ['Technology', 'Homelessness Essentials']
+      ]
+      cloned_categories.each do |old, new|
+        old_category = Category.find_by_name!(old)
+        new_category = Category.find_by_name!(new)
+
+        old_category.resources.each { |r| r.categories << new_category }
+        old_category.services.each { |s| s.categories << new_category }
+      end
+
       Category.all.update_all(top_level: false)
-      top_level_categories = %w(
-        Emergency
-        Food
-        Housing
-        Goods
-        Transit
-        Health
-        Money
-        Care
-        Education
-        Work
-        Legal
-      )
+      top_level_categories = [
+        'Emergency',
+        'Food',
+        'Housing',
+        'Goods',
+        'Transit',
+        'Health',
+        'Money',
+        'Care',
+        'Education',
+        'Work',
+        'Legal',
+        'Homelessness Essentials'
+      ]
       top_level_categories.each do |c|
         Category.find_by_name!(c).update(top_level: true)
       end
-    end
+    end # Category.transaction
   end
 end
