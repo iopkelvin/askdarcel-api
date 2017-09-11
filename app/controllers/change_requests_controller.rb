@@ -11,8 +11,13 @@ class ChangeRequestsController < ApplicationController
     elsif params[:phone_id] || params[:type] == 'phones'
       resource_id = params[:parent_resource_id] || Phone.find(params[:phone_id]).resource_id
       @change_request = PhoneChangeRequest.create(object_id: params[:phone_id], resource_id: resource_id)
-    elsif params[:schedule_day_id]
-      schedule = Schedule.find(ScheduleDay.find(params[:schedule_day_id]).schedule_id)
+    elsif params[:schedule_day_id] || params[:type] == 'schedule_days'
+      schedule = nil
+      if params[:schedule_day_id]
+        schedule = Schedule.find(ScheduleDay.find(params[:schedule_day_id]).schedule_id)
+      else 
+        schedule = Schedule.find(params[:schedule_id])
+      end
       if (schedule.resource_id)
         @change_request = ScheduleDayChangeRequest.create(object_id: params[:schedule_day_id], resource_id: schedule.resource_id)
       else 
@@ -109,7 +114,11 @@ class ChangeRequestsController < ApplicationController
       resource.update field_change_hash
     elsif change_request.is_a? ScheduleDayChangeRequest
       puts 'ScheduleDayChangeRequest'
-      schedule_day = ScheduleDay.find(change_request.object_id)
+      if change_request.object_id
+        schedule_day = ScheduleDay.find(change_request.object_id)
+      else
+        schedule_day = ScheduleDay.new(schedule_id: params[:schedule_id])
+      end
       schedule_day.update field_change_hash
     elsif change_request.is_a? NoteChangeRequest
       puts 'NoteChangeRequest'
