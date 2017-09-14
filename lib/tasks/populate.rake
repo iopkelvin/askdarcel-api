@@ -13,7 +13,7 @@ namespace :db do
     category_names = %w(Shelter Food Medical Hygiene Technology Money)
 
     6.times do |i|
-      FactoryGirl.create(:category, name: category_names[i])
+      FactoryGirl.create(:category, name: category_names[i], top_level: true)
     end
 
     categories = Category.all
