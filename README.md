@@ -38,6 +38,9 @@ After cloning the repository and `cd`ing into the workspace:
   - `rake db:create:all`
   - `rake db:migrate`
   - `rake linksf:import`
+
+  Alternatively, you can generate random fixtures:
+  - `rake db:setup db:populate`
 5. Run the development server.
   - `rails s -b 0.0.0.0`
 6. Do NOT do sudo install -rails
@@ -64,6 +67,9 @@ $ docker-compose up -d db
 # Populate the initial development database
 $ docker-compose run --rm api rake db:create db:schema:load linksf:import
 
+# Alternatively, you can generate random fixtures:
+$ docker-compose run --rm api rake db:setup db:populate
+
 # Start the Rails development server in the api container (in the foreground)
 $ docker-compose up api
 
@@ -75,7 +81,7 @@ $ docker-compose stop
 
 ```sh
 # Refresh DB
-$ docker-compose run --rm api rake db:create db:schema:load linksf:import
+$ docker-compose run --rm api rake db:setup db:populate
 
 # Run Docker container that executes Postman CLI tool named newman
 $ docker-compose run --rm postman
