@@ -213,6 +213,7 @@ namespace :db do
     end
 
     categories = Category.all
+    top_level_categories = Category.where(top_level: true)
 
     FactoryGirl.create(:admin)
 
@@ -226,7 +227,7 @@ namespace :db do
                                     short_description: short_description,
                                     long_description: long_description,
                                     website: website,
-                                    categories: categories.sample(rand(4)))
+                                    categories: top_level_categories.sample(rand(2)) + categories.sample(rand(2)))
       services = []
 
       (rand(2) + 1).times do
