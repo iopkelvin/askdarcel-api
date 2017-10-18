@@ -17,7 +17,7 @@ addons:
   postgresql: "9.2"
 
 env:
-  - global:
+   global:
     - COMMIT=${TRAVIS_COMMIT::8}
     - SANITIZED_BRANCH=$(echo $TRAVIS_BRANCH|sed 's|/|-|g')
     - REPO=sheltertechsf/askdarcel-api
