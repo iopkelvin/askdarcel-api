@@ -3,7 +3,7 @@
 set -ex
 
 # Set up fresh db
-bundle exec rake db:create db:schema:load linksf:import
+bundle exec rake db:setup db:populate
 
 bundle exec rails server &
 rails_pid=$!
