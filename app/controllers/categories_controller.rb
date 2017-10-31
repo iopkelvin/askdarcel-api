@@ -9,4 +9,17 @@ class CategoriesController < ApplicationController
     categories = categories.where(top_level: top_level) unless top_level.nil?
     render json: CategoryPresenter.present(categories)
   end
+
+  def counts
+    if !admin_signed_in?
+      render status: :unauthorized
+    else
+      render status: :ok, json:
+          Category.order(:name).map { |c|
+            { name: c.name,
+              services: c.services.where('status' => 1).count,
+              resources: c.resources.where('status' => 1).count }
+          }
+    end
+  end
 end
