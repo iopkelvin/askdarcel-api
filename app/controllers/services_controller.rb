@@ -25,7 +25,7 @@ class ServicesController < ApplicationController
       resource: [
         :address, :phones, :categories, :notes,
         schedule: :schedule_days,
-        services: [:notes, :categories, { schedule: :schedule_days }],
+        services: [:notes, :categories, :eligibilities, { schedule: :schedule_days }],
         ratings: [:review]
       ]
     ).pending
@@ -59,7 +59,7 @@ class ServicesController < ApplicationController
   private
 
   def services
-    Service.includes(:notes, :categories, schedule: :schedule_days)
+    Service.includes(:notes, :categories, :eligibilities, schedule: :schedule_days)
   end
 
   # Clean raw request params for interoperability with Rails APIs.
@@ -82,7 +82,8 @@ class ServicesController < ApplicationController
       :email,
       schedule: [{ schedule_days: [:day, :opens_at, :closes_at] }],
       notes: [:note],
-      categories: [:id]
+      categories: [:id],
+      eligibilities: [:id]
     )
   end
 
@@ -95,6 +96,7 @@ class ServicesController < ApplicationController
   #
   # This method transforms all keys representing nested resources into
   # #{key}_attribute.
+  # rubocop:disable Metrics/AbcSize
   def transform_service_params!(service, resource_id)
     if service.key? :schedule
       schedule = service[:schedule_attributes] = service.delete(:schedule)
@@ -105,7 +107,10 @@ class ServicesController < ApplicationController
     # Unlike other nested resources, don't create new categories; associate
     # with the existing ones.
     service['category_ids'] = service.delete(:categories).collect { |h| h[:id] } if service.key? :categories
+
+    service['eligibility_ids'] = service.delete(:eligibilities).collect { |h| h[:id] } if service.key? :eligibilities
   end
+  # rubocop:enable Metrics/AbcSize
 
   def resource
     @resource ||= Resource.find params[:resource_id] if params[:resource_id]
