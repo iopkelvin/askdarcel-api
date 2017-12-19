@@ -29,6 +29,14 @@ class ResourcesController < ApplicationController
     end
   end
 
+  def certify
+    resource = Resource.find params[:resource_id]
+
+    resource.certified = true
+    resource.save!
+    render status: :ok
+  end
+
   def destroy
     resource = Resource.find params[:id]
     if resource.approved?

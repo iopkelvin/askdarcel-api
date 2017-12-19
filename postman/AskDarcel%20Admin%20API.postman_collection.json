@@ -1,7 +1,7 @@
 {
 	"info": {
 		"name": "AskDarcel Admin API",
-		"_postman_id": "a19cf529-de95-3738-10f3-2568497f9084",
+		"_postman_id": "241f6b3d-c648-de5c-61a0-6d4c5a7bfe58",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -44,7 +44,8 @@
 						"auth",
 						"sign_in"
 					]
-				}
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -95,7 +96,8 @@
 					"path": [
 						"change_requests"
 					]
-				}
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -140,7 +142,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"name\" : \"newnamee\"\n\t}\n}"
+					"raw": "{  \n  \"change_request\" : {\n    \"name\" : \"newnamee\"\n  }\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/change_requests/1/approve",
@@ -152,7 +154,8 @@
 						"1",
 						"approve"
 					]
-				}
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -205,7 +208,8 @@
 						"2",
 						"reject"
 					]
-				}
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -257,7 +261,8 @@
 						"services",
 						"pending"
 					]
-				}
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -308,7 +313,60 @@
 						"1",
 						"approve"
 					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Certify Service",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;"
+						]
+					}
 				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "access-token",
+						"value": "{{access-token}}"
+					},
+					{
+						"key": "client",
+						"value": "{{client}}"
+					},
+					{
+						"key": "uid",
+						"value": "dev-admin@sheltertech.org"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/services/1/certify",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1",
+						"certify"
+					]
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -359,7 +417,8 @@
 						"2",
 						"reject"
 					]
-				}
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -413,7 +472,8 @@
 						"services",
 						"7"
 					]
-				}
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -467,7 +527,62 @@
 						"resources",
 						"7"
 					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Certify Resource",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							""
+						]
+					}
 				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "access-token",
+						"value": "{{access-token}}"
+					},
+					{
+						"key": "client",
+						"value": "{{client}}"
+					},
+					{
+						"key": "uid",
+						"value": "dev-admin@sheltertech.org"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/resources/7/certify",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources",
+						"7",
+						"certify"
+					]
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -519,7 +634,8 @@
 						"categories",
 						"counts"
 					]
-				}
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -571,7 +687,8 @@
 						"change_requests",
 						"pending_count"
 					]
-				}
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -635,7 +752,8 @@
 							"equals": true
 						}
 					]
-				}
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -688,7 +806,8 @@
 						"auth",
 						"sign_out"
 					]
-				}
+				},
+				"description": null
 			},
 			"response": []
 		}
