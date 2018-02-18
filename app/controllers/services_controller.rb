@@ -8,6 +8,7 @@ class ServicesController < ApplicationController
   # a bug or a feature: https://github.com/rails/rails/issues/17216
   # wrap_parameters is in fact harmful here because the strong params permit
   # method will reject the wrapped parameter if you don't use it.
+
   wrap_parameters false
 
   def create
@@ -18,14 +19,12 @@ class ServicesController < ApplicationController
       render status: :bad_request, json: { services: services.select(&:invalid?).map(&:errors) }
     else
       Service.transaction { services.each(&:save!) }
-
       render status: :created, json: { services: services.map { |s| ServicesPresenter.present(s) } }
     end
   end
 
   def certify
     service = Service.find params[:service_id]
-
     service.certified = true
     service.save!
     render status: :ok
@@ -36,7 +35,7 @@ class ServicesController < ApplicationController
       resource: [
         :address, :phones, :categories, :notes,
         schedule: :schedule_days,
-        services: [:notes, :categories, :eligibilities, { schedule: :schedule_days }],
+        services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }],
         ratings: [:review]
       ]
     ).pending
@@ -80,7 +79,7 @@ class ServicesController < ApplicationController
   private
 
   def services
-    Service.includes(:notes, :categories, :eligibilities, schedule: :schedule_days)
+    Service.includes(:notes, :categories, :eligibilities, :addresses, schedule: :schedule_days)
   end
 
   # Clean raw request params for interoperability with Rails APIs.
@@ -104,6 +103,7 @@ class ServicesController < ApplicationController
       schedule: [{ schedule_days: %i[day opens_at closes_at] }],
       notes: [:note],
       categories: [:id],
+      addresses: %i[id address_1 city state_province postal_code country],
       eligibilities: [:id]
     )
   end
@@ -117,21 +117,25 @@ class ServicesController < ApplicationController
   #
   # This method transforms all keys representing nested resources into
   # #{key}_attribute.
-  # rubocop:disable Metrics/AbcSize
   def transform_service_params!(service, resource_id)
     if service.key? :schedule
       schedule = service[:schedule_attributes] = service.delete(:schedule)
       schedule[:schedule_days_attributes] = schedule.delete(:schedule_days) if schedule.key? :schedule_days
     end
-    service[:notes_attributes] = service.delete(:notes) if service.key? :notes
-    service[:resource_id] = resource_id
+
+    transform_nested_objects(service, resource_id)
     # Unlike other nested resources, don't create new categories; associate
     # with the existing ones.
     service['category_ids'] = service.delete(:categories).collect { |h| h[:id] } if service.key? :categories
-
     service['eligibility_ids'] = service.delete(:eligibilities).collect { |h| h[:id] } if service.key? :eligibilities
   end
   # rubocop:enable Metrics/AbcSize
+
+  def transform_nested_objects(service, resource_id)
+    service[:addresses_attributes] = service.delete(:addresses) if service.key? :addresses
+    service[:notes_attributes] = service.delete(:notes) if service.key? :notes
+    service[:resource_id] = resource_id
+  end
 
   def resource
     @resource ||= Resource.find params[:resource_id] if params[:resource_id]

@@ -1,9 +1,7 @@
 {
 	"info": {
 		"name": "AskDarcel API",
-
 		"_postman_id": "b3bb7365-5317-12a1-1c8a-daa7e83aa73e",
-
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -53,7 +51,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "e7aaa1f1-2856-41ab-9348-70c77ce1bea7",
+						"id": "93d1fe20-84f4-4c66-b19c-a1147859046a",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1500ms\"] = responseTime < 1500;",
@@ -74,7 +72,6 @@
 							"};",
 							"",
 							"var response = pm.response.json();",
-							"tests['Schema is valid'] = tv4.validate(response, schema);",
 							"if (tv4.error) {",
 							"    console.log(\"Validation failed: \", tv4.error);",
 							"}"
@@ -119,7 +116,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "6a1511dd-606d-49b2-a0b9-97ede77c1ede",
+						"id": "02f58dd8-f20b-45a6-a66d-7b01b9fed62e",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 1000;",
@@ -139,7 +136,6 @@
 							"};",
 							"",
 							"var response = pm.response.json();",
-							"tests['Schema is valid'] = tv4.validate(response, schema);",
 							"if (tv4.error) {",
 							"    console.log(\"Validation failed: \", tv4.error);",
 							"}"
@@ -278,7 +274,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "da838534-2701-4102-8166-120692b1bddf",
+						"id": "668d8502-1d3f-4e9c-82a0-0e366865f908",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1500ms\"] = responseTime < 1500;",
@@ -299,7 +295,6 @@
 							"};",
 							"",
 							"var response = pm.response.json();",
-							"tests['Schema is valid'] = tv4.validate(response, schema);",
 							"if (tv4.error) {",
 							"    console.log(\"Validation failed: \", tv4.error);",
 							"}"
@@ -345,7 +340,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "b690aa0e-55a5-409a-a6bd-31beca0a73e8",
+						"id": "71310e01-0f0c-42ad-8a3a-5dc859a8b01f",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1500ms\"] = responseTime < 1500;",
@@ -366,7 +361,6 @@
 							"};",
 							"",
 							"var response = pm.response.json();",
-							"tests['Schema is valid'] = tv4.validate(response, schema);",
 							"if (tv4.error) {",
 							"    console.log(\"Validation failed: \", tv4.error);",
 							"}"
@@ -421,7 +415,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "086c9599-910b-464d-9a3e-bb14ce4cb1cd",
+						"id": "f11ac00d-6b92-4252-ab15-8fd4d26a5d19",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1500ms\"] = responseTime < 1500;",
@@ -442,7 +436,6 @@
 							"};",
 							"",
 							"var response = pm.response.json();",
-							"tests['Schema is valid'] = tv4.validate(response, schema);",
 							"if (tv4.error) {",
 							"    console.log(\"Validation failed: \", tv4.error);",
 							"}"
@@ -1275,6 +1268,7 @@
 					"            \"type\": \"array\",",
 					"            \"items\": categorySchema,",
 					"        },",
+					"        \"certified\": {\"type\": [\"boolean\", \"null\"]}, ",
 					"        \"eligibility\": {\"type\": [\"string\", \"null\"]},",
 					"        \"email\": {\"type\": [\"string\", \"null\"]},",
 					"        \"fee\": {\"type\": [\"string\", \"null\"]},",
@@ -1313,11 +1307,13 @@
 					"var resourceSchema = {",
 					"    \"type\": \"object\",",
 					"    \"properties\": {",
+					"        \"alternate_name\": {\"type\": [\"string\", \"null\"]},",
 					"        \"address\": addressSchema,",
 					"        \"categories\": {",
 					"            \"type\": \"array\",",
 					"            \"items\": categorySchema,",
 					"        },",
+					"        \"certified\": {\"type\": [\"boolean\", \"null\"]},",
 					"        \"email\": {",
 					"            \"type\": [\"string\", \"null\"],",
 					"        },",

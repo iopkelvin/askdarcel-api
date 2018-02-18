@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171218201826) do
+ActiveRecord::Schema.define(version: 20180218222002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accessibilities", force: :cascade do |t|
+    t.string   "accessibility"
+    t.string   "details"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "addresses", force: :cascade do |t|
     t.datetime "created_at",     null: false
@@ -28,10 +34,22 @@ ActiveRecord::Schema.define(version: 20171218201826) do
     t.string   "state_province", null: false
     t.string   "postal_code",    null: false
     t.string   "country",        null: false
-    t.integer  "resource_id",    null: false
+    t.integer  "resource_id"
     t.decimal  "latitude"
     t.decimal  "longitude"
+    t.boolean  "online"
+    t.string   "region"
+    t.string   "name"
+    t.text     "description"
+    t.text     "transportation"
     t.index ["resource_id"], name: "index_addresses_on_resource_id", using: :btree
+  end
+
+  create_table "addresses_services", id: false, force: :cascade do |t|
+    t.integer "service_id", null: false
+    t.integer "address_id", null: false
+    t.index ["address_id", "service_id"], name: "index_addresses_services_on_address_id_and_service_id", using: :btree
+    t.index ["service_id", "address_id"], name: "index_addresses_services_on_service_id_and_address_id", using: :btree
   end
 
   create_table "admins", force: :cascade do |t|
@@ -56,6 +74,7 @@ ActiveRecord::Schema.define(version: 20171218201826) do
     t.datetime "updated_at",                 null: false
     t.string   "name",                       null: false
     t.boolean  "top_level",  default: false, null: false
+    t.string   "vocabulary"
     t.index ["name"], name: "index_categories_on_name", unique: true, using: :btree
   end
 
@@ -87,6 +106,18 @@ ActiveRecord::Schema.define(version: 20171218201826) do
     t.index ["resource_id"], name: "index_change_requests_on_resource_id", using: :btree
   end
 
+  create_table "contacts", force: :cascade do |t|
+    t.string   "name"
+    t.string   "title"
+    t.string   "email"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "resource_id"
+    t.integer  "service_id"
+    t.index ["resource_id"], name: "index_contacts_on_resource_id", using: :btree
+    t.index ["service_id"], name: "index_contacts_on_service_id", using: :btree
+  end
+
   create_table "eligibilities", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -105,6 +136,12 @@ ActiveRecord::Schema.define(version: 20171218201826) do
     t.index ["change_request_id"], name: "index_field_changes_on_change_request_id", using: :btree
   end
 
+  create_table "fundings", force: :cascade do |t|
+    t.string   "source"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "keywords", force: :cascade do |t|
     t.string "name"
   end
@@ -117,6 +154,12 @@ ActiveRecord::Schema.define(version: 20171218201826) do
   create_table "keywords_services", id: false, force: :cascade do |t|
     t.integer "service_id", null: false
     t.integer "keyword_id", null: false
+  end
+
+  create_table "languages", force: :cascade do |t|
+    t.string   "language"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "notes", force: :cascade do |t|
@@ -135,7 +178,24 @@ ActiveRecord::Schema.define(version: 20171218201826) do
     t.string   "number",       null: false
     t.string   "service_type", null: false
     t.integer  "resource_id",  null: false
+    t.string   "description"
+    t.integer  "service_id"
+    t.integer  "contact_id"
+    t.integer  "language_id"
+    t.index ["contact_id"], name: "index_phones_on_contact_id", using: :btree
+    t.index ["language_id"], name: "index_phones_on_language_id", using: :btree
     t.index ["resource_id"], name: "index_phones_on_resource_id", using: :btree
+    t.index ["service_id"], name: "index_phones_on_service_id", using: :btree
+  end
+
+  create_table "programs", force: :cascade do |t|
+    t.string   "name"
+    t.string   "alternate_name"
+    t.string   "description"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "resource_id"
+    t.index ["resource_id"], name: "index_programs_on_resource_id", using: :btree
   end
 
   create_table "ratings", force: :cascade do |t|
@@ -161,6 +221,12 @@ ActiveRecord::Schema.define(version: 20171218201826) do
     t.string   "email"
     t.integer  "status"
     t.boolean  "certified",         default: false
+    t.string   "alternate_name"
+    t.string   "legal_status"
+    t.integer  "contact_id"
+    t.integer  "funding_id"
+    t.index ["contact_id"], name: "index_resources_on_contact_id", using: :btree
+    t.index ["funding_id"], name: "index_resources_on_funding_id", using: :btree
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -189,8 +255,8 @@ ActiveRecord::Schema.define(version: 20171218201826) do
   end
 
   create_table "services", force: :cascade do |t|
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.string   "name"
     t.text     "long_description"
     t.string   "eligibility"
@@ -201,7 +267,17 @@ ActiveRecord::Schema.define(version: 20171218201826) do
     t.datetime "verified_at"
     t.string   "email"
     t.integer  "status"
-    t.boolean  "certified",           default: false
+    t.boolean  "certified",               default: false
+    t.integer  "program_id"
+    t.string   "interpretation_services"
+    t.string   "url"
+    t.string   "wait_time"
+    t.integer  "contact_id"
+    t.integer  "funding_id"
+    t.string   "alternate_name"
+    t.index ["contact_id"], name: "index_services_on_contact_id", using: :btree
+    t.index ["funding_id"], name: "index_services_on_funding_id", using: :btree
+    t.index ["program_id"], name: "index_services_on_program_id", using: :btree
     t.index ["resource_id"], name: "index_services_on_resource_id", using: :btree
   end
 
@@ -209,18 +285,39 @@ ActiveRecord::Schema.define(version: 20171218201826) do
     t.string "name"
   end
 
+  create_table "volunteers", force: :cascade do |t|
+    t.string   "description"
+    t.string   "url"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "resource_id"
+    t.index ["resource_id"], name: "index_volunteers_on_resource_id", using: :btree
+  end
+
   add_foreign_key "addresses", "resources"
   add_foreign_key "change_requests", "resources"
+  add_foreign_key "contacts", "resources"
+  add_foreign_key "contacts", "services"
   add_foreign_key "field_changes", "change_requests"
   add_foreign_key "notes", "resources"
   add_foreign_key "notes", "services"
+  add_foreign_key "phones", "contacts"
+  add_foreign_key "phones", "languages"
   add_foreign_key "phones", "resources"
+  add_foreign_key "phones", "services"
+  add_foreign_key "programs", "resources"
   add_foreign_key "ratings", "resources"
   add_foreign_key "ratings", "services"
   add_foreign_key "ratings", "users"
+  add_foreign_key "resources", "contacts"
+  add_foreign_key "resources", "fundings"
   add_foreign_key "reviews", "ratings"
   add_foreign_key "schedule_days", "schedules"
   add_foreign_key "schedules", "resources"
   add_foreign_key "schedules", "services"
+  add_foreign_key "services", "contacts"
+  add_foreign_key "services", "fundings"
+  add_foreign_key "services", "programs"
   add_foreign_key "services", "resources"
+  add_foreign_key "volunteers", "resources"
 end
