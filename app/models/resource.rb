@@ -35,6 +35,8 @@ class Resource < ActiveRecord::Base
     algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do # rubocop:disable Metrics/BlockLength,Metrics/LineLength
       geoloc :address_latitude, :address_longitude
 
+      add_attribute :status
+
       add_attribute :address do
         if address.present?
           {

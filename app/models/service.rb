@@ -26,12 +26,13 @@ class Service < ActiveRecord::Base
     # Note: We can't use the per_environment option because both our production
     # and staging servers use the same RAILS_ENV.
     algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do # rubocop:disable Metrics/BlockLength,Metrics/LineLength
+      add_attribute :status
       add_attribute :_geoloc do
         if addresses.any?
           addresses.map do |a|
             { lat: a.address_latitude, lng: a.address_longitude }
           end
-        else
+        elsif resource.address.present?
           { lat: resource.address_latitude, lng: resource.address_longitude }
         end
       end
@@ -47,7 +48,7 @@ class Service < ActiveRecord::Base
               address_1: a.address_1
             }
           end
-        else
+        elsif resource.address.present?
           {
             city: resource.address.city,
             state_province: resource.address.state_province,
@@ -59,8 +60,10 @@ class Service < ActiveRecord::Base
       end
       add_attribute :schedule do
         if schedule.nil?
-          resource.schedule.schedule_days.map do |s|
-            { opens_at: s.opens_at, closes_at: s.closes_at, day: s.day }
+          if resource.schedule.present?
+            resource.schedule.schedule_days.map do |s|
+              { opens_at: s.opens_at, closes_at: s.closes_at, day: s.day }
+            end
           end
         else
           schedule.schedule_days.map do |s|
