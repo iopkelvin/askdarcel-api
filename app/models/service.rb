@@ -30,9 +30,11 @@ class Service < ActiveRecord::Base
       add_attribute :_geoloc do
         if addresses.any?
           addresses.map do |a|
-            { lat: a.address_latitude, lng: a.address_longitude }
+            if a.address_latitude.present? & a.address_longitude.present?
+              { lat: a.address_latitude, lng: a.address_longitude }
+            end
           end
-        elsif resource.address.present?
+        elsif resource.address.present? & resource.address_latitude.present? & resource.address_longitude.present?
           { lat: resource.address_latitude, lng: resource.address_longitude }
         end
       end
