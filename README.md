@@ -2,14 +2,14 @@
 
 This project exposes the API endpoints for supporting the askdarcel-web project, which is built using a Ruby on Rails API Server
 
-## Docker-based Development Set-up Instructions (Recommended)
+## Docker-based Development Environment (Recommended)
 
 ### Requirements
 
 Docker Community Edition (CE) >= 17.06
 Docker Compose >= 1.18
 
-Follow the [Docker installation instructions](https://www.docker.com/products/overview) for your OS.
+Download and install the version of [Docker for your OS](https://www.docker.com/community-edition#/download).
 
 ### Set up the project
 
@@ -17,23 +17,40 @@ This is not a full guide to Docker and Docker Compose, so please consult other
 guides to learn more about those tools.
 
 ```sh
+# Build (or rebuild) Docker images
+$ docker-compose build
+
 # Start the database container (in the background with -d)
 $ docker-compose up -d db
 
-# Populate the initial development database
-$ docker-compose run --rm api rake db:create db:schema:load linksf:import
-
-# Alternatively, you can generate random fixtures:
+# Generate random database fixtures
 $ docker-compose run --rm api rake db:setup db:populate
 
 # Start the Rails development server in the api container (in the foreground)
 $ docker-compose up api
 
-# To stop all containers, including background ones
+# Stop all containers, including background ones
 $ docker-compose stop
 ```
 
-## macOS Set-up Instructions Not using Docker
+### Running Postman tests from the command line
+
+```sh
+# Reset DB with initial database fixtures
+$ docker-compose run --rm api rake db:setup db:populate
+
+# Run Docker container that executes Postman CLI tool named newman
+$ docker-compose run --rm postman
+```
+
+### Alternative database setup
+
+```sh
+# Populate the database with an old dump of the database (circa mid-2017)
+$ docker-compose run --rm api rake db:create db:schema:load linksf:import
+```
+
+## macOS-based Development Environment Not Using Docker
 
 ### Install Dependencies
 
@@ -77,14 +94,3 @@ After cloning the repository and `cd`ing into the workspace:
 5. Run the development server.
   - `rails s -b 0.0.0.0`
 6. Do NOT do sudo install -rails
-
-
-### Running Postman tests from the command line
-
-```sh
-# Refresh DB
-$ docker-compose run --rm api rake db:setup db:populate
-
-# Run Docker container that executes Postman CLI tool named newman
-$ docker-compose run --rm postman
-```
