@@ -33,6 +33,13 @@ $ docker-compose up api
 $ docker-compose stop
 ```
 
+Set up the Algolia search index
+  - Create a .env file in the root of your askdarcel-api directory
+  - Populate that file with the backend environment variables found [here](https://sheltertech.quip.com/2ft5Ax19Kc6h)
+  - Run `Resource.reindex!` and `Service.reindex!` in the `rails console`
+  - *Note*: ensure the DB is populated before you add the environment varables
+
+
 ### Running Postman tests from the command line
 
 ```sh
@@ -51,6 +58,7 @@ $ docker-compose run --rm api rake db:create db:schema:load linksf:import
 ```
 
 ## macOS-based Development Environment Not Using Docker
+
 
 ### Install Dependencies
 
@@ -91,6 +99,14 @@ After cloning the repository and `cd`ing into the workspace:
 
   Alternatively, you can generate random fixtures:
   - `rake db:setup db:populate`
-5. Run the development server.
+
+5. Set up the Algolia search index
+    - Create a .env file in the root of your askdarcel-api directory
+    - Populate that file with the backend environment variables found [here](https://sheltertech.quip.com/2ft5Ax19Kc6h)
+    - Run `Resource.reindex!` and `Service.reindex!` in the `rails console`
+    - *Note*: ensure the DB is populated before you add the environment varables
+
+6. Run the development server.
   - `rails s -b 0.0.0.0`
-6. Do NOT do sudo install -rails
+7. Do NOT do sudo install -rails
+

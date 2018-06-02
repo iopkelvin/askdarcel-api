@@ -11,6 +11,9 @@
 # Rspec
 spec/examples.txt
 
+#Ignore config files
+.env
+
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep

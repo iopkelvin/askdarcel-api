@@ -33,6 +33,7 @@ group :development, :test do
   # debugger console
   gem 'byebug'
   gem 'bullet'
+  gem 'dotenv-rails'
   gem 'factory_girl_rails', '~> 4.7'
   gem 'rspec-rails', '~> 3.4'
   gem 'spring'
