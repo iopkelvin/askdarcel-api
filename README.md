@@ -36,6 +36,8 @@ $ docker-compose stop
 Set up the Algolia search index
   - Create a .env file in the root of your askdarcel-api directory
   - Populate that file with the backend environment variables found [here](https://sheltertech.quip.com/2ft5Ax19Kc6h)
+  - Enter the `rails console` 
+  ``` $ docker-compose run --rm api rails console ```
   - Run `Resource.reindex!` and `Service.reindex!` in the `rails console`
   - *Note*: ensure the DB is populated before you add the environment varables
 
