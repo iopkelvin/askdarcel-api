@@ -33,7 +33,9 @@ class Resource < ActiveRecord::Base
 
     # Important: Use Resource.reindex! and Service.reindex! to reindex/create your index
     algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do # rubocop:disable Metrics/BlockLength,Metrics/LineLength
-      geoloc :address_latitude, :address_longitude
+      add_attribute :_geoloc do
+        { lat: address_latitude.to_f, lng: address_longitude.to_f }
+      end
 
       add_attribute :status
 
