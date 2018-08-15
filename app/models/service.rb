@@ -87,6 +87,8 @@ class Service < ActiveRecord::Base
         notes.map(&:note)
       end
 
+      add_attribute :is_mohcd_funded
+
       add_attribute :categories do
         categories.map(&:name)
       end
@@ -108,7 +110,7 @@ class Service < ActiveRecord::Base
   end
 
   def is_mohcd_funded # rubocop:disable Naming/PredicateName
-    categories.any? { |category| category['name'] == 'MOHCD Funded Services' }
+    categories.any? { |category| category['name'] == 'MOHCD Funded' }
   end
 
   def type
