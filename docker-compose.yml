@@ -24,6 +24,10 @@ services:
       - "3000:3000"
     volumes:
       - .:/usr/src/app
+      # Avoid leftover server.pid files when container exits.
+      # https://auth0.com/blog/ruby-on-rails-killer-workflow-with-docker-part-1/
+      - type: tmpfs
+        target: /usr/src/app/tmp/pids
 
   postman:
     build:
