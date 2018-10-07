@@ -1,0 +1,1 @@
+stdout_redirect(stdout = '/dev/stdout', stderr = '/dev/stderr', append = true)
