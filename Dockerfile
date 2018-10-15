@@ -8,8 +8,7 @@ FROM ad2games/docker-rails:2.7.3
 
 RUN mkdir -p /var/lib/dpkg/alternatives /var/lib/dpkg/info /var/lib/dpkg/parts /var/lib/dpkg/triggers /var/lib/dpkg/updates && \
   touch /var/lib/dpkg/status && \
-  ln -sf /dev/stdout /var/log/syslog && \
-  ln -sf /dev/stderr /var/log/syslog && \
+  mv /home/app/webapp/config/appserver.sh /etc/service/appserver/run
   echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' > /etc/apt/sources.list.d/pgdg.list && \
   curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
   apt-get update && \
