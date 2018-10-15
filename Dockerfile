@@ -1,11 +1,15 @@
-FROM ad2games/docker-rails:2.6.2
+FROM ad2games/docker-rails:2.7.3
 
 # ad2games/docker-rails removes files required for dpkg to work. We must
-# recreate those files first before we can install postgresql-client.
+# recreate those files first before we can in stall postgresql-client.
 # See this StackExchange question on restoring dpkg files:
 # http://askubuntu.com/questions/383339/how-to-recover-deleted-dpkg-directory
+# forward request and error logs to docker log collector
+
 RUN mkdir -p /var/lib/dpkg/alternatives /var/lib/dpkg/info /var/lib/dpkg/parts /var/lib/dpkg/triggers /var/lib/dpkg/updates && \
   touch /var/lib/dpkg/status && \
+  ln -sf /dev/stdout /var/log/syslog && \
+  ln -sf /dev/stderr /var/log/syslog && \
   echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' > /etc/apt/sources.list.d/pgdg.list && \
   curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
   apt-get update && \
