@@ -93,6 +93,11 @@ GEM
     json (2.1.0)
     jsonite (0.0.3)
       activesupport (>= 3.1.0)
+    lograge (0.10.0)
+      actionpack (>= 4)
+      activesupport (>= 4)
+      railties (>= 4)
+      request_store (~> 1.0)
     loofah (2.2.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -146,6 +151,8 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (3.0.0)
     rake (12.3.1)
+    request_store (1.4.1)
+      rack (>= 1.4)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
@@ -213,6 +220,7 @@ DEPENDENCIES
   faker
   geokit-rails
   jsonite
+  lograge
   omniauth
   pg
   phonelib

@@ -27,6 +27,8 @@ gem 'rack-cors'
 # Error handling
 gem 'sentry-raven'
 
+gem 'lograge'
+
 group :production do
   gem 'activerecord-nulldb-adapter'
 end

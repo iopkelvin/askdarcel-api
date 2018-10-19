@@ -25,4 +25,6 @@ Rails.application.configure do
   config.active_record.migration_error = :page_load
 
   config.debug_exception_response_format = :api
+
+  config.lograge.enabled = true
 end
