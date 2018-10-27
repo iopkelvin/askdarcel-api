@@ -29,6 +29,8 @@ gem 'sentry-raven'
 
 gem 'lograge'
 
+gem 'prometheus-client'
+
 group :production do
   gem 'activerecord-nulldb-adapter'
 end

@@ -121,7 +121,10 @@ GEM
     pg (0.21.0)
     phonelib (0.6.26)
     powerpack (0.1.2)
+    prometheus-client (0.8.0)
+      quantile (~> 0.2.1)
     puma (3.12.0)
+    quantile (0.2.1)
     rack (2.0.5)
     rack-cors (1.0.2)
     rack-test (0.6.3)
@@ -224,6 +227,7 @@ DEPENDENCIES
   omniauth
   pg
   phonelib
+  prometheus-client
   puma
   rack-cors
   rails
