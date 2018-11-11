@@ -59,7 +59,6 @@ namespace :linksf do
       if organization[:phones].present?
         organization[:phones].each do |phone_number|
           next unless phone_number[:number].present?
-
           phone = resource.phones.build
           phone.service_type = phone_number[:department]
           phone.number = LinkSF.parse_number(phone_number[:number], 'US').full_e164
@@ -98,7 +97,6 @@ namespace :linksf do
 
         service.categories << cat
         next unless json_service[:schedules].present?
-
         json_service[:schedules].each do |schedule|
           open = schedule[:opens_at]
           close = schedule[:closes_at]
@@ -168,7 +166,6 @@ class LinkSF
 
   def self.try_plain_parse(number, country_code)
     return unless Phonelib.valid_for_country?(number, country_code)
-
     Phonelib.parse(number, country_code)
   end
 
@@ -178,14 +175,12 @@ class LinkSF
 
   def self.try_area_code_parse(number, country_code)
     return unless country_code == 'US' && Phonelib.parse(number, country_code).sanitized.length == 7
-
     number_to_area_code = {
       '227-0245' => '415'
     }
     unless number_to_area_code.key? number
       raise "Please manually check #{number}'s area code and add it to the list in this Raketask"
     end
-
     try_plain_parse(number_to_area_code[number] + number, country_code)
   end
 end

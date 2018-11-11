@@ -10,7 +10,6 @@ namespace :db do
 
     task :load, [:filename] => :environment do |_t, args|
       raise 'Refusing to run in production!' if Rails.env.production?
-
       args.with_defaults(filename: 'db.sql')
       DBTasks.set_psql_env!
       raise "Error loading database" unless system("psql < '#{args.filename}'")
