@@ -3,8 +3,8 @@
 namespace :algolia do
   task reindex: :environment do
     print "Reindexing resource/service index... "
-    Resource.reindex!
-    Service.reindex!
+    Resource.where(status: :approved).reindex
+    Service.where(status: :approved).reindex!
     puts "success."
   end
 end
