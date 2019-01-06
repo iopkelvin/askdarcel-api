@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2b5a5078-9637-4ee2-83e5-5727261921cd",
+		"_postman_id": "03c5a084-2528-4d6f-92fa-17a58b0780af",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,11 +11,10 @@
 				{
 					"listen": "test",
 					"script": {
+						"id": "6fc54ef1-1409-44a3-bc1e-6012a857e7dc",
 						"type": "text/javascript",
 						"exec": [
-							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
-							"",
-							"tests[\"Status code is 400\"] = responseCode.code === 400;  // category_id param is required"
+							"tests[\"Status code is 200\"] = responseCode.code === 200;  "
 						]
 					}
 				}
@@ -33,12 +32,18 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{base_url}}/resources",
+					"raw": "{{base_url}}/resources?category_id=all",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"resources"
+					],
+					"query": [
+						{
+							"key": "category_id",
+							"value": "all"
+						}
 					]
 				}
 			},

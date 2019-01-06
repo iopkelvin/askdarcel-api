@@ -3,13 +3,8 @@
 class ResourcesController < ApplicationController
   def index
     category_id = params.require :category_id
-    # TODO: This can be simplified once we remove categories from resources
-    relation =
-      resources
-      .joins(:address)
-      .where(categories_join_string, category_id, category_id)
-      .where(status: Resource.statuses[:approved])
-      .order(sort_order)
+
+    relation = get_all_resources(category_id)
     render json: ResourcesPresenter.present(relation)
   end
 
@@ -58,6 +53,20 @@ class ResourcesController < ApplicationController
   end
 
   private
+
+  def get_all_resources(category_id)
+    relation = if category_id == "all"
+                 resources.where(status: Resource.statuses[:approved])
+               else
+                 # TODO: This can be simplified once we remove categories from resources
+                 resources
+                   .joins(:address)
+                   .where(categories_join_string, category_id, category_id)
+                   .where(status: Resource.statuses[:approved])
+                   .order(sort_order)
+               end
+    relation
+  end
 
   # Clean raw request params for interoperability with Rails APIs.
   def clean_resources_params
