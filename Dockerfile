@@ -12,6 +12,7 @@ RUN mkdir -p /var/lib/dpkg/alternatives /var/lib/dpkg/info /var/lib/dpkg/parts /
   chmod 777 /etc/service/appserver/run && \
   echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' > /etc/apt/sources.list.d/pgdg.list && \
   curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - && \
   apt-get update && \
   apt-get install -y libglib2.0-dev && \
   apt-get install -y postgresql-client-9.5 && \
