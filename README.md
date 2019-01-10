@@ -36,7 +36,7 @@ $ docker-compose build
 # Start the database container (in the background with -d)
 $ docker-compose up -d db
 
-# Start the worker container (in the background with -d)
+# (Optional) start the background worker container (in the background with -d)
 $ docker-compose up -d worker
 
 # Generate random database fixtures
