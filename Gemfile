@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
+# adds a Swagger to API
+gem 'rswag'
+
+
 # Rails/Framework
 gem 'rails'
 gem 'jsonite'
@@ -40,14 +44,15 @@ group :production do
   gem 'activerecord-nulldb-adapter'
 end
 
+gem 'rspec-rails'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a
   # debugger console
+  gem 'factory_bot_rails'
   gem 'byebug'
   gem 'bullet'
   gem 'dotenv-rails'
-  gem 'factory_bot_rails'
-  gem 'rspec-rails'
   gem 'spring'
   gem 'rubocop'
 end
