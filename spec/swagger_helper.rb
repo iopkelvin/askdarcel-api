@@ -21,8 +21,7 @@ RSpec.configure do |config|
         title: 'sheltertech API',
         version: 'v1'
       },
-      paths: {},
-      basePath: '/api'
+      paths: {}
     }
   }
 end
