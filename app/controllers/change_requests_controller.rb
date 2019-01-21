@@ -9,7 +9,7 @@ class ChangeRequestsController < ApplicationController
   rescue ActiveRecord::UnknownAttributeError => e
     render status: :bad_request, json: unknown_attribute_error_json(e)
   rescue ActiveRecord::RecordInvalid => e
-    render status: :bad_request, json: record_invalid_error_json(e)
+    render status: :bad_request, json: RecordInvalidPresenter.present(e)
   end
 
   def create_change_request
@@ -278,14 +278,5 @@ class ChangeRequestsController < ApplicationController
   # safe to return in a JSON API response.
   def unknown_attribute_error_json(error)
     { error: "Unknown attribute in request: \"#{error.attribute}\"" }
-  end
-
-  # Given an ActiveRecord::RecordInvalid error, returns a hash that would be
-  # safe to return in a JSON API response.
-  def record_invalid_error_json(error)
-    msgs = error.record.errors.messages.map do |field, validation_error|
-      "#{field} #{validation_error}"
-    end
-    { error: "Validation errors: #{msgs.join(', ')}" }
   end
 end

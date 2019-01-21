@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181127163326) do
+ActiveRecord::Schema.define(version: 20190106233415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,13 +136,18 @@ ActiveRecord::Schema.define(version: 20181127163326) do
 
   create_table "eligibilities", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "feature_rank"
+    t.index ["feature_rank"], name: "index_eligibilities_on_feature_rank", using: :btree
+    t.index ["name"], name: "index_eligibilities_on_name", unique: true, using: :btree
   end
 
   create_table "eligibilities_services", id: false, force: :cascade do |t|
     t.integer "service_id",     null: false
     t.integer "eligibility_id", null: false
+    t.index ["eligibility_id"], name: "index_eligibilities_services_on_eligibility_id", using: :btree
+    t.index ["service_id"], name: "index_eligibilities_services_on_service_id", using: :btree
   end
 
   create_table "field_changes", force: :cascade do |t|

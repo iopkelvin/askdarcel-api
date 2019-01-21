@@ -30,6 +30,7 @@ module ShelterTech
         create_users
         create_categories
         create_resources
+        create_eligibilities
       end
 
       def reset_db
@@ -70,6 +71,10 @@ module ShelterTech
         resource_creator = ResourceCreator.new(categories: categories, top_level_categories: top_level_categories)
         128.times { resource_creator.create_random_resource }
         TestCafeResourceCreator.create
+      end
+
+      def create_eligibilities
+        EligibilityCreator.create
       end
     end
 
@@ -152,6 +157,31 @@ module ShelterTech
                           type: 'ResourceChangeRequest',
                           status: ChangeRequest.statuses[:pending],
                           object_id: resource.id)
+      end
+    end
+
+    # Performs the following writes:
+    # - Create one eligibility for each of the names in ELIGIBILITY_NAMES
+    # - If an eligibility should be featured, update its feature_rank according to
+    #   the values in ELIGIBILITY_RESOURCE_COUNTS.
+    # - Associate each eligibility with some random resources. The number of
+    #   resources to associate with an eligibility is defined in
+    #   ELIGIBLITY_RESOURCE_COUNTS. Defaults to 5.
+    module EligibilityCreator
+      def self.create
+        Constants::ELIGIBILITY_NAMES.map do |name|
+          feature_rank = Constants::ELIGIBILITY_FEATURE_RANKS[name]
+          resource_count = Constants::ELIGIBILITY_RESOURCE_COUNTS[name] || 5
+          eligibility = FactoryBot.create(:eligibility, name: name, feature_rank: feature_rank)
+          associate_with_random_resources(eligibility, resource_count)
+        end
+      end
+
+      def self.associate_with_random_resources(eligibility, resource_count)
+        resources = Resource.all.sample(resource_count)
+        resources.each do |resource|
+          eligibility.services << resource.services.sample
+        end
       end
     end
 
@@ -379,6 +409,37 @@ module ShelterTech
         'Eviction Defense',
         'Temporary Shelter'
       ].freeze
+
+      ELIGIBILITY_NAMES = [
+        'Seniors',
+        'Veterans',
+        'Families',
+        'Transition Aged Youth (18-25)',
+        'Reentry',
+        'Immigrants',
+        'Foster Youth',
+        'Near Homeless',
+        'LGBTQ',
+        'Alzheimers'
+      ].freeze
+
+      ELIGIBILITY_FEATURE_RANKS = {
+        'Seniors' => 1,
+        'Veterans' => 2,
+        'Families' => 3,
+        'Transition Aged Youth (18-25)' => 4,
+        'Reentry' => 5,
+        'Immigrants' => 6
+      }.freeze
+
+      ELIGIBILITY_RESOURCE_COUNTS = {
+        'Seniors' => 24,
+        'Veterans' => 17,
+        'Families' => 8,
+        'Transition Aged Youth (18-25)' => 24,
+        'Reentry' => 17,
+        'Immigrants' => 8
+      }.freeze
     end
   end
 end
