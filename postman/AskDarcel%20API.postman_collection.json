@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "03c5a084-2528-4d6f-92fa-17a58b0780af",
+		"_postman_id": "b295f2d1-458d-4535-99b2-5937b65c5cb9",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -316,6 +316,65 @@
 			"response": []
 		},
 		{
+			"name": "Get featured categories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1403ee77-8baa-486c-aff1-5d081b1b2b2f",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"categories\": {",
+							"            \"type\": \"array\",",
+							"            \"items\": pm.globals.get('schemas').category,",
+							"        },",
+							"    },",
+							"    \"required\": [",
+							"        \"categories\",",
+							"    ],",
+							"};",
+							"",
+							"var response = pm.response.json();",
+							"tests['Schema is valid'] = tv4.validate(response, schema);",
+							"if (tv4.error) {",
+							"    console.log(\"Validation failed: \", tv4.error);",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/categories",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get all eligibilities",
 			"event": [
 				{
@@ -361,7 +420,7 @@
 			},
 			"response": []
 		},
-    {
+		{
 			"name": "Get featured eligibilities",
 			"event": [
 				{

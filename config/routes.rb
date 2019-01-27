@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :categories do
     collection do
       get :counts
+      get :featured
     end
   end
   resources :eligibilities, only: %i[index show update] do
