@@ -29,5 +29,4 @@ class CategoriesController < ApplicationController
     categories = Category.where(featured: true)
     render json: CategoryPresenter.present(categories)
   end
-
 end
