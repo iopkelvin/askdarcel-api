@@ -53,6 +53,10 @@ module ShelterTech
         @top_level_categories ||= Category.where(top_level: true)
       end
 
+      def featured_categories
+        @featured_categories ||= Category.where(featured: true)
+      end
+
       def create_categories
         Constants::CATEGORY_NAMES.each { |name| FactoryBot.create(:category, name: name) }
         Constants::TOP_LEVEL_CATEGORY_NAMES.each do |c|
@@ -70,7 +74,31 @@ module ShelterTech
       def create_resources
         resource_creator = ResourceCreator.new(categories: categories, top_level_categories: top_level_categories)
         128.times { resource_creator.create_random_resource }
+
+        featured_categories.each do |featured_category|
+          4.times.each do
+            resource_creator.create_random_resource(categories: [featured_category])
+          end
+          update_services_feature_rank(featured_category)
+        end
+
         TestCafeResourceCreator.create
+      end
+
+      # For featured categories, set `feature_rank` for some
+      # `categories_services` relationships.
+      def update_services_feature_rank(featured_category)
+        categories_services = CategoriesService.where(category_id: featured_category.id).limit(2)
+        categories_services.limit(2).each_with_index do |categories_service, i|
+          # the `categories_services` table does not have an `id` column, so we
+          # can't use the standard `update` method. We need to query using the
+          # table's unique key `[category_id, service_id]` and use the
+          # `update_all` method.
+          CategoriesService.where(
+            category_id: categories_service.category_id,
+            service_id: categories_service.service_id
+          ).update_all(feature_rank: i + 1)
+        end
       end
 
       def create_eligibilities
@@ -84,15 +112,16 @@ module ShelterTech
         @categories = categories
       end
 
-      def create_random_resource
+      def create_random_resource(categories: nil)
+        categories ||= @top_level_categories.sample(rand(2)) + @categories.sample(rand(2))
         resource = FactoryBot.create(:resource,
                                      name: Faker::Company.name,
                                      short_description: random_short_description,
                                      long_description: Faker::ShelterTech.description,
                                      website: random_website,
-                                     categories: @top_level_categories.sample(rand(2)) + @categories.sample(rand(2)))
+                                     categories: categories)
 
-        resource.services = create_random_services(resource)
+        resource.services = create_random_services(resource, categories)
       end
 
       def random_short_description
@@ -103,12 +132,11 @@ module ShelterTech
         rand(2).zero? ? '' : Faker::Internet.url
       end
 
-      def create_random_service(resource)
-        service_categories = @top_level_categories.sample(rand(2)) + @categories.sample(rand(2))
+      def create_random_service(resource, categories)
         service = FactoryBot.create(:service,
                                     resource: resource,
                                     long_description: Faker::ShelterTech.description,
-                                    categories: service_categories)
+                                    categories: categories)
 
         FactoryBot.create(:change_request,
                           type: 'ResourceChangeRequest',
@@ -117,8 +145,8 @@ module ShelterTech
         service
       end
 
-      def create_random_services(resource)
-        Array.new(rand(1..2)) { create_random_service(resource) }
+      def create_random_services(resource, categories)
+        Array.new(rand(1..2)) { create_random_service(resource, categories) }
       end
     end
 
@@ -379,7 +407,10 @@ module ShelterTech
         'Re-entry Services',
         'Clean Slate',
         'Probation and Parole',
-        'MOHCD Funded Services'
+        'MOHCD Funded Services',
+        'Basic Needs & Shelter',
+        'Health & Medical',
+        'Employment'
       ].freeze
 
       TOP_LEVEL_CATEGORY_NAMES = [
@@ -405,9 +436,11 @@ module ShelterTech
       ].freeze
 
       FEATURED_CATEGORY_NAMES = [
-        'MOHCD Funded Services',
-        'Eviction Defense',
-        'Temporary Shelter'
+        'Basic Needs & Shelter',
+        'Housing',
+        'Health & Medical',
+        'Employment',
+        'Legal'
       ].freeze
 
       ELIGIBILITY_NAMES = [
