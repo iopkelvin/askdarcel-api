@@ -54,6 +54,11 @@ class ResourcesController < ApplicationController
     end
   end
 
+  # Return the total number of active (i.e., approved) resources
+  def count
+    render status: :ok, json: Resource.approved.count
+  end
+
   private
 
   def get_all_resources(category_id)
