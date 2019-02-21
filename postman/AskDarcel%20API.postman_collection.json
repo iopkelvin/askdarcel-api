@@ -486,9 +486,11 @@
 							"  pm.expect(jsonData.eligibilities[0].name).to.eql('Seniors');",
 							"  pm.expect(jsonData.eligibilities[0].feature_rank).to.eql(1);",
 							"  pm.expect(jsonData.eligibilities[0].resource_count).to.eql(24);",
+							"  pm.expect(jsonData.eligibilities[0].service_count).to.eql(24);",
 							"  pm.expect(jsonData.eligibilities[5].name).to.eql('Immigrants');",
 							"  pm.expect(jsonData.eligibilities[5].feature_rank).to.eql(6);",
 							"  pm.expect(jsonData.eligibilities[5].resource_count).to.eql(8);",
+							"  pm.expect(jsonData.eligibilities[5].service_count).to.eql(8);",
 							"});"
 						],
 						"type": "text/javascript"

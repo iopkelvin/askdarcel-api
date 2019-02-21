@@ -41,12 +41,17 @@ class EligibilitiesController < ApplicationController
   # GET /eligibilities/featured
   #
   # Returns featured eligibilities sorted by `feature_rank`. In addition,
-  # returns the number of resources associated with each eligibility.
+  # returns the number of services and the number of resources associated with
+  # each eligibility.
   def featured
     eligibilities = Eligibility.order(:feature_rank).where.not(feature_rank: nil).to_a
-    resource_counts = Eligibilities::ResourceCounts.compute(eligibilities.map(&:id))
+    # Compute hashes that map from eligibility_id to service counts and
+    # resource counts
+    # TODO(cliff): Deprecate resource counts
+    service_counts, resource_counts = compute_counts(eligibilities.map(&:id))
     items = EligibilityPresenter.present(eligibilities)
     items.each do |item|
+      item['service_count'] = service_counts[item['id']]
       item['resource_count'] = resource_counts[item['id']]
     end
 
@@ -66,5 +71,12 @@ class EligibilitiesController < ApplicationController
     else
       render status: :internal_server_error, json: { error: 'Internal server error' }
     end
+  end
+
+  def compute_counts(eligibility_ids)
+    # TODO(cliff): Deprecate resource counts
+    service_counts = EligibilitiesService.where(eligibility_id: eligibility_ids).group(:eligibility_id).count
+    resource_counts = Eligibilities::ResourceCounts.compute(eligibility_ids)
+    [service_counts, resource_counts]
   end
 end

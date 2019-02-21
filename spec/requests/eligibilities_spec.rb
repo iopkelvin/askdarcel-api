@@ -129,10 +129,13 @@ RSpec.describe 'Eligibilities' do
       items = response_json['eligibilities']
       expect(items.size).to eq(2)
 
+      # TODO(cliff): deprecate resource_count field
       e1, e2 = eligibilities[0..1]
       expect(items[0]['id']).to eq(e2.id)
+      expect(items[0]['service_count']).to eq(2)
       expect(items[0]['resource_count']).to eq(2)
       expect(items[1]['id']).to eq(e1.id)
+      expect(items[1]['service_count']).to eq(1)
       expect(items[1]['resource_count']).to eq(1)
     end
   end
