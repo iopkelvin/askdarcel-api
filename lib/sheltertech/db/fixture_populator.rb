@@ -3,8 +3,8 @@
 require 'faker/sheltertech'
 
 module ShelterTech
-  class DB
-    class Populator
+  module DB
+    class FixturePopulator
       def self.populate
         populator = new
         if Rails.configuration.x.algolia.enabled

@@ -65,6 +65,11 @@ $ docker-compose run --rm postman
 ```sh
 # Populate the database with an old dump of the database (circa mid-2017)
 $ docker-compose run --rm api rake db:create db:schema:load linksf:import
+
+# Populate the database with a direct copy of the live staging database.
+# - Ask technical team for the staging database password.
+$ docker-compose run -e STAGING_DB_PASSWORD=<...> --rm api rake db:setup db:import_staging
+
 ```
 
 ## macOS-based Development Environment Not Using Docker
