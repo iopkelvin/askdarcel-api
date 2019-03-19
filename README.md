@@ -2,6 +2,9 @@
 
 This project exposes the API endpoints for supporting the askdarcel-web project, which is built using a Ruby on Rails API Server
 
+## Onboarding information
+https://sheltertech.quip.com/oSdpAVfvDbPq/ShelterTech-AskDarcel-Developer-Engineer
+
 ## Docker-based Development Environment (Recommended)
 
 ### Requirements
