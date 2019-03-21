@@ -24,7 +24,7 @@ the environment. It is supported by:
 - [NodeJS](https://www.npmjs.com/package/dotenv) (as a library)
 - [Ruby](https://github.com/bkeepers/dotenv) (as a library)
 
-Create a file named `.env` with the credentials listed in [this
+In the root of the repo cloned to your local machine, create a file named `.env` with the credentials listed in [this
 document](https://sheltertech.quip.com/2ft5Ax19Kc6h).
 
 ### Set up the project
