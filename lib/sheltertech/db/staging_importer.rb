@@ -48,6 +48,8 @@ module ShelterTech
           # Re-enable foreign key constraints
           ActiveRecord::Base.connection.execute('SET session_replication_role = DEFAULT;')
         end
+        # Update all ID sequences. Necessary for performing new INSERTs.
+        update_id_sequences!
       end
 
       def self.read_table_records(tables_to_copy)
@@ -122,6 +124,25 @@ module ShelterTech
           ret << model.table_name
         end
         ret.uniq
+      end
+
+      def self.update_id_sequences!
+        table_name_query = "SELECT table_name FROM information_schema.tables WHERE table_schema='public'"
+        results = ActiveRecord::Base.connection.execute(table_name_query).to_a
+        table_names = results.map { |r| r['table_name'] }
+        table_names.each do |table_name|
+          id_sequence = lookup_id_sequence_name(table_name)
+          next unless id_sequence.present?
+          ActiveRecord::Base.connection.execute("SELECT setval('#{id_sequence}', MAX(id)) FROM #{table_name}")
+        end
+      end
+
+      def self.lookup_id_sequence_name(table_name)
+        result = ActiveRecord::Base.connection.execute("select pg_get_serial_sequence('#{table_name}', 'id')").to_a.first
+        return nil unless result.present?
+        result['pg_get_serial_sequence'].gsub('public.', '')
+      rescue ActiveRecord::StatementInvalid
+        nil
       end
 
       def self.time_left!(stats)
