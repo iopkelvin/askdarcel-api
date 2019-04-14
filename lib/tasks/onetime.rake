@@ -41,4 +41,21 @@ namespace :onetime do
       end
     end
   end
+
+  # A service should never point to the same schedule as a resource.
+  # If it shares a schedule with its resource, it shouldn't have its own schedule row.
+  desc 'Ensure services that inherit resource schedules do not have their own schedule'
+  task fix_service_schedule_inheritance: :environment do
+    Schedule.transaction do
+      schedules = Schedule.joins(:service).joins('INNER JOIN resources ' \
+          'ON resources.id = services.resource_id ' \
+          'AND resources.id = schedules.resource_id')
+      schedules.each do |s|
+        puts 'Service id %i shares schedule %i with Resource id %i' % [s.service_id, s.id, s.resource_id]
+        Schedule.update(s.id, :service_id => nil)
+      end
+      puts 'Updated %i schedule records with nil service_id' % [schedules.length]
+    end
+  end
+
 end
