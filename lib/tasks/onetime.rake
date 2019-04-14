@@ -51,11 +51,15 @@ namespace :onetime do
           'ON resources.id = services.resource_id ' \
           'AND resources.id = schedules.resource_id')
       schedules.each do |s|
-        puts 'Service id %i shares schedule %i with Resource id %i' % [s.service_id, s.id, s.resource_id]
-        Schedule.update(s.id, :service_id => nil)
+        puts format(
+          'Service id %<service_id>i shares schedule %<schedule_id>i with Resource id %<resource_id>i',
+          service_id: s.service_id,
+          schedule_id: s.id,
+          resource_id: s.resource_id
+        )
+        Schedule.update(s.id, service_id: nil)
       end
-      puts 'Updated %i schedule records with nil service_id' % [schedules.length]
+      puts format('Updated %<num>i schedule records with nil service_id', num: schedules.length)
     end
   end
-
 end
