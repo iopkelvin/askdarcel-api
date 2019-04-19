@@ -57,6 +57,7 @@ namespace :onetime do
           schedule_id: s.id,
           resource_id: s.resource_id
         )
+        Schedule.create(resource_id: nil, service_id: s.service_id)
         Schedule.update(s.id, service_id: nil)
       end
       puts format('Updated %<num>i schedule records with nil service_id', num: schedules.length)
