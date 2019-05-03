@@ -104,7 +104,6 @@ module ShelterTech
       def create_eligibilities
         EligibilityCreator.create
       end
-
     end
 
     class ResourceCreator

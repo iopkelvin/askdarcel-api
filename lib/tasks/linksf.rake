@@ -18,7 +18,6 @@ namespace :linksf do
     eligibilities = JSON.parse(File.read(File.join(args.dirname, 'eligibilities.json')), symbolize_names: true)
     eligibilities_services = JSON.parse(File.read(File.join(args.dirname, 'eligibilities_services.json')), symbolize_names: true)
 
-
     category_names = %w[Shelter Food Medical Hygiene Technology]
 
     category_names.each do |name|
@@ -29,7 +28,6 @@ namespace :linksf do
     admin.email = 'dev-admin@sheltertech.org'
     admin.password = 'dev-test-01'
     admin.save
-
 
     # locations is an object with IDs as the keys, which we don't need
     locations.each_value do |location|
@@ -110,8 +108,6 @@ namespace :linksf do
         end
       end
 
-
-
       # ...
 
       resource.save!
@@ -162,7 +158,6 @@ namespace :linksf do
 
       change_request.save!
     end
-
 
     eligibilities_services_hash = {}
     eligibilities_services.each do |es|
