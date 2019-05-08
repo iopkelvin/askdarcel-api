@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 # adds a Swagger to API
 gem 'rswag'
 
-
 # Rails/Framework
 gem 'rails'
 gem 'jsonite'
@@ -55,6 +54,7 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'spring'
   gem 'rubocop'
+  gem 'rspec-rails-swagger'
 end
 
 group :test do
