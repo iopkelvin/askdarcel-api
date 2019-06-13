@@ -1,28 +1,5 @@
 version: "3.5"
 
-# Common configuration for Rails processes.
-x-rails-common:
-  &rails-common
-  build:
-    context: .
-    dockerfile: Dockerfile.dev
-  depends_on:
-    - db
-  environment:
-    DATABASE_URL: postgres://postgres@db/askdarcel_development
-    TEST_DATABASE_URL: postgres://postgres@db/askdarcel_test
-    ALGOLIA_APPLICATION_ID:
-    ALGOLIA_API_KEY:
-    ALGOLIA_INDEX_PREFIX:
-  networks:
-    - askdarcel
-  volumes:
-    - .:/usr/src/app
-    # Avoid leftover server.pid files when container exits.
-    # https://auth0.com/blog/ruby-on-rails-killer-workflow-with-docker-part-1/
-    - type: tmpfs
-      target: /usr/src/app/tmp/pids
-
 services:
   db:
     image: "postgres:9.5"
@@ -30,14 +7,28 @@ services:
       - askdarcel
 
   api:
-    << : *rails-common
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres@db/askdarcel_development
+      TEST_DATABASE_URL: postgres://postgres@db/askdarcel_test
+      ALGOLIA_APPLICATION_ID:
+      ALGOLIA_API_KEY:
+      ALGOLIA_INDEX_PREFIX:
+    networks:
+      - askdarcel
+    volumes:
+      - .:/usr/src/app
+      # Avoid leftover server.pid files when container exits.
+      # https://auth0.com/blog/ruby-on-rails-killer-workflow-with-docker-part-1/
+      - type: tmpfs
+        target: /usr/src/app/tmp/pids
     command: rails server --port=3000 --binding=0.0.0.0
     ports:
       - "3000:3000"
-
-  worker:
-    << : *rails-common
-    command: rake jobs:work
 
   postman:
     build:

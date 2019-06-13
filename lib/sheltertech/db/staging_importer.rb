@@ -121,8 +121,6 @@ module ShelterTech
           # Leave out built-in tables, like schema migrations
           next if model_name == 'ApplicationRecord'
           next if model_name.starts_with? 'ActiveRecord::'
-          # Leave out `DelayedJob` table
-          next if model_name.starts_with? 'Delayed::'
 
           ret << model.table_name
         end

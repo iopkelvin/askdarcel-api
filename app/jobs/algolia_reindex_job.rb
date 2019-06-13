@@ -13,10 +13,6 @@
 # > AlgoliaReindexJob.new.perform
 #
 class AlgoliaReindexJob
-  def self.perform_async
-    Delayed::Job.enqueue(AlgoliaReindexJob.new)
-  end
-
   def perform
     Resource.where(status: :approved).reindex
     # Since Service and Resource share an algolia index, we use `reindex!` so

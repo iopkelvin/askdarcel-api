@@ -37,7 +37,5 @@ module AskdarcelApi
         ActiveRecord::Migrator.migrate ::Rails.root.to_s + "/db/migrate"
       end
     end
-
-    config.active_job.queue_adapter = :delayed_job
   end
 end

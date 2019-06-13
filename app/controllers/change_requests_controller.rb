@@ -180,10 +180,17 @@ class ChangeRequestsController < ApplicationController
       puts 'invalid request'
     end
 
+    resource = change_request.resource
+    return unless resource.present?
+
+    # Touch 'updated_at' for resource. Signals to other systems that this
+    # resource and/or its services have been modified.
+    resource.touch
+
     if Rails.configuration.x.algolia.enabled
       # Update Algolia index for both the resource and all its services
-      change_request.resource&.index!
-      change_request.resource&.services.each &:index!
+      resource.index!
+      resource.services.to_a.each &:index!
     end
   end
 

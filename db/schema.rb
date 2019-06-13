@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190602224219) do
+ActiveRecord::Schema.define(version: 20190613054936) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,15 @@ ActiveRecord::Schema.define(version: 20190602224219) do
     t.index ["uid", "provider"], name: "index_admins_on_uid_and_provider", unique: true, using: :btree
   end
 
+  create_table "bookmarks", force: :cascade do |t|
+    t.string   "identifier"
+    t.datetime "date_value"
+    t.integer  "id_value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["identifier"], name: "index_bookmarks_on_identifier", unique: true, using: :btree
+  end
+
   create_table "categories", force: :cascade do |t|
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
@@ -118,21 +127,6 @@ ActiveRecord::Schema.define(version: 20190602224219) do
     t.integer  "service_id"
     t.index ["resource_id"], name: "index_contacts_on_resource_id", using: :btree
     t.index ["service_id"], name: "index_contacts_on_service_id", using: :btree
-  end
-
-  create_table "delayed_jobs", force: :cascade do |t|
-    t.integer  "priority",   default: 0, null: false
-    t.integer  "attempts",   default: 0, null: false
-    t.text     "handler",                null: false
-    t.text     "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string   "locked_by"
-    t.string   "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
   end
 
   create_table "eligibilities", force: :cascade do |t|
@@ -252,6 +246,7 @@ ActiveRecord::Schema.define(version: 20190602224219) do
     t.integer  "source_attribution", default: 0
     t.index ["contact_id"], name: "index_resources_on_contact_id", using: :btree
     t.index ["funding_id"], name: "index_resources_on_funding_id", using: :btree
+    t.index ["updated_at", "id"], name: "index_resources_on_updated_at_and_id", using: :btree
   end
 
   create_table "reviews", force: :cascade do |t|

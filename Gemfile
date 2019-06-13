@@ -30,11 +30,6 @@ gem 'lograge'
 
 gem 'prometheus-client'
 
-# Background Job Processing
-gem 'daemons'
-gem 'delayed_job_active_record'
-gem 'whenever', require: false
-
 gem 'rspec-rails'
 
 group :development, :test do

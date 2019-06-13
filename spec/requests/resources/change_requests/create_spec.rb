@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Resource Change Requests' do
-  let(:resource) { create :resource }
+  let!(:resource) { create :resource }
   let(:params) do
     {
       name: 'New Name',
@@ -12,6 +12,8 @@ RSpec.describe 'Resource Change Requests' do
   end
 
   it 'creates a change request and associated field changes' do
+    resource.update(updated_at: 1.hour.ago)
+
     post "/resources/#{resource.id}/change_requests", params: { change_request: params }
 
     expect(resource.reload.name).to eq(params[:name])
@@ -29,6 +31,9 @@ RSpec.describe 'Resource Change Requests' do
       params[:name]
     ]
     expect(field_changes.map(&:field_value)).to eq(expected_field_values)
+
+    # Verify that `updated_at` field have been set to the present.
+    expect(resource.reload.updated_at.to_i).to be_within(5).of(Time.now.to_i)
 
     expect(response_json).to match(
       'resource_change_request' => {

@@ -47,9 +47,6 @@ $ docker-compose build
 # Start the database container (in the background with -d)
 $ docker-compose up -d db
 
-# (Optional) start the background worker container (in the background with -d)
-$ docker-compose up -d worker
-
 # Generate random database fixtures
 $ docker-compose run --rm api rake db:setup db:populate
 
