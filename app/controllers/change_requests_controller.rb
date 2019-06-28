@@ -60,9 +60,6 @@ class ChangeRequestsController < ApplicationController
   def approve
       change_request = ChangeRequest.find params[:change_request_id]
       if change_request.pending?
-
-        FieldChange.delete_all(["change_request_id = ?", change_request.id])
-
         change_request.field_changes = field_changes_approve change_request.id
 
         change_request.save!
@@ -208,7 +205,7 @@ class ChangeRequestsController < ApplicationController
   end
 
   def field_changes
-    params[:change_request].map do |name, value|
+    params[:change_request].to_unsafe_h.map do |name, value|
       field_change_hash = {}
       # HACK: We need a better way to handle array values
       if name == 'categories'
@@ -227,7 +224,7 @@ class ChangeRequestsController < ApplicationController
   end
 
   def field_changes_approve(change_request_id)
-    params[:change_request].map do |fc|
+    params[:change_request].to_unsafe_h.map do |fc|
       field_change_hash = {}
       field_change_hash[:field_name] = fc[0]
       field_change_hash[:field_value] = fc[1]

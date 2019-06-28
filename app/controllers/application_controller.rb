@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
-  include DeviseTokenAuth::Concerns::SetUserByToken
   rescue_from ActionController::ParameterMissing do
     head :bad_request
   end
@@ -17,10 +16,6 @@ class ApplicationController < ActionController::API
 
   def require_authorization!
     head :unauthorized unless current_user
-  end
-
-  def require_admin_signed_in!
-    render status: :unauthorized unless admin_signed_in?
   end
 
   def current_user
