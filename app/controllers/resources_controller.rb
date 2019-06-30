@@ -46,6 +46,7 @@ class ResourcesController < ApplicationController
   def destroy
     puts params[:id]
     Services::Resources.deactivate params[:id]
+    render status: :ok
   rescue Errors::PreconditionFailed
     render status: :precondition_failed
   end

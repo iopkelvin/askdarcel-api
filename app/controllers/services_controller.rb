@@ -88,6 +88,7 @@ class ServicesController < ApplicationController
 
   def destroy
     Services::Services.deactivate params[:id]
+    render status: :ok
   rescue Errors::PreconditionFailed
     render status: :precondition_failed
   end

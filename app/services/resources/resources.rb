@@ -6,7 +6,7 @@ module Services
 
     def self.deactivate(id)
       resource = Resource.find id
-      raise Errors::PreconditionFailed unless resource.approved
+      raise Errors::PreconditionFailed unless resource.approved?
       resource.inactive!
       remove_from_algolia(resource)
       resource.services.each do |service|
