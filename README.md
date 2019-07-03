@@ -2,17 +2,24 @@
 
 This project exposes the API endpoints for supporting the askdarcel-web project, which is built using a Ruby on Rails API Server
 
+
 ## Onboarding information
-https://sheltertech.quip.com/oSdpAVfvDbPq/ShelterTech-AskDarcel-Developer-Engineer
+
+[Dev Role Description](https://www.notion.so/sheltertech/Developer-Engineer-Role-Description-ShelterTech-AskDarcel-SFServiceGuide-Tech-Team-7fd992a20f864698a43e3882a66338bb)
+
+[Technical Onboarding & Team Guidelines](https://www.notion.so/sheltertech/Technical-Onboarding-and-Team-Guidelines-a06d5543495248bfb6f17e233330249e)
+
 
 ## Docker-based Development Environment (Recommended)
 
 ### Requirements
 
 Docker Community Edition (CE) >= 17.06
+
 Docker Compose >= 1.18
 
 Download and install the version of [Docker for your OS](https://www.docker.com/community-edition#/download).
+
 
 #### Creating the `.env` file
 
@@ -25,7 +32,8 @@ the environment. It is supported by:
 - [Ruby](https://github.com/bkeepers/dotenv) (as a library)
 
 In the root of the repo cloned to your local machine, create a file named `.env` with the credentials listed in [this
-document](https://sheltertech.quip.com/2ft5Ax19Kc6h).
+document](https://www.notion.so/sheltertech/API-Keys-Env-variables-3913e9074b61403c860d1a4649060e4f).
+
 
 ### Set up the project
 
@@ -63,6 +71,7 @@ $ docker-compose run --rm api rake db:setup db:populate
 $ docker-compose run --rm postman
 ```
 
+
 ### Alternative database setup
 
 ```sh
@@ -72,11 +81,10 @@ $ docker-compose run --rm api rake db:create db:schema:load linksf:import
 # Populate the database with a direct copy of the live staging database.
 # - Ask technical team for the staging database password.
 $ docker-compose run -e STAGING_DB_PASSWORD=<...> --rm api rake db:setup db:import_staging
-
 ```
 
-## macOS-based Development Environment Not Using Docker
 
+## macOS-based Development Environment Not Using Docker
 
 ### Install Dependencies
 
@@ -112,7 +120,7 @@ After cloning the repository and `cd`ing into the workspace:
 
 4. Set up the Algolia credentials
     - Create a .env file in the root of your askdarcel-api directory
-    - Populate that file with the backend environment variables found [here](https://sheltertech.quip.com/2ft5Ax19Kc6h)
+    - Populate that file with the backend environment variables found [here](https://www.notion.so/sheltertech/API-Keys-Env-variables-3913e9074b61403c860d1a4649060e4f)
 
 5. Set up the development database and load dummy data.
   - `rake db:create:all`
