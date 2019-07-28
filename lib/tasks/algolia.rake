@@ -7,7 +7,7 @@ namespace :algolia do
     puts '[algolia:reindex] Success.'
   end
 
-  task incremental_index: :enviroment do
+  task incremental_index: :environment do
     puts '[algolia:incremental_index] Indexing recent updates to resources/services...'
     AlgoliaIncrementalIndexJob.new.perform
     puts '[algolia:incremental_index] Success.'
