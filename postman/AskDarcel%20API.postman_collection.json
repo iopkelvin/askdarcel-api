@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "51a454ce-81c3-49cb-9467-96abbcd9e4c1",
+		"_postman_id": "69093694-69b2-49c9-9886-c16ecd552c4a",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -27,10 +27,6 @@
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/resources?category_id=all",
 					"host": [
@@ -91,10 +87,6 @@
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/resources?category_id=1",
 					"host": [
@@ -154,10 +146,6 @@
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/resources/1",
 					"host": [
@@ -197,10 +185,6 @@
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/services/1",
 					"host": [
@@ -239,10 +223,6 @@
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/services/featured?category_id=1",
 					"host": [
@@ -287,10 +267,6 @@
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/services/count",
 					"host": [
@@ -347,10 +323,6 @@
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/categories",
 					"host": [
@@ -406,10 +378,6 @@
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/categories",
 					"host": [
@@ -452,10 +420,6 @@
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/eligibilities",
 					"host": [
@@ -483,7 +447,7 @@
 							"pm.test(\"Featured eligibilities are correctly sorted by feature_rank\", function () {",
 							"  var jsonData = pm.response.json();",
 							"  pm.expect(jsonData.eligibilities.length).to.eql(6);",
-							"  pm.expect(jsonData.eligibilities[0].name).to.eql('Seniors');",
+							"  pm.expect(jsonData.eligibilities[0].name).to.eql('Seniors (55+ years old)');",
 							"  pm.expect(jsonData.eligibilities[0].feature_rank).to.eql(1);",
 							"  pm.expect(jsonData.eligibilities[0].resource_count).to.eql(24);",
 							"  pm.expect(jsonData.eligibilities[0].service_count).to.eql(24);",
@@ -500,10 +464,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/eligibilities/featured",
 					"host": [
@@ -531,7 +491,7 @@
 							"",
 							"pm.test(\"Eligibility feature_rank now 2\", function () {",
 							"  var jsonData = pm.response.json();",
-							"  pm.expect(jsonData.eligibility.name).to.eql(\"Seniors\");",
+							"  pm.expect(jsonData.eligibility.name).to.eql(\"Seniors (55+ years old)\");",
 							"  pm.expect(jsonData.eligibility.feature_rank).to.eql(2);",
 							"});"
 						],
@@ -584,7 +544,7 @@
 							"",
 							"pm.test(\"Eligibility feature_rank now back to 1\", function () {",
 							"  var jsonData = pm.response.json();",
-							"  pm.expect(jsonData.eligibility.name).to.eql(\"Seniors\");",
+							"  pm.expect(jsonData.eligibility.name).to.eql(\"Seniors (55+ years old)\");",
 							"  pm.expect(jsonData.eligibility.feature_rank).to.eql(1);",
 							"});"
 						],
@@ -665,10 +625,6 @@
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/resources/search?query=food",
 					"host": [
@@ -730,10 +686,6 @@
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/resources?category_id=1&lat=100&long=100",
 					"host": [
@@ -802,10 +754,6 @@
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/resources/search?query=food&lat=100&long=100",
 					"host": [
@@ -1539,10 +1487,6 @@
 						"value": "dev-admin@sheltertech.org"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/resources/count",
 					"host": [
