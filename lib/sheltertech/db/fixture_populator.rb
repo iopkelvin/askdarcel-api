@@ -439,11 +439,11 @@ module ShelterTech
       ].freeze
 
       ELIGIBILITY_NAMES = [
-        'Seniors',
+        'Seniors (55+ years old)',
         'Veterans',
         'Families',
-        'Transition Aged Youth (18-25)',
-        'Reentry',
+        'Transition Aged Youth',
+        'Re-Entry',
         'Immigrants',
         'Foster Youth',
         'Near Homeless',
@@ -452,20 +452,20 @@ module ShelterTech
       ].freeze
 
       ELIGIBILITY_FEATURE_RANKS = {
-        'Seniors' => 1,
+        'Seniors (55+ years old)' => 1,
         'Veterans' => 2,
         'Families' => 3,
-        'Transition Aged Youth (18-25)' => 4,
-        'Reentry' => 5,
+        'Transition Aged Youth' => 4,
+        'Re-Entry' => 5,
         'Immigrants' => 6
       }.freeze
 
       ELIGIBILITY_RESOURCE_COUNTS = {
-        'Seniors' => 24,
+        'Seniors (55+ years old)' => 24,
         'Veterans' => 17,
         'Families' => 8,
-        'Transition Aged Youth (18-25)' => 24,
-        'Reentry' => 17,
+        'Transition Aged Youth' => 24,
+        'Re-Entry' => 17,
         'Immigrants' => 8
       }.freeze
     end
