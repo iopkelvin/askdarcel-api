@@ -63,4 +63,31 @@ namespace :onetime do
       puts format('Updated %<num>i schedule records with nil service_id', num: schedules.length)
     end
   end
+
+  # We can run this task in production for resources for HAP until we finish the frontend
+  # to edit the hours_known flag.
+  desc 'Mark certain resources with unknown hours'
+  task mark_resource_hours_unknown: :environment do
+    Resource.transaction do
+      resource_names = [
+        'The Q Foundation'
+      ]
+      Resource.where(name: resource_names).each do |r|
+        Schedule.transaction do
+          schedules = Schedule.where(resource_id: r.id)
+          schedules.each do |s|
+            puts format(
+              'Marked id %<resource_id>i (%<resource_name>s) ' \
+              'with schedule %<schedule_id>i as having unknown hours',
+              resource_id: s.resource_id,
+              resource_name: r.name,
+              schedule_id: s.id
+            )
+            Schedule.update(s.id, hours_known: false)
+          end
+          puts format('Updated %<num>i schedule records with unknown hours', num: schedules.length)
+        end
+      end
+    end
+  end
 end
