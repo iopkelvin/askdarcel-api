@@ -85,7 +85,9 @@ class ResourcesController < ApplicationController
   def fix_resources(resources)
     resources.each do |r|
       r.status = :approved
-      fix_lat_and_long(r.address)
+      r.address.each do |a|
+        fix_lat_and_long(a)
+      end
     end
   end
 

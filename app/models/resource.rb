@@ -11,7 +11,7 @@ class Resource < ActiveRecord::Base
 
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :keywords
-  has_one :address, dependent: :destroy
+  has_many :address, dependent: :destroy
   has_many :phones, dependent: :destroy
   has_one :schedule, dependent: :destroy
   has_many :notes, dependent: :destroy
