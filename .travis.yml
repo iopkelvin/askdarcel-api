@@ -22,6 +22,9 @@ env:
 before_install:
   - nvm install 6
   - nvm use 6
+  # Update bundler because of breaking change
+  # https://bundler.io/blog/2019/01/04/an-update-on-the-bundler-2-release.html
+  - gem install bundler -v '1.17.1'
 
 install:
   # bundle install command copied from Travis's default install.bundler
