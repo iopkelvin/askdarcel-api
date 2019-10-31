@@ -67,7 +67,7 @@ class ResourcesController < ApplicationController
                else
                  # TODO: This can be simplified once we remove categories from resources
                  resources
-                   .joins(:address)
+                   .joins(:addresses)
                    .where(categories_join_string, category_id, category_id)
                    .where(status: Resource.statuses[:approved])
                    .order(sort_order)
@@ -85,7 +85,7 @@ class ResourcesController < ApplicationController
   def fix_resources(resources)
     resources.each do |r|
       r.status = :approved
-      r.address.each do |a|
+      r.addresses.each do |a|
         fix_lat_and_long(a)
       end
     end
@@ -119,7 +119,7 @@ class ResourcesController < ApplicationController
       :website,
       :email,
       :status,
-      address: %i[address_1 address_2 address_3 address_4 city state_province country postal_code latitude longitude],
+      addresses: %i[{ address_1 address_2 address_3 address_4 city state_province country postal_code latitude longitude }],
       schedule: [{ schedule_days: %i[day opens_at closes_at open_day open_time close_day close_time] }],
       phones: %i[number service_type],
       notes: [:note],
@@ -146,7 +146,7 @@ class ResourcesController < ApplicationController
   def transform_simple_objects(resource)
     resource[:notes_attributes] = resource.delete(:notes) if resource.key? :notes
 
-    resource[:address_attributes] = resource.delete(:address) if resource.key? :address
+    resource[:addresses_attributes] = resource.delete(:addresses) if resource.key? :addresses
 
     resource.delete(:notes)
 
@@ -158,7 +158,7 @@ class ResourcesController < ApplicationController
     # separate query per table. Otherwise, it creates one large query with many
     # joins, which amplifies the amount of data being sent between Rails and the
     # DB by several orders of magnitude due to duplication of tuples.
-    Resource.preload(:address, :phones, :categories, :notes,
+    Resource.preload(:addresses, :phones, :categories, :notes,
                      schedule: :schedule_days,
                      services: [:notes, :categories, { schedule: :schedule_days }, :eligibilities],
                      ratings: [:review])

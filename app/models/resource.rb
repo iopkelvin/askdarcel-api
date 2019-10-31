@@ -11,7 +11,7 @@ class Resource < ActiveRecord::Base
 
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :keywords
-  has_many :address, dependent: :destroy
+  has_many :addresses, dependent: :destroy
   has_many :phones, dependent: :destroy
   has_one :schedule, dependent: :destroy
   has_many :notes, dependent: :destroy
@@ -22,7 +22,7 @@ class Resource < ActiveRecord::Base
 
   accepts_nested_attributes_for :notes
   accepts_nested_attributes_for :schedule
-  accepts_nested_attributes_for :address
+  accepts_nested_attributes_for :addresses
   accepts_nested_attributes_for :phones
 
   before_create do
