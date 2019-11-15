@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_11_225329) do
+ActiveRecord::Schema.define(version: 2019_11_15_070339) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -307,6 +307,14 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.index ["funding_id"], name: "index_services_on_funding_id"
     t.index ["program_id"], name: "index_services_on_program_id"
     t.index ["resource_id"], name: "index_services_on_resource_id"
+  end
+
+  create_table "synonyms", force: :cascade do |t|
+    t.string "type"
+    t.text "synonyms", default: [], array: true
+    t.string "objectID"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
