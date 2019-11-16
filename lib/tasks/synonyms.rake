@@ -12,11 +12,9 @@ namespace :synonyms do
     end
 
     Synonym.inheritance_column = :_type_disabled # to avoid getting error when using the type column: "ActiveRecord::SubclassNotFound: The single-table inheritance mechanism failed to locate the subclass: 'synonym'"
-
     synonyms.each do |syn|
       Synonym.create(syn.to_h)
     end
-
     Synonym.inheritance_column = :type # switch on the Rails STI after you've made your updates to the DB columns
 
     puts '[synonyms:populate] Success.'
