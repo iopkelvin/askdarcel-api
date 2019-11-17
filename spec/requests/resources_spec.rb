@@ -53,7 +53,7 @@ RSpec.describe 'Resources', type: :request do
               { latitude: close, longitude: 0 },
               { latitude: far, longitude: 0 },
               { latitude: further, longitude: 0 }
-            ].map { |d| create(:resource, categories: [category], address: create(:address, d)) }
+            ].map { |d| create(:resource, categories: [category], address: [create(:address, d)]) }
           end
 
           let(:category_id) { category.id }
@@ -65,12 +65,12 @@ RSpec.describe 'Resources', type: :request do
 
             it 'returns the close resource before the far resource and before the further resource' do
               returned_address = response_json['resources'].map { |r| r['address'] }
-              expect(returned_address[0]['latitude']).to eq(close.to_f.to_s)
-              expect(returned_address[0]['longitude']).to eq(0.to_f.to_s)
-              expect(returned_address[1]['latitude']).to eq(far.to_f.to_s)
-              expect(returned_address[1]['longitude']).to eq(0.to_f.to_s)
-              expect(returned_address[2]['latitude']).to eq(further.to_f.to_s)
-              expect(returned_address[2]['longitude']).to eq(0.to_f.to_s)
+              expect(returned_address[0][0]['latitude']).to eq(close.to_f.to_s)
+              expect(returned_address[0][0]['longitude']).to eq(0.to_f.to_s)
+              expect(returned_address[1][0]['latitude']).to eq(far.to_f.to_s)
+              expect(returned_address[1][0]['longitude']).to eq(0.to_f.to_s)
+              expect(returned_address[2][0]['latitude']).to eq(further.to_f.to_s)
+              expect(returned_address[2][0]['longitude']).to eq(0.to_f.to_s)
             end
           end
         end
