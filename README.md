@@ -80,6 +80,20 @@ $ docker-compose run --rm api rake db:create db:schema:load linksf:import
 $ docker-compose run -e STAGING_DB_PASSWORD=<...> --rm api rake db:setup db:import_staging
 ```
 
+### Running tools from the terminal
+Due to the DB and API being contained inside Docker containers, running ruby/rails specific tools without having to ssh into the containers involves specific steps
+#### Running the rails console from the terminal
+```sh
+# Start both the DB and API
+$ cd PATH/TO/askdarcel-api
+$ docker-compose run --rm api rails console
+```
+
+#### Running byebug from the terminal
+```sh
+# Start both the DB and API
+$ docker attach $(docker ps -aqf "name=askdarcel-api_api")
+```
 
 ## macOS-based Development Environment Not Using Docker
 
