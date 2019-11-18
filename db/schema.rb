@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_18_080443) do
+ActiveRecord::Schema.define(version: 2019_11_18_101426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -309,12 +309,8 @@ ActiveRecord::Schema.define(version: 2019_11_18_080443) do
     t.index ["resource_id"], name: "index_services_on_resource_id"
   end
 
-  create_table "synonym_groups", force: :cascade do |t|
-    t.integer "group_type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["group_type"], name: "index_synonym_groups_on_group_type"
-  end
+# Could not dump table "synonym_groups" because of following StandardError
+#   Unknown type 'group_type' for column 'group_type'
 
   create_table "synonyms", force: :cascade do |t|
     t.string "word"
