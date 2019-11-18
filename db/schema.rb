@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_11_225329) do
+ActiveRecord::Schema.define(version: 2019_11_18_080443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -309,6 +309,22 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.index ["resource_id"], name: "index_services_on_resource_id"
   end
 
+  create_table "synonym_groups", force: :cascade do |t|
+    t.integer "group_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_type"], name: "index_synonym_groups_on_group_type"
+  end
+
+  create_table "synonyms", force: :cascade do |t|
+    t.string "word"
+    t.bigint "synonym_group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["synonym_group_id"], name: "index_synonyms_on_synonym_group_id"
+    t.index ["word"], name: "index_synonyms_on_word"
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "name"
   end
@@ -347,5 +363,6 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
   add_foreign_key "services", "fundings"
   add_foreign_key "services", "programs"
   add_foreign_key "services", "resources"
+  add_foreign_key "synonyms", "synonym_groups"
   add_foreign_key "volunteers", "resources"
 end
