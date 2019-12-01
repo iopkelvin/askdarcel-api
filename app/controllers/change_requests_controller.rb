@@ -192,6 +192,29 @@ class ChangeRequestsController < ApplicationController
       resource.index!
       resource.services.to_a.each &:index!
     end
+
+    if Rails.configuration.x.airtable.api_key
+      # Update AirTable with this resource's 'name', 'status' & 'updated_at'
+      airtable_orgs = AirTableOrgs.all
+      is_old_resource = 0
+      airtable_orgs.each do |record|
+        if record.fields["ID"] == resource.id
+          record.fields["Organization Name"] = resource.name
+          record.fields["DB Status"] = resource.status
+          record.fields["Last Modified (DB)"] = resource.updated_at
+          record.save
+          is_old_resource = 1
+        end
+      end
+      # Create new AirTable record if change request is for new resource
+      if is_old_resource == 0
+        AirTableOrgs.create("ID" => resource.id,
+             "Organization Name" => resource.name,
+                     "DB Status" => resource.status,
+            "Last Modified (DB)" => resource.updated_at,
+               "Created At (DB)" => resource.created_at)
+      end
+    end
   end
 
   def get_field_change_hash(change_request)
