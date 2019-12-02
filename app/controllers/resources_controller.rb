@@ -30,6 +30,10 @@ class ResourcesController < ApplicationController
       render status: :bad_request, json: { resources: resources.select(&:invalid?).map(&:errors) }
     else
       Resource.transaction { resources.each(&:save!) }
+      airtableorgs = AirTableOrgs
+      resources.each do |r|
+        airtableorgs.update_in_airtable(r)
+      end
       render status: :created, json: { resources: resources.map { |r| ResourcesPresenter.present(r) } }
     end
   end
@@ -40,6 +44,8 @@ class ResourcesController < ApplicationController
     resource.certified = true
     resource.certified_at = Time.now
     resource.save!
+    airtableorgs = AirTableOrgs
+    airtableorgs.update_in_airtable(resource)
     render status: :ok
   end
 
@@ -47,6 +53,8 @@ class ResourcesController < ApplicationController
     resource = Resource.find params[:id]
     if resource.approved?
       resource.inactive!
+      airtableorgs = AirTableOrgs
+      airtableorgs.update_in_airtable(resource)
       remove_from_algolia(resource)
       render status: :ok
     else
