@@ -196,8 +196,7 @@ class ChangeRequestsController < ApplicationController
     if Rails.configuration.x.airtable.api_key
       # Update AirTable with this resource's 'name', 'status' & 'updated_at'
       # Create new AirTable record if one wasn't there already
-      airtableorgs = AirTableOrgs
-      airtableorgs.update_in_airtable(resource)
+      update_in_airtable(resource)
     end
   end
 
