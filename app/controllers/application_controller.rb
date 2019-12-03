@@ -14,10 +14,8 @@ class ApplicationController < ActionController::API
 
   # Update AirTable with a resource's 'name', 'status' & 'updated_at'
   def update_in_airtable(resource)
-    puts resource.id.to_s
     airtable_orgs = AirTableOrgs.all(filter: "{ID} = " + resource.id.to_s)
     if airtable_orgs[0]
-      puts airtable_orgs[0].id.to_s
       org = AirTableOrgs.find(airtable_orgs[0].id)
       org["Organization Name"] = resource.name
       org["DB Status"] = resource.status
@@ -25,10 +23,10 @@ class ApplicationController < ActionController::API
       org.save
     else
       AirTableOrgs.create("ID" => resource.id,
-        "Organization Name" => resource.name,
-        "DB Status" => resource.status,
-        "Last Modified (DB)" => resource.updated_at,
-        "Created At (DB)" => resource.created_at)
+                          "Organization Name" => resource.name,
+                          "DB Status" => resource.status,
+                          "Last Modified (DB)" => resource.updated_at,
+                          "Created At (DB)" => resource.created_at)
     end
   rescue StandardError => e
     puts 'failed to update resource ' + resource.id.to_s + ' to airtable: ' + e.to_s
