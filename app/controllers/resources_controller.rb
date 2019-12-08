@@ -30,9 +30,7 @@ class ResourcesController < ApplicationController
       render status: :bad_request, json: { resources: resources.select(&:invalid?).map(&:errors) }
     else
       Resource.transaction { resources.each(&:save!) }
-      resources.each do |r|
-        update_in_airtable(r)
-      end
+      resources.each { |r| update_in_airtable(r) }
       render status: :created, json: { resources: resources.map { |r| ResourcesPresenter.present(r) } }
     end
   end
