@@ -25,13 +25,11 @@ class ResourcesController < ApplicationController
     # byebug
     resources = clean_resources_params.map { |r| Resource.new(r) }
     fix_resources(resources)
-    if resources.any?(&:invalid?)
-      render status: :bad_request, json: { resources: resources.select(&:invalid?).map(&:errors) }
-    else
-      Resource.transaction { resources.each(&:save!) }
-      render status: :created, json: { resources: resources.map { |r| ResourcesPresenter.present(r) } }
-      insert_in_airtable(resources)
-    end
+    return render_bad_request(resources) if resources.any?(&:invalid?)
+
+    Resource.transaction { resources.each(&:save!) }
+    render status: :created, json: { resources: resources.map { |r| ResourcesPresenter.present(r) } }
+    update_in_airtable(resources[0])
   end
 
   def certify
@@ -91,14 +89,14 @@ class ResourcesController < ApplicationController
     end
   end
 
+  def render_bad_request(resources)
+    render status: :bad_request, json: { resources: resources.select(&:invalid?).map(&:errors) }
+  end
+
   def remove_from_algolia(resource)
     resource.remove_from_index!
   rescue StandardError
     puts 'failed to remove resource ' + resource.id.to_s + ' from algolia index'
-  end
-
-  def insert_in_airtable(resources)
-    resources.each { |r| update_in_airtable(r) }
   end
 
   def fix_lat_and_long(address)
