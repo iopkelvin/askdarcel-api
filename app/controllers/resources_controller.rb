@@ -23,16 +23,15 @@ class ResourcesController < ApplicationController
 
   def create
     # byebug
-    resources_params = clean_resources_params
-    resources = resources_params.map { |r| Resource.new(r) }
+    resources = clean_resources_params.map { |r| Resource.new(r) }
     fix_resources(resources)
     if resources.any?(&:invalid?)
       render status: :bad_request, json: { resources: resources.select(&:invalid?).map(&:errors) }
     else
       Resource.transaction { resources.each(&:save!) }
-      resources.each { |r| update_in_airtable(r) }
       render status: :created, json: { resources: resources.map { |r| ResourcesPresenter.present(r) } }
     end
+    resources.each { |r| update_in_airtable(r) }
   end
 
   def certify
