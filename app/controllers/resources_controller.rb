@@ -30,8 +30,8 @@ class ResourcesController < ApplicationController
     else
       Resource.transaction { resources.each(&:save!) }
       render status: :created, json: { resources: resources.map { |r| ResourcesPresenter.present(r) } }
+      insert_in_airtable(resources)
     end
-    resources.each { |r| update_in_airtable(r) }
   end
 
   def certify
@@ -95,6 +95,10 @@ class ResourcesController < ApplicationController
     resource.remove_from_index!
   rescue StandardError
     puts 'failed to remove resource ' + resource.id.to_s + ' from algolia index'
+  end
+
+  def insert_in_airtable(resources)
+    resources.each { |r| update_in_airtable(r) }
   end
 
   def fix_lat_and_long(address)
