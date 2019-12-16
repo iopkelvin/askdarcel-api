@@ -30,7 +30,7 @@ class AlgoliaReindexJob
 
   def format_synonyms_list
     synonyms_list = []
-    SynonymGroup.all.each do |group|
+    SynonymGroup.find_each do |group|
       word_list = []
       Synonym.where(synonym_group_id: group.id).each do |syn|
         word_list.push(syn.word)
