@@ -44,15 +44,15 @@ class Resource < ActiveRecord::Base
 
       add_attribute :status
 
-      add_attribute :address do
-        if address.present?
-          {
+      add_attribute :addresses do
+        if addresses.present?
+          [{
             city: address.city,
             state_province: address.state_province,
             postal_code: address.postal_code,
             country: address.country,
             address_1: address.address_1
-          }
+          }]
         else
           {}
         end

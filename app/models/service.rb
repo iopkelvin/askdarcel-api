@@ -39,7 +39,7 @@ class Service < ActiveRecord::Base
             { lat: a.address_latitude.to_f, lng: a.address_longitude.to_f } \
               if a.address_latitude.present? & a.address_longitude.present?
           end
-        elsif resource.address.present? & resource.address_latitude.present? & resource.address_longitude.present?
+        elsif resource.addresses.present? & resource.address_latitude.present? & resource.address_longitude.present?
           { lat: resource.address_latitude.to_f, lng: resource.address_longitude.to_f }
         end
       end
@@ -55,14 +55,16 @@ class Service < ActiveRecord::Base
               address_1: a.address_1
             }
           end
-        elsif resource.address.present?
-          {
-            city: resource.address.city,
-            state_province: resource.address.state_province,
-            postal_code: resource.address.postal_code,
-            country: resource.address.country,
-            address_1: resource.address.address_1
-          }
+        elsif resource.addresses.present?
+          resource.addresses.map do |a|
+            {
+              city: a.city,
+              state_province: a.state_province,
+              postal_code: a.postal_code,
+              country: a.country,
+              address_1: a.address_1
+            }
+          end
         end
       end
       add_attribute :schedule do
