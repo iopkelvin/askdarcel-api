@@ -23,15 +23,13 @@ class ResourcesController < ApplicationController
 
   def create
     # byebug
-    resources_params = clean_resources_params
-    resources = resources_params.map { |r| Resource.new(r) }
+    resources = clean_resources_params.map { |r| Resource.new(r) }
     fix_resources(resources)
-    if resources.any?(&:invalid?)
-      render status: :bad_request, json: { resources: resources.select(&:invalid?).map(&:errors) }
-    else
-      Resource.transaction { resources.each(&:save!) }
-      render status: :created, json: { resources: resources.map { |r| ResourcesPresenter.present(r) } }
-    end
+    return render_bad_request(resources) if resources.any?(&:invalid?)
+
+    Resource.transaction { resources.each(&:save!) }
+    render status: :created, json: { resources: resources.map { |r| ResourcesPresenter.present(r) } }
+    update_in_airtable(resources[0])
   end
 
   def certify
@@ -40,6 +38,7 @@ class ResourcesController < ApplicationController
     resource.certified = true
     resource.certified_at = Time.now
     resource.save!
+    update_in_airtable(resource)
     render status: :ok
   end
 
@@ -47,6 +46,7 @@ class ResourcesController < ApplicationController
     resource = Resource.find params[:id]
     if resource.approved?
       resource.inactive!
+      update_in_airtable(resource)
       remove_from_algolia(resource)
       render status: :ok
     else
@@ -87,6 +87,10 @@ class ResourcesController < ApplicationController
       r.status = :approved
       fix_lat_and_long(r.address)
     end
+  end
+
+  def render_bad_request(resources)
+    render status: :bad_request, json: { resources: resources.select(&:invalid?).map(&:errors) }
   end
 
   def remove_from_algolia(resource)
