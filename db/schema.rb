@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_11_225329) do
+ActiveRecord::Schema.define(version: 2019_11_19_150125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,11 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.integer "service_id", null: false
     t.integer "category_id", null: false
     t.integer "feature_rank"
+  end
+
+  create_table "category_relationships", id: false, force: :cascade do |t|
+    t.integer "parent_id", null: false
+    t.integer "child_id", null: false
   end
 
   create_table "change_requests", id: :serial, force: :cascade do |t|
