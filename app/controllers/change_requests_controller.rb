@@ -249,7 +249,7 @@ class ChangeRequestsController < ApplicationController
 
   def changerequest
     ChangeRequest.includes(:field_changes, resource: [
-                             :address, :phones, :categories, :notes,
+                             :addresses, :phones, :categories, :notes,
                              schedule: :schedule_days,
                              services: [:notes, :categories, { schedule: :schedule_days }],
                              ratings: [:review]])
