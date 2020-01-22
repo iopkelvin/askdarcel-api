@@ -90,4 +90,183 @@ namespace :onetime do
       end
     end
   end
+
+  ############################################
+  ## TASKS FOR HIERARCHICAL CATEGORIES WORK ##
+  ############################################
+  ## Steps
+  ## 1. Remap resources/services under fewer categories
+  #### e.g. remap resources/services under 'Prevent & Treat', 'Screening & Exams' to 'Checkup & Test',
+  ## 2. Delete old category names that are now no longer used or mapped to any resource/service
+  #### e.g. delete 'Prevent & Treat', 'Screening & Exams'
+  ## 3. Rename categories to new names according to list provided
+  #### e.g. rename 'Checkup & Test' => 'Medical Care'
+  ## 4. Create new categories that were not renamed to in step 3
+  
+  # STEP 1: Reassign categories in resources/services 
+  desc 'Reassign categories in resources and services to avoid non-unique error when renaming'
+  task reassign_categories: :environment do
+    CategoriesService.transaction do
+      reassignments = {
+        'Prevent & Treat' => 'Checkup & Test',
+        'Screening & Exams' => 'Checkup & Test',
+        'Support Network' => 'Counseling',
+        'Supplies for School' => 'Books',
+        'More Education' => 'Help Find School',
+        'Job Placement' => 'Skills Assessment',
+        'End of Life Care' => 'Hospice',
+        'Help Escape Violence' => 'Immediate Safety',
+        'Domestic Violence' => 'Immediate Safety',
+        'Help Pay for Internet or Phone' => 'Help Pay for Utilities',
+        'Clothes for School' => 'Clothing Vouchers',
+        'Clothes for Work' => 'Clothing Vouchers',
+        'Help Pay for Housing' => 'Housing Vouchers',
+        'Rental Assistance' => 'Housing Vouchers',
+        'Vocational Training' => 'Skills & Training',
+        'Eviction Prevention' => 'At Imminent Risk of Eviction',
+        'Work' => 'Employment',
+        'Money' => 'Financial Aid & Loans',
+        'Help Pay for Transit' => 'Bus Passes'
+      }
+      reassignments.each do |old, new|
+        old_category = Category.find_by(name: old)
+        new_category = Category.find_by(name: new)
+        CategoriesService.where('category_id = ?', old_category.id).update_all(category_id: new_category.id)
+        # do same thing for CategoriesResource ?
+      end
+    end
+  end
+
+  # STEP 2: Delete categories that were reassigned
+  desc 'Delete categories in categories table that were reassigned'
+  task delete_categories: :environment do
+    Category.transaction do
+      to_delete = [
+        'Prevent & Treat',
+        'Screening & Exams',
+        'Support Network',
+        'Supplies for School',
+        'More Education',
+        'Job Placement',
+        'End of Life Care',
+        'Help Escape Violence',
+        'Domestic Violence',
+        'Help Pay for Internet or Phone',
+        'Clothes for School',
+        'Clothes for Work',
+        'Help Pay for Housing',
+        'Rental Assistance',
+        'Vocational Training',
+        'Eviction Prevention',
+        'Work',
+        'Money',
+        'Help Pay for Transit'
+      ]
+      to_delete.each do |c|
+        Category.find_by(name: c).delete
+      end
+    end
+  end
+
+  # STEP 3: Rename categories to new names
+  desc 'Rename certain categories to new names'
+  task rename_categories: :environment do
+    Category.transaction do
+      renames = {
+        'Transportation for Healthcare' => 'Healthcare Transportation',
+        'Checkup & Test' => 'Medical Care',
+        'Personal Hygiene' => 'Hygiene',
+        'Counseling' => 'Counseling & Support',
+        'Hospice' => 'End-of-Life Care',
+        'Retirement Benefits' => 'Government Benefits',
+        'Help Find Childcare' => 'Childcare',
+        'Help Pay for Childcare' => 'Childcare Financial Assistance',
+        'Relief for Caregivers' => 'Caregiver Relief',
+        'Navigating the System' => 'Understand Government Programs',
+        'Help Fill out Forms' => 'Form & Paperwork Assistance',
+        'Help Find Housing' => 'Housing Counseling',
+        'Help Find School' => 'Education',
+        'Books' => 'School Supplies',
+        'Financial Aid & Loans' => 'Finances & Benefits',
+        'Help Find Work' => 'Job Placement & Skill Assessment',
+        'One-on-One Support' => 'Individual Counseling',
+        'Help Pay for School' => 'Education Financial Assistance',
+        'Transportation for School' => 'School Transportation',
+        'Skills & Training' => 'Job Training',
+        'Skills Assessment' => 'Job Placement & Skill Assessment',
+        'Help Pay for Work Expenses' => 'Work Expenses',
+        'Home Delivered Meals' => 'Food Delivery',
+        'Immediate Safety' => 'Physical Safety',
+        'Free Meals' => 'Food',
+        'Help Pay for Food' => 'Food Benefits',
+        'Help Pay for Utilities' => 'Utilities Financial Assistance',
+        'Housing Vouchers' => 'Housing Financial Assistance',
+        'Public Housing' => 'Low-income Housing',
+        'Safe Housing' => 'Domestic Violence Shelter',
+        'Short-Term Housing' => 'Temporary Shelter',
+        'Clothing Vouchers' => 'Clothing',
+        'Home Goods' => 'Goods',
+        'Bus Passes' => 'Transportation Financial Assistance',
+        'Legal Representation' => 'Representation',
+        'Legal Services' => 'Legal',
+        'Adoption' => 'Adoption & Foster Care',
+        'At Imminent Risk of Eviction' => 'Eviction Prevention & Defense',
+        'Disaster Assistance' => 'Disaster Response',
+        'Early Childhood Education' => 'Early Childhood Care',
+        'Case Management' => 'Case Manager',
+        'Money Management' => 'Financial Education',
+        'Habitability' => 'Building Code Enforcement',
+        'Help Pay for Healthcare' => 'Healthcare Financial Assistance',
+        'Homelessness Essentials' => 'Basic Needs',
+        'Subsidized Housing' => 'Low-income Housing',
+        'Employment' => 'Employment & Jobs'
+      }
+      renames.each do |old, new|
+        Category.find_by(name: old).update(name: new)
+      end
+    end
+  end
+
+  # STEP 4: Create new categories that don't exist yet for the hierarchical categories work
+  task add_new_categories_hierarchical: :environment do
+    Category.transaction do
+      categories = [
+        'Residential Care',
+        'English as a Second Language',
+        'Residential Treatment',
+        'Criminal Justice Involvement',
+        'Hot Meals',
+        'Personal Safety Items',
+        'Detox',
+        'Computer or Internet Access',
+        'Utilities & Insurance Assistance',
+        'Transition Age Youth',
+        'Medication Management',
+        'Haircut',
+        'Mental Health Medication',
+        'Health',
+        'Language',
+        'ADA Transit',
+        'Rec Teams',
+        'Traumatic Brain Injury',
+        'Loans',
+        'Domestic Violence Hotline',
+        'STD/STI Treatment & Prevention',
+        'Animal Welfare',
+        'Online Only',
+        'Safety Education',
+        'Drop-In Center',
+        'Supported Employment',
+        'Fitness & Exercise',
+        'Medications',
+        'Addiction Medicine',
+        'Sexual & Reproductive Health',
+        'Probation & Parole',
+        'Disability'
+      ]
+      categories.each do |c|
+        Category.find_or_create_by(name: c)
+      end
+    end
+  end
 end
