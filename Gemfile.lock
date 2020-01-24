@@ -99,6 +99,7 @@ GEM
       addressable (>= 2.4)
     jsonite (0.0.3)
       activesupport (>= 3.1.0)
+    jwt (2.2.1)
     lograge (0.11.2)
       actionpack (>= 4)
       activesupport (>= 4)
@@ -259,6 +260,7 @@ DEPENDENCIES
   faker
   geokit-rails
   jsonite
+  jwt
   lograge
   pg
   phonelib

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'jwt'
 require_relative '../presenters/change_requests_presenter'
 
 class ChangeRequestsController < ApplicationController
