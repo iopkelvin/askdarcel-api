@@ -62,6 +62,7 @@ class ChangeRequestsController < ApplicationController
       if !request.cookies["CF_Authorization"]
           logger.info "Request rejected because of no safe CF_Authorization in header"
           render status: :unauthorized
+          return
       else
          decoded_token = JWT.decode request.cookies['CF_Authorization'], nil, false
          logger.info "The person trying to do this call is: " + decoded_token[0]["email"]
