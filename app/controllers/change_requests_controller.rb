@@ -59,6 +59,13 @@ class ChangeRequestsController < ApplicationController
   end
 
   def approve
+      if !request.cookies["CF_Authorization"]
+          logger.info "Request rejected because of no safe CF_Authorization in header"
+          render status: :unauthorized
+      else
+         decoded_token = JWT.decode request.cookies['CF_Authorization'], nil, false
+         logger.info "The person trying to do this call is: " + decoded_token[0]["email"]
+      end
       change_request = ChangeRequest.find params[:change_request_id]
       if change_request.pending?
         change_request.field_changes = field_changes_approve change_request.id
@@ -120,6 +127,13 @@ class ChangeRequestsController < ApplicationController
   end
 
   def reject
+      if !request.cookies["CF_Authorization"]
+          logger.info "Request rejected because of no safe CF_Authorization in header"
+          render status: :unauthorized
+          else
+          decoded_token = JWT.decode request.cookies['CF_Authorization'], nil, false
+          logger.info "The person trying to do this call is: " + decoded_token[0]["email"]
+      end
       change_request = ChangeRequest.find params[:change_request_id]
       if change_request.pending?
         change_request.rejected!
