@@ -1,8 +1,7 @@
 {
 	"info": {
+		"_postman_id": "96991517-bf96-4da1-9c5b-a6ae2800663d",
 		"name": "AskDarcel Admin API",
-		"_postman_id": "241f6b3d-c648-de5c-61a0-6d4c5a7bfe58",
-		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -41,10 +40,6 @@
 						"value": "dev-admin@sheltertech.org"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/change_requests",
 					"host": [
@@ -53,8 +48,7 @@
 					"path": [
 						"change_requests"
 					]
-				},
-				"description": null
+				}
 			},
 			"response": []
 		},
@@ -64,12 +58,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "71fbe33c-6a36-42f8-a950-431a72504d1a",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
-						]
+							"tests[\"Status code is 401\"] = responseCode.code === 401;"
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -95,6 +90,12 @@
 					{
 						"key": "Content-Type",
 						"value": "application/json"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
 					}
 				],
 				"body": {
@@ -111,8 +112,7 @@
 						"1",
 						"approve"
 					]
-				},
-				"description": null
+				}
 			},
 			"response": []
 		},
@@ -122,12 +122,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "1874f21d-30a5-4591-8b99-1e67c9cb25ea",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
-						]
+							"tests[\"Status code is 401\"] = responseCode.code === 401;"
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -149,6 +150,12 @@
 					{
 						"key": "uid",
 						"value": "dev-admin@sheltertech.org"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
 					}
 				],
 				"body": {
@@ -164,9 +171,14 @@
 						"change_requests",
 						"2",
 						"reject"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
 					]
-				},
-				"description": null
+				}
 			},
 			"response": []
 		},
@@ -205,10 +217,6 @@
 						"value": "dev-admin@sheltertech.org"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/services/pending",
 					"host": [
@@ -218,8 +226,7 @@
 						"services",
 						"pending"
 					]
-				},
-				"description": null
+				}
 			},
 			"response": []
 		},
@@ -270,8 +277,7 @@
 						"1",
 						"approve"
 					]
-				},
-				"description": null
+				}
 			},
 			"response": []
 		},
@@ -322,8 +328,7 @@
 						"1",
 						"certify"
 					]
-				},
-				"description": null
+				}
 			},
 			"response": []
 		},
@@ -374,8 +379,7 @@
 						"2",
 						"reject"
 					]
-				},
-				"description": null
+				}
 			},
 			"response": []
 		},
@@ -429,8 +433,7 @@
 						"services",
 						"7"
 					]
-				},
-				"description": null
+				}
 			},
 			"response": []
 		},
@@ -484,8 +487,7 @@
 						"resources",
 						"7"
 					]
-				},
-				"description": null
+				}
 			},
 			"response": []
 		},
@@ -538,8 +540,7 @@
 						"7",
 						"certify"
 					]
-				},
-				"description": null
+				}
 			},
 			"response": []
 		},
@@ -578,10 +579,6 @@
 						"value": "dev-admin@sheltertech.org"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/categories/counts",
 					"host": [
@@ -591,8 +588,7 @@
 						"categories",
 						"counts"
 					]
-				},
-				"description": null
+				}
 			},
 			"response": []
 		},
@@ -631,10 +627,6 @@
 						"value": "dev-admin@sheltertech.org"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/change_requests/pending_count",
 					"host": [
@@ -644,8 +636,7 @@
 						"change_requests",
 						"pending_count"
 					]
-				},
-				"description": null
+				}
 			},
 			"response": []
 		},
@@ -684,10 +675,6 @@
 						"value": "dev-admin@sheltertech.org"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{base_url}}/change_requests/activity_by_timeframe?start_date=2015-06-11T11:34+01:00&end_date=2019-06-11T11:34+01:00",
 					"host": [
@@ -700,19 +687,17 @@
 					"query": [
 						{
 							"key": "start_date",
-							"value": "2015-06-11T11:34+01:00",
-							"equals": true
+							"value": "2015-06-11T11:34+01:00"
 						},
 						{
 							"key": "end_date",
-							"value": "2019-06-11T11:34+01:00",
-							"equals": true
+							"value": "2019-06-11T11:34+01:00"
 						}
 					]
-				},
-				"description": null
+				}
 			},
 			"response": []
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }
