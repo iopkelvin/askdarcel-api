@@ -35,6 +35,7 @@ gem 'jwt'
 gem 'lograge'
 
 gem 'prometheus-client'
+gem 'rufo'
 
 gem 'rspec-rails'
 

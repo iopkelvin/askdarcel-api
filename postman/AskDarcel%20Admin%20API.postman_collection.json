@@ -1,8 +1,10 @@
 {
+	"variables": [],
 	"info": {
-		"_postman_id": "96991517-bf96-4da1-9c5b-a6ae2800663d",
 		"name": "AskDarcel Admin API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"_postman_id": "48f50fa3-6b38-36a2-a054-845a12e3dab6",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
@@ -15,40 +17,23 @@
 						"exec": [
 							"tests[\"Response time is less than 12000ms\"] = responseTime < 12000;",
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+							"tests[\"Status code is 401\"] = responseCode.code === 401;"
 						]
 					}
 				}
 			],
 			"request": {
+				"url": "{{base_url}}/change_requests",
 				"method": "GET",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "access-token",
-						"value": "{{access-token}}"
-					},
-					{
-						"key": "client",
-						"value": "{{client}}"
-					},
-					{
-						"key": "uid",
-						"value": "dev-admin@sheltertech.org"
+						"value": "application/json",
+						"description": ""
 					}
 				],
-				"url": {
-					"raw": "{{base_url}}/change_requests",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"change_requests"
-					]
-				}
+				"body": {},
+				"description": ""
 			},
 			"response": []
 		},
@@ -58,61 +43,36 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "71fbe33c-6a36-42f8-a950-431a72504d1a",
+						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 401\"] = responseCode.code === 401;"
-						],
-						"type": "text/javascript"
+						]
 					}
 				}
 			],
 			"request": {
+				"url": "{{base_url}}/change_requests/1/approve",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "access-token",
-						"value": "{{access-token}}"
-					},
-					{
-						"key": "client",
-						"value": "{{client}}"
-					},
-					{
-						"key": "uid",
-						"value": "dev-admin@sheltertech.org"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
+						"value": "application/json",
+						"description": ""
 					},
 					{
 						"key": "",
 						"value": "",
-						"type": "text",
+						"description": "",
 						"disabled": true
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n  \"change_request\" : {\n    \"name\" : \"newnamee\"\n  }\n}"
+					"raw": ""
 				},
-				"url": {
-					"raw": "{{base_url}}/change_requests/1/approve",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"change_requests",
-						"1",
-						"approve"
-					]
-				}
+				"description": ""
 			},
 			"response": []
 		},
@@ -122,39 +82,28 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1874f21d-30a5-4591-8b99-1e67c9cb25ea",
+						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 401\"] = responseCode.code === 401;"
-						],
-						"type": "text/javascript"
+						]
 					}
 				}
 			],
 			"request": {
+				"url": "{{base_url}}/change_requests/2/reject",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "access-token",
-						"value": "{{access-token}}"
-					},
-					{
-						"key": "client",
-						"value": "{{client}}"
-					},
-					{
-						"key": "uid",
-						"value": "dev-admin@sheltertech.org"
+						"value": "application/json",
+						"description": ""
 					},
 					{
 						"key": "",
 						"value": "",
-						"type": "text",
+						"description": "",
 						"disabled": true
 					}
 				],
@@ -162,23 +111,7 @@
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": {
-					"raw": "{{base_url}}/change_requests/2/reject",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"change_requests",
-						"2",
-						"reject"
-					],
-					"query": [
-						{
-							"key": "",
-							"value": ""
-						}
-					]
-				}
+				"description": ""
 			},
 			"response": []
 		},
@@ -198,35 +131,17 @@
 				}
 			],
 			"request": {
+				"url": "{{base_url}}/services/pending",
 				"method": "GET",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "access-token",
-						"value": "{{access-token}}"
-					},
-					{
-						"key": "client",
-						"value": "{{client}}"
-					},
-					{
-						"key": "uid",
-						"value": "dev-admin@sheltertech.org"
+						"value": "application/json",
+						"description": ""
 					}
 				],
-				"url": {
-					"raw": "{{base_url}}/services/pending",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"services",
-						"pending"
-					]
-				}
+				"body": {},
+				"description": ""
 			},
 			"response": []
 		},
@@ -244,40 +159,20 @@
 				}
 			],
 			"request": {
+				"url": "{{base_url}}/services/1/approve",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "access-token",
-						"value": "{{access-token}}"
-					},
-					{
-						"key": "client",
-						"value": "{{client}}"
-					},
-					{
-						"key": "uid",
-						"value": "dev-admin@sheltertech.org"
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": {
-					"raw": "{{base_url}}/services/1/approve",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"services",
-						"1",
-						"approve"
-					]
-				}
+				"description": ""
 			},
 			"response": []
 		},
@@ -295,40 +190,20 @@
 				}
 			],
 			"request": {
+				"url": "{{base_url}}/services/1/certify",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "access-token",
-						"value": "{{access-token}}"
-					},
-					{
-						"key": "client",
-						"value": "{{client}}"
-					},
-					{
-						"key": "uid",
-						"value": "dev-admin@sheltertech.org"
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": {
-					"raw": "{{base_url}}/services/1/certify",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"services",
-						"1",
-						"certify"
-					]
-				}
+				"description": ""
 			},
 			"response": []
 		},
@@ -346,40 +221,20 @@
 				}
 			],
 			"request": {
+				"url": "{{base_url}}/services/2/reject",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "access-token",
-						"value": "{{access-token}}"
-					},
-					{
-						"key": "client",
-						"value": "{{client}}"
-					},
-					{
-						"key": "uid",
-						"value": "dev-admin@sheltertech.org"
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": {
-					"raw": "{{base_url}}/services/2/reject",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"services",
-						"2",
-						"reject"
-					]
-				}
+				"description": ""
 			},
 			"response": []
 		},
@@ -401,39 +256,20 @@
 				}
 			],
 			"request": {
+				"url": "{{base_url}}/services/7",
 				"method": "DELETE",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "access-token",
-						"value": "{{access-token}}"
-					},
-					{
-						"key": "client",
-						"value": "{{client}}"
-					},
-					{
-						"key": "uid",
-						"value": "dev-admin@sheltertech.org"
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": {
-					"raw": "{{base_url}}/services/7",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"services",
-						"7"
-					]
-				}
+				"description": ""
 			},
 			"response": []
 		},
@@ -455,39 +291,20 @@
 				}
 			],
 			"request": {
+				"url": "{{base_url}}/resources/7",
 				"method": "DELETE",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "access-token",
-						"value": "{{access-token}}"
-					},
-					{
-						"key": "client",
-						"value": "{{client}}"
-					},
-					{
-						"key": "uid",
-						"value": "dev-admin@sheltertech.org"
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": {
-					"raw": "{{base_url}}/resources/7",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"resources",
-						"7"
-					]
-				}
+				"description": ""
 			},
 			"response": []
 		},
@@ -507,40 +324,20 @@
 				}
 			],
 			"request": {
+				"url": "{{base_url}}/resources/7/certify",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "access-token",
-						"value": "{{access-token}}"
-					},
-					{
-						"key": "client",
-						"value": "{{client}}"
-					},
-					{
-						"key": "uid",
-						"value": "dev-admin@sheltertech.org"
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": {
-					"raw": "{{base_url}}/resources/7/certify",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"resources",
-						"7",
-						"certify"
-					]
-				}
+				"description": ""
 			},
 			"response": []
 		},
@@ -560,35 +357,17 @@
 				}
 			],
 			"request": {
+				"url": "{{base_url}}/categories/counts",
 				"method": "GET",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "access-token",
-						"value": "{{access-token}}"
-					},
-					{
-						"key": "client",
-						"value": "{{client}}"
-					},
-					{
-						"key": "uid",
-						"value": "dev-admin@sheltertech.org"
+						"value": "application/json",
+						"description": ""
 					}
 				],
-				"url": {
-					"raw": "{{base_url}}/categories/counts",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"categories",
-						"counts"
-					]
-				}
+				"body": {},
+				"description": ""
 			},
 			"response": []
 		},
@@ -602,41 +381,23 @@
 						"exec": [
 							"tests[\"Response time is less than 12000ms\"] = responseTime < 12000;",
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+							"tests[\"Status code is 401\"] = responseCode.code === 401;"
 						]
 					}
 				}
 			],
 			"request": {
+				"url": "{{base_url}}/change_requests/pending_count",
 				"method": "GET",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "access-token",
-						"value": "{{access-token}}"
-					},
-					{
-						"key": "client",
-						"value": "{{client}}"
-					},
-					{
-						"key": "uid",
-						"value": "dev-admin@sheltertech.org"
+						"value": "application/json",
+						"description": ""
 					}
 				],
-				"url": {
-					"raw": "{{base_url}}/change_requests/pending_count",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"change_requests",
-						"pending_count"
-					]
-				}
+				"body": {},
+				"description": ""
 			},
 			"response": []
 		},
@@ -650,31 +411,12 @@
 						"exec": [
 							"tests[\"Response time is less than 12000ms\"] = responseTime < 12000;",
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+							"tests[\"Status code is 401\"] = responseCode.code === 401;"
 						]
 					}
 				}
 			],
 			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "access-token",
-						"value": "{{access-token}}"
-					},
-					{
-						"key": "client",
-						"value": "{{client}}"
-					},
-					{
-						"key": "uid",
-						"value": "dev-admin@sheltertech.org"
-					}
-				],
 				"url": {
 					"raw": "{{base_url}}/change_requests/activity_by_timeframe?start_date=2015-06-11T11:34+01:00&end_date=2019-06-11T11:34+01:00",
 					"host": [
@@ -687,17 +429,31 @@
 					"query": [
 						{
 							"key": "start_date",
-							"value": "2015-06-11T11:34+01:00"
+							"value": "2015-06-11T11:34+01:00",
+							"equals": true,
+							"description": ""
 						},
 						{
 							"key": "end_date",
-							"value": "2019-06-11T11:34+01:00"
+							"value": "2019-06-11T11:34+01:00",
+							"equals": true,
+							"description": ""
 						}
-					]
-				}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
 			},
 			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
