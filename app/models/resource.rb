@@ -34,7 +34,8 @@ class Resource < ActiveRecord::Base
     # and staging servers use the same RAILS_ENV.
 
     # Important: Use Resource.reindex! and Service.reindex! to reindex/create your index
-    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do # rubocop:disable Metrics/BlockLength,Metrics/LineLength
+    # rubocop:disable Metrics/BlockLength
+    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do
       # specify the list of attributes available for faceting
       attributesForFaceting %i[categories open_times]
       # Define attributes used to build an Algolia record
@@ -102,6 +103,7 @@ class Resource < ActiveRecord::Base
         end
       end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 
   def resource_id

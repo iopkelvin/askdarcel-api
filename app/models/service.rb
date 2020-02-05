@@ -27,7 +27,8 @@ class Service < ActiveRecord::Base
   if Rails.configuration.x.algolia.enabled
     # Note: We can't use the per_environment option because both our production
     # and staging servers use the same RAILS_ENV.
-    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do # rubocop:disable Metrics/BlockLength,Metrics/LineLength
+    # rubocop:disable Metrics/BlockLength
+    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do
       # specify the list of attributes available for faceting
       attributesForFaceting %i[categories open_times eligibilities]
 
@@ -127,6 +128,7 @@ class Service < ActiveRecord::Base
       #   keywords.map(&:name)
       # end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 
   def service_of

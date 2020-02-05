@@ -1,6 +1,5 @@
 # frozen_string_literal: true
-require 'jwt'
-require_relative '../presenters/change_requests_presenter'
+require_relative "../presenters/change_requests_presenter"
 
 class ChangeRequestsController < ApplicationController
   def create
@@ -20,10 +19,10 @@ class ChangeRequestsController < ApplicationController
       @change_request = ServiceChangeRequest.create(object_id: params[:service_id], resource_id: Service.find(params[:service_id]).resource_id)
     elsif params[:address_id]
       @change_request = AddressChangeRequest.create(object_id: params[:address_id], resource_id: Address.find(params[:address_id]).resource_id)
-    elsif params[:phone_id] || params[:type] == 'phones'
+    elsif params[:phone_id] || params[:type] == "phones"
       resource_id = params[:parent_resource_id] || Phone.find(params[:phone_id]).resource_id
       @change_request = PhoneChangeRequest.create(object_id: params[:phone_id], resource_id: resource_id)
-    elsif params[:schedule_day_id] || params[:type] == 'schedule_days'
+    elsif params[:schedule_day_id] || params[:type] == "schedule_days"
       schedule = nil
       if params[:schedule_day_id]
         schedule = Schedule.find(ScheduleDay.find(params[:schedule_day_id]).schedule_id)
@@ -55,72 +54,76 @@ class ChangeRequestsController < ApplicationController
   end
 
   def index
-      render json: ChangeRequestsWithResourcePresenter.present(changerequest.pending)
+    if !require_authorization!
+      return
+    end
+    render json: ChangeRequestsWithResourcePresenter.present(changerequest.pending)
   end
 
   def approve
-      if !request.cookies["CF_Authorization"]
-          logger.info "Request rejected because of no safe CF_Authorization in header"
-          render status: :unauthorized
-          return
-      else
-         decoded_token = JWT.decode request.cookies['CF_Authorization'], nil, false
-         logger.info "The person trying to do this call is: " + decoded_token[0]["email"]
-      end
-      change_request = ChangeRequest.find params[:change_request_id]
-      if change_request.pending?
-        change_request.field_changes = field_changes_approve change_request.id
+    if !require_authorization!
+      return
+    end
+    change_request = ChangeRequest.find params[:change_request_id]
+    if change_request.pending?
+      change_request.field_changes = field_changes_approve change_request.id
 
-        change_request.save!
+      change_request.save!
 
-        persist_change change_request
-        change_request.approved!
-        render status: :ok
-      elsif change_request.approved?
-        render status: :not_modified
-      else
-        render status: :precondition_failed
-      end
+      persist_change change_request
+      change_request.approved!
+      render status: :ok
+    elsif change_request.approved?
+      render status: :not_modified
+    else
+      render status: :precondition_failed
+    end
   end
 
   def pending_count
-      render json: {
-                    address_cr: ChangeRequest.all.where('type' => 'AddressChangeRequest').where('status' => 0).count,
-                    note_cr: ChangeRequest.all.where('type' => 'NoteChangeRequest').where('status' => 0).count,
-                    phone_cr: ChangeRequest.all.where('type' => 'PhoneChangeRequest').where('status' => 0).count,
-                    resource_cr: ChangeRequest.all.where('type' => 'ResourceChangeRequest').where('status' => 0).count,
-                    schedule_day_cr: ChangeRequest.all.where('type' => 'ScheduleDayChangeRequest').where('status' => 0).count,
-                    service_cr: ChangeRequest.all.where('type' => 'ServiceChangeRequest').where('status' => 0).count,
-                    new_resources: Resource.all.where('status' => 0).count,
-                    new_services: Service.all.where('status' => 0).count
-                    }
+    if !require_authorization!
+      return
+    end
+    render json: {
+             address_cr: ChangeRequest.all.where("type" => "AddressChangeRequest").where("status" => 0).count,
+             note_cr: ChangeRequest.all.where("type" => "NoteChangeRequest").where("status" => 0).count,
+             phone_cr: ChangeRequest.all.where("type" => "PhoneChangeRequest").where("status" => 0).count,
+             resource_cr: ChangeRequest.all.where("type" => "ResourceChangeRequest").where("status" => 0).count,
+             schedule_day_cr: ChangeRequest.all.where("type" => "ScheduleDayChangeRequest").where("status" => 0).count,
+             service_cr: ChangeRequest.all.where("type" => "ServiceChangeRequest").where("status" => 0).count,
+             new_resources: Resource.all.where("status" => 0).count,
+             new_services: Service.all.where("status" => 0).count,
+           }
   end
 
   def activity_by_timeframe
-      start_date = params[:start_date].to_s
-      end_date = params[:end_date].to_s
-      render json: {
-          new: {
-                address_cr: ChangeRequest.all.where('type' => 'AddressChangeRequest').where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
-                note_cr: ChangeRequest.all.where('type' => 'NoteChangeRequest').where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
-                phone_cr: ChangeRequest.all.where('type' => 'PhoneChangeRequest').where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
-                resource_cr: ChangeRequest.all.where('type' => 'ResourceChangeRequest').where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
-                schedule_day_cr: ChangeRequest.all.where('type' => 'ScheduleDayChangeRequest').where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
-                service_cr: ChangeRequest.all.where('type' => 'ServiceChangeRequest').where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
-                new_resources: Resource.all.where('status' => 0).where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
-                new_services: Service.all.where('status' => 0).where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count
-          },
-          approved: {
-            address_cr: ChangeRequest.all.where('type' => 'AddressChangeRequest').where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
-                note_cr: ChangeRequest.all.where('type' => 'NoteChangeRequest').where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
-                phone_cr: ChangeRequest.all.where('type' => 'PhoneChangeRequest').where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
-                resource_cr: ChangeRequest.all.where('type' => 'ResourceChangeRequest').where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
-                schedule_day_cr: ChangeRequest.all.where('type' => 'ScheduleDayChangeRequest').where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
-                service_cr: ChangeRequest.all.where('type' => 'ServiceChangeRequest').where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
-                new_resources: Resource.all.where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
-                new_services: Service.all.where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count
-          }
-      }
+    if !require_authorization!
+      return
+    end
+    start_date = params[:start_date].to_s
+    end_date = params[:end_date].to_s
+    render json: {
+             new: {
+               address_cr: ChangeRequest.all.where("type" => "AddressChangeRequest").where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
+               note_cr: ChangeRequest.all.where("type" => "NoteChangeRequest").where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
+               phone_cr: ChangeRequest.all.where("type" => "PhoneChangeRequest").where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
+               resource_cr: ChangeRequest.all.where("type" => "ResourceChangeRequest").where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
+               schedule_day_cr: ChangeRequest.all.where("type" => "ScheduleDayChangeRequest").where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
+               service_cr: ChangeRequest.all.where("type" => "ServiceChangeRequest").where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
+               new_resources: Resource.all.where("status" => 0).where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
+               new_services: Service.all.where("status" => 0).where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
+             },
+             approved: {
+               address_cr: ChangeRequest.all.where("type" => "AddressChangeRequest").where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
+               note_cr: ChangeRequest.all.where("type" => "NoteChangeRequest").where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
+               phone_cr: ChangeRequest.all.where("type" => "PhoneChangeRequest").where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
+               resource_cr: ChangeRequest.all.where("type" => "ResourceChangeRequest").where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
+               schedule_day_cr: ChangeRequest.all.where("type" => "ScheduleDayChangeRequest").where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
+               service_cr: ChangeRequest.all.where("type" => "ServiceChangeRequest").where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
+               new_resources: Resource.all.where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
+               new_services: Service.all.where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
+             },
+           }
   end
 
   def replace_field_changes(change_request)
@@ -128,23 +131,18 @@ class ChangeRequestsController < ApplicationController
   end
 
   def reject
-      if !request.cookies["CF_Authorization"]
-          logger.info "Request rejected because of no safe CF_Authorization in header"
-          render status: :unauthorized
-          return
-          else
-          decoded_token = JWT.decode request.cookies['CF_Authorization'], nil, false
-          logger.info "The person trying to do this call is: " + decoded_token[0]["email"]
-      end
-      change_request = ChangeRequest.find params[:change_request_id]
-      if change_request.pending?
-        change_request.rejected!
-        render status: :ok
-      elsif change_request.rejected?
-        render status: :not_modified
-      else
-        render status: :precondition_failed
-      end
+    if !require_authorization!
+      return
+    end
+    change_request = ChangeRequest.find params[:change_request_id]
+    if change_request.pending?
+      change_request.rejected!
+      render status: :ok
+    elsif change_request.rejected?
+      render status: :not_modified
+    else
+      render status: :precondition_failed
+    end
   end
 
   private
@@ -155,46 +153,46 @@ class ChangeRequestsController < ApplicationController
     field_change_hash = get_field_change_hash change_request
 
     if change_request.is_a? ServiceChangeRequest
-      puts 'ServiceChangeRequest'
+      puts "ServiceChangeRequest"
       service = Service.find(change_request.object_id)
       service.update field_change_hash
     elsif change_request.is_a? ResourceChangeRequest
-      puts 'ResourceChangeRequest'
+      puts "ResourceChangeRequest"
       resource = Resource.find(change_request.object_id)
       resource.update field_change_hash
     elsif change_request.is_a? ScheduleDayChangeRequest
-      puts 'ScheduleDayChangeRequest'
+      puts "ScheduleDayChangeRequest"
       ScheduleDayChangeRequest.modify_schedule_day_hours(field_change_hash, params[:schedule_id], change_request.object_id)
     elsif change_request.is_a? NoteChangeRequest
-      puts 'NoteChangeRequest'
+      puts "NoteChangeRequest"
       note = Note.find(change_request.object_id)
       note.update field_change_hash
     elsif change_request.is_a? PhoneChangeRequest
-      puts 'PhoneChangeRequest'
+      puts "PhoneChangeRequest"
       if change_request.object_id
         phone = Phone.find(change_request.object_id)
       else
-        phone = Phone.new(resource_id: change_request.resource_id, service_type: '')
+        phone = Phone.new(resource_id: change_request.resource_id, service_type: "")
       end
       if field_change_hash["number"]
-        field_change_hash["number"] = Phonelib.parse(field_change_hash["number"], 'US').full_e164
+        field_change_hash["number"] = Phonelib.parse(field_change_hash["number"], "US").full_e164
       end
       phone.update field_change_hash
     elsif change_request.is_a? AddressChangeRequest
-      puts 'AddressChangeRequest'
+      puts "AddressChangeRequest"
       address = Address.find(change_request.object_id)
 
       begin
-        a = Geokit::Geocoders::GoogleGeocoder.geocode address.address_1 + ',' + address.city + ',' + address.state_province
-        field_change_hash['latitude'] = a.latitude
-        field_change_hash['longitude'] = a.longitude
+        a = Geokit::Geocoders::GoogleGeocoder.geocode address.address_1 + "," + address.city + "," + address.state_province
+        field_change_hash["latitude"] = a.latitude
+        field_change_hash["longitude"] = a.longitude
       rescue => error
-        puts 'google geocoding failed for address ' + address.id.to_s + ': ' + error.message
+        puts "google geocoding failed for address " + address.id.to_s + ": " + error.message
       end
 
       address.update field_change_hash
     else
-      puts 'invalid request'
+      puts "invalid request"
     end
 
     resource = change_request.resource
@@ -223,7 +221,7 @@ class ChangeRequestsController < ApplicationController
       puts field_change.field_name
       puts field_change.field_value
       # HACK: We need a better way to handle array values
-      if field_change.field_name == 'category_ids' || field_change.field_name == 'eligibility_ids'
+      if field_change.field_name == "category_ids" || field_change.field_name == "eligibility_ids"
         value = JSON.parse(field_change.field_value)
       else
         value = field_change.field_value
@@ -238,11 +236,11 @@ class ChangeRequestsController < ApplicationController
     params[:change_request].to_unsafe_h.map do |name, value|
       field_change_hash = {}
       # HACK: We need a better way to handle array values
-      if name == 'categories'
-        field_change_hash[:field_name] = 'category_ids'
+      if name == "categories"
+        field_change_hash[:field_name] = "category_ids"
         field_change_hash[:field_value] = value.map { |c| c[:id] }.to_json.to_s
-      elsif name == 'eligibilities'
-        field_change_hash[:field_name] = 'eligibility_ids'
+      elsif name == "eligibilities"
+        field_change_hash[:field_name] = "eligibility_ids"
         field_change_hash[:field_value] = value.map { |c| c[:id] }.to_json.to_s
       else
         field_change_hash[:field_name] = name
@@ -263,13 +261,13 @@ class ChangeRequestsController < ApplicationController
     end
   end
 
-
   def changerequest
     ChangeRequest.includes(:field_changes, resource: [
-                             :addresses, :phones, :categories, :notes,
-                             schedule: :schedule_days,
-                             services: [:notes, :categories, { schedule: :schedule_days }],
-                             ratings: [:review]])
+                                             :addresses, :phones, :categories, :notes,
+                                             schedule: :schedule_days,
+                                             services: [:notes, :categories, { schedule: :schedule_days }],
+                                             ratings: [:review],
+                                           ])
   end
 
   # Given an ActiveRecord::UnknownAttributeError, returns a hash that would be
