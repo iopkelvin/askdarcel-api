@@ -106,33 +106,43 @@ namespace :onetime do
   # STEP 1: Reassign categories in resources/services 
   desc 'Reassign categories in resources and services to avoid non-unique error when renaming'
   task reassign_categories: :environment do
-    CategoriesService.transaction do
-      reassignments = {
-        'Prevent & Treat' => 'Checkup & Test',
-        'Screening & Exams' => 'Checkup & Test',
-        'Support Network' => 'Counseling',
-        'Supplies for School' => 'Books',
-        'More Education' => 'Help Find School',
-        'Job Placement' => 'Skills Assessment',
-        'End of Life Care' => 'Hospice',
-        'Help Escape Violence' => 'Immediate Safety',
-        'Domestic Violence' => 'Immediate Safety',
-        'Help Pay for Internet or Phone' => 'Help Pay for Utilities',
-        'Clothes for School' => 'Clothing Vouchers',
-        'Clothes for Work' => 'Clothing Vouchers',
-        'Help Pay for Housing' => 'Housing Vouchers',
-        'Rental Assistance' => 'Housing Vouchers',
-        'Vocational Training' => 'Skills & Training',
-        'Eviction Prevention' => 'At Imminent Risk of Eviction',
-        'Work' => 'Employment',
-        'Money' => 'Financial Aid & Loans',
-        'Help Pay for Transit' => 'Bus Passes'
-      }
-      reassignments.each do |old, new|
-        old_category = Category.find_by(name: old)
-        new_category = Category.find_by(name: new)
+    reassignments = {
+      'Prevent & Treat' => 'Checkup & Test',
+      'Screening & Exams' => 'Checkup & Test',
+      'Support Network' => 'Counseling',
+      'Supplies for School' => 'Books',
+      'More Education' => 'Help Find School',
+      'Job Placement' => 'Skills Assessment',
+      'End of Life Care' => 'Hospice',
+      'Help Escape Violence' => 'Immediate Safety',
+      'Domestic Violence' => 'Immediate Safety',
+      'Help Pay for Internet or Phone' => 'Help Pay for Utilities',
+      'Clothes for School' => 'Clothing Vouchers',
+      'Clothes for Work' => 'Clothing Vouchers',
+      'Help Pay for Housing' => 'Housing Vouchers',
+      'Rental Assistance' => 'Housing Vouchers',
+      'Vocational Training' => 'Skills & Training',
+      'Eviction Prevention' => 'At Imminent Risk of Eviction',
+      'Work' => 'Employment',
+      'Money' => 'Financial Aid & Loans',
+      'Help Pay for Transit' => 'Bus Passes'
+    }
+    reassignments.each do |old, new|
+      old_category = Category.find_by(name: old)
+      new_category = Category.find_by(name: new)
+      ## Update categories for services
+      #### find matching rows in categories_services and just update the category id 
+      CategoriesService.transaction do
         CategoriesService.where('category_id = ?', old_category.id).update_all(category_id: new_category.id)
-        # do same thing for CategoriesResource ?
+      end
+      ## Update categories for resources
+      #### find matching resources containing old categories and update it by removing the old category and adding the new one
+      Resource.transaction do
+        matching_resources = Resource.joins(:categories).where("categories.name = ?", old_category.name)
+        matching_resources.each do |r|
+          new_categories = r.categories - r.categories.select {|c| c.name == old_category.name} + [Category.find_by(name: new_category.name)]
+          r.update(categories: new_categories)
+        end
       end
     end
   end
@@ -162,9 +172,7 @@ namespace :onetime do
         'Money',
         'Help Pay for Transit'
       ]
-      to_delete.each do |c|
-        Category.find_by(name: c).delete
-      end
+      to_delete = ['Checkup & Test']
     end
   end
 
@@ -228,6 +236,7 @@ namespace :onetime do
   end
 
   # STEP 4: Create new categories that don't exist yet for the hierarchical categories work
+  desc 'Add missing categories'
   task add_new_categories_hierarchical: :environment do
     Category.transaction do
       categories = [
