@@ -27,7 +27,8 @@ class Service < ActiveRecord::Base
   if Rails.configuration.x.algolia.enabled
     # Note: We can't use the per_environment option because both our production
     # and staging servers use the same RAILS_ENV.
-    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do # rubocop:disable Metrics/BlockLength,Metrics/LineLength
+    # rubocop:disable Metrics/BlockLength
+    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do
       # specify the list of attributes available for faceting
       attributesForFaceting %i[categories open_times eligibilities]
 
@@ -36,11 +37,11 @@ class Service < ActiveRecord::Base
       add_attribute :_geoloc do
         if addresses.any?
           addresses.map do |a|
-            { lat: a.address_latitude.to_f, lng: a.address_longitude.to_f } \
-              if a.address_latitude.present? & a.address_longitude.present?
+            { lat: a.latitude.to_f, lng: a.longitude.to_f } \
+              if a.latitude.present? && a.longitude.present?
           end
-        elsif resource.address.present? & resource.address_latitude.present? & resource.address_longitude.present?
-          { lat: resource.address_latitude.to_f, lng: resource.address_longitude.to_f }
+        elsif !addresses.blank? && resource.addresses[0].latitude.present? && resource.addresses[0].longitude.present?
+          { lat: resource.addresses[0].latitude.to_f, lng: resource.addresses[0].longitude.to_f }
         end
       end
 
@@ -52,17 +53,23 @@ class Service < ActiveRecord::Base
               state_province: a.state_province,
               postal_code: a.postal_code,
               country: a.country,
-              address_1: a.address_1
+              address_1: a.address_1,
+              latitude: a.latitude.to_f || nil,
+              longitude: a.longitude.to_f || nil
             }
           end
-        elsif resource.address.present?
-          {
-            city: resource.address.city,
-            state_province: resource.address.state_province,
-            postal_code: resource.address.postal_code,
-            country: resource.address.country,
-            address_1: resource.address.address_1
-          }
+        elsif resource.addresses.present?
+          resource.addresses.map do |a|
+            {
+              city: a.city,
+              state_province: a.state_province,
+              postal_code: a.postal_code,
+              country: a.country,
+              address_1: a.address_1,
+              latitude: a.latitude.to_f || nil,
+              longitude: a.longitude.to_f || nil
+            }
+          end
         end
       end
       add_attribute :schedule do
@@ -121,6 +128,7 @@ class Service < ActiveRecord::Base
       #   keywords.map(&:name)
       # end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 
   def service_of

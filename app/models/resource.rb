@@ -3,7 +3,7 @@
 class Resource < ActiveRecord::Base
   include AlgoliaSearch
 
-  delegate :latitude, :longitude, to: :address, prefix: true, allow_nil: true
+  delegate :latitude, :longitude, to: :addresses, prefix: true, allow_nil: true
 
   enum status: { pending: 0, approved: 1, rejected: 2, inactive: 3 }
 
@@ -11,7 +11,7 @@ class Resource < ActiveRecord::Base
 
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :keywords
-  has_one :address, dependent: :destroy
+  has_many :addresses, dependent: :destroy
   has_many :phones, dependent: :destroy
   has_one :schedule, dependent: :destroy
   has_many :notes, dependent: :destroy
@@ -22,7 +22,7 @@ class Resource < ActiveRecord::Base
 
   accepts_nested_attributes_for :notes
   accepts_nested_attributes_for :schedule
-  accepts_nested_attributes_for :address
+  accepts_nested_attributes_for :addresses
   accepts_nested_attributes_for :phones
 
   before_create do
@@ -34,27 +34,36 @@ class Resource < ActiveRecord::Base
     # and staging servers use the same RAILS_ENV.
 
     # Important: Use Resource.reindex! and Service.reindex! to reindex/create your index
-    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do # rubocop:disable Metrics/BlockLength,Metrics/LineLength
+    # rubocop:disable Metrics/BlockLength
+    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do
       # specify the list of attributes available for faceting
       attributesForFaceting %i[categories open_times]
       # Define attributes used to build an Algolia record
       add_attribute :_geoloc do
-        { lat: address_latitude.to_f, lng: address_longitude.to_f }
+        if addresses.blank?
+          nil
+        else
+          { lat: addresses[0].latitude.to_f, lng: addresses[0].longitude.to_f }
+        end
       end
 
       add_attribute :status
 
-      add_attribute :address do
-        if address.present?
-          {
-            city: address.city,
-            state_province: address.state_province,
-            postal_code: address.postal_code,
-            country: address.country,
-            address_1: address.address_1
-          }
+      add_attribute :addresses do
+        if addresses.present?
+          addresses.map do |a|
+            {
+              city: a.city,
+              state_province: a.state_province,
+              postal_code: a.postal_code,
+              country: a.country,
+              address_1: a.address_1,
+              latitude: a.latitude.to_f || nil,
+              longitude: a.longitude.to_f || nil
+            }
+          end
         else
-          {}
+          []
         end
       end
 
@@ -94,6 +103,7 @@ class Resource < ActiveRecord::Base
         end
       end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 
   def resource_id

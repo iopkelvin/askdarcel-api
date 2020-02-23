@@ -29,6 +29,9 @@ gem 'rack-cors'
 # Error handling
 gem 'sentry-raven'
 
+# Authentication
+gem 'jwt'
+
 gem 'lograge'
 
 gem 'prometheus-client'

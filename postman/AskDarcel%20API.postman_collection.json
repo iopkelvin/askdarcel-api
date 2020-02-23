@@ -111,29 +111,10 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "02f58dd8-f20b-45a6-a66d-7b01b9fed62e",
+						"id": "6fc54ef1-1409-44a3-bc1e-6012a857e7dc",
 						"type": "text/javascript",
 						"exec": [
-							"tests[\"Response time is less than 200ms\"] = responseTime < 1000;",
-							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;",
-							"",
-							"tests[\"Global variable schemas is not null\"] = pm.globals.get('schemas').resource;",
-							"",
-							"var schema = {",
-							"    \"type\": \"object\",",
-							"    \"properties\": {",
-							"        \"resource\": pm.globals.get('schemas').resource,",
-							"    },",
-							"    \"required\": [",
-							"        \"resource\",",
-							"    ],",
-							"};",
-							"",
-							"var response = pm.response.json();",
-							"if (tv4.error) {",
-							"    console.log(\"Validation failed: \", tv4.error);",
-							"}"
+							"tests[\"Status code is 200\"] = responseCode.code === 200;  "
 						]
 					}
 				}
@@ -1127,7 +1108,51 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"resources\":[{\"name\":\"Test new\",\"address\":{\"address_1\":\"601 4th Street\",\"city\":\"San Francisco\",\"state_province\":\"CA\",\"country\":\"USA\",\"postal_code\":\"49032\"},\"long_description\":\"test\",\"email\":\"test@test.com\",\"website\":\"test.com\",\"notes\":[],\"schedule\":{\"schedule_days\":[{\"day\":\"Monday\",\"opens_at\":900,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Monday\",\"close_time\":\"10:00:00\",\"close_day\":\"Monday\"},{\"day\":\"Tuesday\",\"opens_at\":100,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Tuesday\",\"close_time\":\"10:00:00\",\"close_day\":\"Tuesday\"}]},\"phones\":[{\"number\":\"4155555555\",\"service_type\":\"English\"}]\n}]}"
+					"raw": "{\"resources\":[{\"name\":\"Test new\",\"addresses\":[{\"address_1\":\"601 4th Street\",\"city\":\"San Francisco\",\"state_province\":\"CA\",\"country\":\"USA\",\"postal_code\":\"49032\"}],\"long_description\":\"test\",\"email\":\"test@test.com\",\"website\":\"test.com\",\"notes\":[],\"schedule\":{\"schedule_days\":[{\"day\":\"Monday\",\"opens_at\":900,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Monday\",\"close_time\":\"10:00:00\",\"close_day\":\"Monday\"},{\"day\":\"Tuesday\",\"opens_at\":100,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Tuesday\",\"close_time\":\"10:00:00\",\"close_day\":\"Tuesday\"}]},\"phones\":[{\"number\":\"4155555555\",\"service_type\":\"English\"}]\n}]}"
+				},
+				"url": {
+					"raw": "{{base_url}}/resources",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit New Resource with multiple addresses",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1ebb6056-c993-4807-a34d-fa47edd4fee3",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"resources\":[{\"name\":\"Test new\",\"addresses\":[{\"address_1\":\"601 4th Street\",\"city\":\"San Francisco\",\"state_province\":\"CA\",\"country\":\"USA\",\"postal_code\":\"49032\"},{\"address_1\":\"636 4th Street\",\"city\":\"San Francisco\",\"state_province\":\"CA\",\"country\":\"USA\",\"postal_code\":\"49032\"}],\"long_description\":\"test\",\"email\":\"test@test.com\",\"website\":\"test.com\",\"notes\":[],\"schedule\":{\"schedule_days\":[{\"day\":\"Monday\",\"opens_at\":900,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Monday\",\"close_time\":\"10:00:00\",\"close_day\":\"Monday\"},{\"day\":\"Tuesday\",\"opens_at\":100,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Tuesday\",\"close_time\":\"10:00:00\",\"close_day\":\"Tuesday\"}]},\"phones\":[{\"number\":\"4155555555\",\"service_type\":\"English\"}]\n}]}"
 				},
 				"url": {
 					"raw": "{{base_url}}/resources",
@@ -1654,7 +1679,7 @@
 					"    \"type\": \"object\",",
 					"    \"properties\": {",
 					"        \"alternate_name\": {\"type\": [\"string\", \"null\"]},",
-					"        \"address\": addressSchema,",
+					"        \"addresses\": [addressSchema],",
 					"        \"categories\": {",
 					"            \"type\": \"array\",",
 					"            \"items\": categorySchema,",
@@ -1694,7 +1719,7 @@
 					"        \"website\": {\"type\": [\"string\", \"null\"]},",
 					"    },",
 					"    \"required\": [",
-					"        \"address\",",
+					"        \"addresses\",",
 					"        \"categories\",",
 					"        \"email\",",
 					"        \"id\",",
@@ -1723,7 +1748,7 @@
 					"",
 					"pm.globals.set(\"schemas\", {",
 					"    \"id\": idSchema,",
-					"    \"address\": addressSchema,",
+					"    \"addresses\": [addressSchema],",
 					"    \"category\": categorySchema,",
 					"    \"note\": noteSchema,",
 					"    \"phone\": phoneSchema,",
