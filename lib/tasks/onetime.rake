@@ -172,7 +172,9 @@ namespace :onetime do
         'Money',
         'Help Pay for Transit'
       ]
-      to_delete = ['Checkup & Test']
+      to_delete.each do |c|
+        Category.find_by(name: c).delete
+      end
     end
   end
 
