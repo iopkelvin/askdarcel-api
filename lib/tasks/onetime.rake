@@ -90,4 +90,217 @@ namespace :onetime do
       end
     end
   end
+
+  ############################################
+  ## TASKS FOR HIERARCHICAL CATEGORIES WORK ##
+  ############################################
+  ## Steps
+  ## 1. Remap resources/services under fewer categories
+  #### e.g. remap resources/services under 'Prevent & Treat', 'Screening & Exams' to 'Checkup & Test',
+  ## 2. Delete old category names that are now no longer used or mapped to any resource/service
+  #### e.g. delete 'Prevent & Treat', 'Screening & Exams'
+  ## 3. Rename categories to new names according to list provided
+  #### e.g. rename 'Checkup & Test' => 'Medical Care'
+  ## 4. Create new categories that were not renamed to in step 3
+
+  # STEP 1: Reassign categories in resources/services
+  desc 'Reassign categories in resources and services to avoid non-unique error when renaming'
+  task reassign_categories: :environment do
+    reassignments = {
+      'Prevent & Treat' => 'Medical Care',
+      'Screening & Exams' => 'Medical Care',
+      'Checkup & Test' => 'Medical Care',
+      'Personal Hygiene' => 'Hygiene',
+      'Support Network' => 'Counseling',
+      'Supplies for School' => 'Books',
+      'More Education' => 'Help Find School',
+      'Job Placement' => 'Skills Assessment',
+      'Help Find Work' => 'Skills Assessment',
+      'End of Life Care' => 'End-of-Life Care',
+      'Hospice' => 'End-of-Life Care',
+      'Retirement Benefits' => 'Government Benefits',
+      'Help Find Childcare' => 'Childcare',
+      'Navigating the System' => 'Understand Government Programs',
+      'Help Find Housing' => 'Housing Counseling',
+      'Help Find School' => 'Education',
+      'One-on-One Support' => 'Individual Counseling',
+      'Skills & Training' => 'Job Training',
+      'Vocational Training' => 'Job Training',
+      'Home Delivered Meals' => 'Food Delivery',
+      'Free Meals' => 'Food',
+      'Help Pay for Food' => 'Food Benefits',
+      'Help Escape Violence' => 'Immediate Safety',
+      'Domestic Violence' => 'Immediate Safety',
+      'Short-Term Housing' => 'Temporary Shelter',
+      'Clothing Vouchers' => 'Clothing',
+      'Home Goods' => 'Goods',
+      'Legal Representation' => 'Representation',
+      'Legal Services' => 'Legal',
+      'Help Pay for Internet or Phone' => 'Help Pay for Utilities',
+      'Money Management' => 'Financial Education',
+      'Habitability' => 'Building Code Enforcement',
+      'Clothes for School' => 'Clothing Vouchers',
+      'Clothes for Work' => 'Clothing Vouchers',
+      'Help Pay for Housing' => 'Housing Vouchers',
+      'Rental Assistance' => 'Housing Vouchers',
+      'Public Housing' => 'Subsidized Housing',
+      'Eviction Prevention' => 'At Imminent Risk of Eviction',
+      'Work' => 'Employment',
+      'Money' => 'Financial Aid & Loans',
+      'Help Pay for Transit' => 'Bus Passes'
+    }
+    reassignments.each do |old, new|
+      old_category = Category.find_by(name: old)
+      new_category = Category.find_by(name: new)
+      ## Update categories for services
+      #### find matching rows in categories_services and just update the category id
+      CategoriesService.transaction do
+        CategoriesService.where('category_id = ?', old_category.id).update_all(category_id: new_category.id)
+      end
+      ## Update categories for resources
+      #### find matching resources containing old categories and update it by removing the old category and adding the new one
+      Resource.transaction do
+        matching_resources = Resource.joins(:categories).where("categories.name = ?", old_category.name)
+        matching_resources.each do |r|
+          new_categories = r.categories - r.categories.select { |c| c.name == old_category.name } \
+           + [Category.find_by(name: new_category.name)]
+          r.update(categories: new_categories)
+        end
+      end
+    end
+  end
+
+  # STEP 2: Delete categories that were reassigned
+  desc 'Delete categories in categories table that were reassigned'
+  task delete_categories: :environment do
+    Category.transaction do
+      to_delete = [
+        'Prevent & Treat',
+        'Screening & Exams',
+        'Checkup & Test',
+        'Personal Hygiene',
+        'Support Network',
+        'Supplies for School',
+        'More Education',
+        'Job Placement',
+        'Help Find Work',
+        'End of Life Care',
+        'Hospice',
+        'Retirement Benefits',
+        'Help Find Childcare',
+        'Navigating the System',
+        'Help Find Housing',
+        'Help Find School',
+        'One-on-One Support',
+        'Skills & Training',
+        'Vocational Training',
+        'Home Delivered Meals',
+        'Free Meals',
+        'Help Pay for Food',
+        'Help Escape Violence',
+        'Domestic Violence',
+        'Short-Term Housing',
+        'Clothing Vouchers',
+        'Home Goods',
+        'Legal Representation',
+        'Legal Services',
+        'Help Pay for Internet or Phone',
+        'Money Management',
+        'Habitability',
+        'Clothes for School',
+        'Clothes for Work',
+        'Help Pay for Housing',
+        'Rental Assistance',
+        'Public Housing',
+        'Eviction Prevention',
+        'Work',
+        'Money',
+        'Help Pay for Transit'
+      ]
+      to_delete.each do |c|
+        Category.find_by(name: c).delete
+      end
+    end
+  end
+
+  # STEP 3: Rename categories to new names
+  desc 'Rename certain categories to new names'
+  task rename_categories: :environment do
+    Category.transaction do
+      renames = {
+        'Transportation for Healthcare' => 'Healthcare Transportation',
+        'Counseling' => 'Counseling & Support',
+        'Help Pay for Childcare' => 'Childcare Financial Assistance',
+        'Relief for Caregivers' => 'Caregiver Relief',
+        'Help Fill out Forms' => 'Form & Paperwork Assistance',
+        'Books' => 'School Supplies',
+        'Financial Aid & Loans' => 'Finances & Benefits',
+        'Help Pay for School' => 'Education Financial Assistance',
+        'Transportation for School' => 'School Transportation',
+        'Skills Assessment' => 'Job Placement & Skill Assessment',
+        'Help Pay for Work Expenses' => 'Work Expenses',
+        'Immediate Safety' => 'Physical Safety',
+        'Help Pay for Utilities' => 'Utilities Financial Assistance',
+        'Housing Vouchers' => 'Housing Financial Assistance',
+        'Safe Housing' => 'Domestic Violence Shelter',
+        'Bus Passes' => 'Transportation Financial Assistance',
+        'Adoption' => 'Adoption & Foster Care',
+        'At Imminent Risk of Eviction' => 'Eviction Prevention & Defense',
+        'Disaster Assistance' => 'Disaster Response',
+        'Early Childhood Education' => 'Early Childhood Care',
+        'Case Management' => 'Case Manager',
+        'Help Pay for Healthcare' => 'Healthcare Financial Assistance',
+        'Homelessness Essentials' => 'Basic Needs',
+        'Subsidized Housing' => 'Low-income Housing',
+        'Employment' => 'Employment & Jobs'
+      }
+      renames.each do |old, new|
+        Category.find_by(name: old).update(name: new)
+      end
+    end
+  end
+
+  # STEP 4: Create new categories that don't exist yet for the hierarchical categories work
+  desc 'Add missing categories'
+  task add_new_categories_hierarchical: :environment do
+    Category.transaction do
+      categories = [
+        'Residential Care',
+        'English as a Second Language',
+        'Residential Treatment',
+        'Criminal Justice Involvement',
+        'Hot Meals',
+        'Personal Safety Items',
+        'Detox',
+        'Computer or Internet Access',
+        'Utilities & Insurance Assistance',
+        'Transition Age Youth',
+        'Medication Management',
+        'Haircut',
+        'Mental Health Medication',
+        'Health',
+        'Language',
+        'ADA Transit',
+        'Rec Teams',
+        'Traumatic Brain Injury',
+        'Loans',
+        'Domestic Violence Hotline',
+        'STD/STI Treatment & Prevention',
+        'Animal Welfare',
+        'Online Only',
+        'Safety Education',
+        'Drop-In Center',
+        'Supported Employment',
+        'Fitness & Exercise',
+        'Medications',
+        'Addiction Medicine',
+        'Sexual & Reproductive Health',
+        'Probation & Parole',
+        'Disability'
+      ]
+      categories.each do |c|
+        Category.find_or_create_by(name: c)
+      end
+    end
+  end
 end
