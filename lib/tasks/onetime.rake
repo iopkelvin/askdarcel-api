@@ -102,8 +102,8 @@ namespace :onetime do
   ## 3. Rename categories to new names according to list provided
   #### e.g. rename 'Checkup & Test' => 'Medical Care'
   ## 4. Create new categories that were not renamed to in step 3
-  
-  # STEP 1: Reassign categories in resources/services 
+
+  # STEP 1: Reassign categories in resources/services
   desc 'Reassign categories in resources and services to avoid non-unique error when renaming'
   task reassign_categories: :environment do
     reassignments = {
@@ -131,7 +131,7 @@ namespace :onetime do
       old_category = Category.find_by(name: old)
       new_category = Category.find_by(name: new)
       ## Update categories for services
-      #### find matching rows in categories_services and just update the category id 
+      #### find matching rows in categories_services and just update the category id
       CategoriesService.transaction do
         CategoriesService.where('category_id = ?', old_category.id).update_all(category_id: new_category.id)
       end
@@ -140,7 +140,8 @@ namespace :onetime do
       Resource.transaction do
         matching_resources = Resource.joins(:categories).where("categories.name = ?", old_category.name)
         matching_resources.each do |r|
-          new_categories = r.categories - r.categories.select {|c| c.name == old_category.name} + [Category.find_by(name: new_category.name)]
+          new_categories = r.categories - r.categories.select { |c| c.name == old_category.name } \
+           + [Category.find_by(name: new_category.name)]
           r.update(categories: new_categories)
         end
       end
