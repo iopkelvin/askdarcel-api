@@ -102,6 +102,7 @@ namespace :onetime do
   ## 3. Rename categories to new names according to list provided
   #### e.g. rename 'Checkup & Test' => 'Medical Care'
   ## 4. Create new categories that were not renamed to in step 3
+  ## 5. Add hierarchies between categories
 
   # STEP 1: Reassign categories in resources/services
   desc 'Reassign categories in resources and services to avoid non-unique error when renaming'
@@ -300,6 +301,417 @@ namespace :onetime do
       ]
       categories.each do |c|
         Category.find_or_create_by(name: c)
+      end
+    end
+  end
+
+  #STEP 5: Add hierarchies between categories
+  desc 'Add category hierarchies into DB'
+  task add_category_hierarchies: :environment do
+    CategoryRelationship.transaction do
+      # Hash structure
+      # [
+      #   1st tier => [
+      #     2nd tier => [
+      #       3rd tier => [
+      #         4th tier,
+      #         ...
+      #       ],
+      #       ...
+      #     ],
+      #     ...
+      #   ],
+      #   ... 
+      # ]
+      # Essentially, each category maps to an array of its children, recursively
+      # except the last item in the ancestry (not necessarily 4th) which is a string
+      hierarchies = {
+        'Basic Needs' => {
+          'Clothing' => nil,
+          'Storage' => nil,
+          'Waste Disposal' => nil,
+          'Water' => nil,
+          'Computer Internet Access' => {
+            'Wifi Access' => nil
+          },
+          'Food' => {
+            'Congregate Meals' => nil,
+            'Food Benefits' => nil,
+            'Food Delivery' => nil,
+            'Food Pantry' => nil,
+            'Hot Meals' => nil,
+            'Nutrition Education' => nil
+          },
+          'Goods' => {
+            'Personal Safety Items' => nil
+          },
+          'Hygiene' => {
+            'Hygiene Supplies' => nil,
+            'Shower' => nil,
+            'Toilet' => nil,
+            'Haircut' => nil,
+            'Dental Care' => nil
+          }
+        },
+        'Care' => {
+          'Animal Welfare' => nil,
+          'Maternity Care' => nil,
+          'Postnatal Care' => nil,
+          'Physical Safety' => nil,
+          'Guardianship' => nil,
+          'In-Home Support' => nil,
+          'Independent Living' => nil,
+          'Senior Centers' => nil,
+          'Adoption Foster Care' => {
+            'Transition Age Youth' => nil
+          },
+          'Counseling Support' => {
+            'Anger Management' => nil,
+            'Bereavement' => nil,
+            'Family Counseling' => nil,
+            'Family Planning' => nil,
+            'Group Therapy' => nil,
+            'Home Visiting' => nil,
+            'Individual Counseling' => nil,
+            'Mentoring' => nil,
+            'Peer Support' => nil,
+            'Specialized Therapy' => nil,
+            'Spiritual Support' => nil,
+            'Substance Abuse Counseling' => nil,
+            'Understand Disability' => nil,
+            'Understand Government Programs' => nil,
+            'Understand Mental Health' => nil,
+            'Domestic Violence Counseling' => nil,
+            'Case Manager' => {
+              'Form Paperwork Assistance' => nil
+            },
+            'Help Hotlines' => {
+              'Domestic Violence Hotline' => nil
+            },
+            'Housing Counseling' => {
+              'Eviction Prevention Defense' => nil
+            },
+            'Support Groups' => {
+              '12-Step' => nil,
+              'Parenting Education' => nil
+            },
+            'Virtual Support' => {
+              'Online' => nil
+            }
+          },
+          'Daytime Care' => {
+            'Adult Daycare' => nil,
+            'Caregiver Relief' => nil,
+            'Childcare' => {
+              'School Care' => nil,
+              'Childcare Financial Assistance' => nil,
+              'Day Camp' => nil,
+              'Early Childhood Care' => nil,
+              'Preschool' => nil
+            }
+          },
+          'End-of-Life Care' => {
+            'Bereavement' => nil,
+            'Pain Management' => nil,
+            'Spiritual Support' => nil
+          },
+          'Recreation' => {
+            'Fitness Exercise' => nil,
+            'Rec Teams' => nil
+          },
+          'Residential Care' => {
+            'Assisted Living' => nil,
+            'Nursing Home' => nil,
+            'Residential Treatment' => nil
+          }
+        },
+        'Disability' => {
+          'ADA Transit' => nil,
+          'Assisted Living' => nil,
+          'Daily Life Skills' => nil,
+          'Disability Screening' => nil,
+          'Hearing Tests' => nil,
+          'InHome Support' => nil,
+          'Independent Living' => nil,
+          'Nursing Home' => nil,
+          'Special Education' => nil,
+          'Traumatic Brain Injury' => nil,
+          'Understand Disability' => nil,
+          'Vision Care' => nil,
+          'Government Benefits' => {
+            'Disability Benefits' => nil,
+            'Food Benefits' => nil,
+            'Retirement Benefits' => nil,
+            'Understand Government Programs' => nil,
+            'Unemployment Benefits' => nil
+          }
+        },
+        'Education' => {
+          'School Care' => nil,
+          'Alternative Education' => nil,
+          'Education Financial Assistance' => nil,
+          'Financial Education' => nil,
+          'Preschool' => nil,
+          'School Supplies' => nil,
+          'School Transportation' => nil,
+          'Special Education' => nil,
+          'Tutoring' => nil,
+          'Understand Government Programs' => nil,
+          'Health Education' => {
+            'Daily Life Skills' => nil,
+            'Family Planning' => nil,
+            'Nutrition Education' => nil,
+            'Parenting Education' => nil,
+            'Safety Education' => nil,
+            'Sex Education' => nil,
+            'Understand Disability' => nil,
+            'Understand Mental Health' => nil,
+            'Disease Management' => {
+              'HIV Treatment' => nil
+            }
+          },
+          'Job Training' => {
+            'Basic Literacy' => nil,
+            'Computer Class' => nil,
+            'GED High School Equivalency' => nil,
+            'Interview Training' => nil,
+            'Resume Development' => nil,
+            'Specialized Training' => nil
+          },
+          'Language' => {
+            'English as a Second Language' => nil,
+            'Foreign Languages' => nil
+          }
+        },
+        'Emergency' => {
+          'Drop-In Center' => nil,
+          'Eviction Prevention Defense' => nil,
+          'Physical Safety' => {
+            'Disaster Response' => nil,
+            'Domestic Violence Hotline' => nil,
+            'Domestic Violence Shelters' => nil,
+            'Personal Safety Items' => nil
+          }
+        },
+        'Employment Jobs' => {
+          'Job Placement Skill Assessment' => nil,
+          'Supported Employment' => nil,
+          'Work Expenses' => nil,
+          'Workplace Rights' => nil,
+          'Job Training' => {
+            'Basic Literacy' => nil,
+            'Computer Class' => nil,
+            'GED High School Equivalency' => nil,
+            'Interview Training' => nil,
+            'Resume Development' => nil,
+            'Specialized Training' => nil
+          }
+        },
+        'Finances Benefits' => {
+          'Childcare Financial Assistance' => nil,
+          'Education Financial Assistance' => nil,
+          'Financial Education' => nil,
+          'Loans' => nil,
+          'Payee Services' => nil,
+          'Tax Preparation' => nil,
+          'Transportation Financial Assistance' => nil,
+          'Work Expenses' => nil,
+          'Government Benefits' => {
+            'Disability Benefits' => nil,
+            'Food Benefits' => nil,
+            'Retirement Benefits' => nil,
+            'Understand Government Programs' => nil,
+            'Unemployment Benefits' => nil
+          },
+          'Healthcare Financial Assistance' => {
+            'Disability Benefits' => nil,
+            'Discounted Healthcare' => nil,
+            'Health Insurance' => nil,
+            'Prescription Assistance' => nil
+          },
+          'Housing Financial Assistance' => {
+            'Utilities Financial Assistance' => nil,
+            'Home Renters Insurance' => nil
+          },
+          'Insurance' => {
+            'Health Insurance' => nil,
+            'Home Renters Insurance' => nil
+          }
+        },
+        'Health' => {
+          'Dental Care' => nil,
+          'Drop-In Center' => nil,
+          'Healthcare Transportation' => nil,
+          'Health Insurance' => nil,
+          'Hearing Tests' => nil,
+          'Medical Supplies' => nil,
+          'Traumatic Brain Injury' => nil,
+          'Vision Care' => nil,
+          'Addiction Recovery' => {
+            '12-Step' => nil,
+            'Detox' => nil,
+            'Drug Testing' => nil,
+            'Addiction Medicine' => nil,
+            'Residential Treatment' => nil,
+            'Sober Living' => nil,
+            'Substance Abuse Counseling' => nil
+          },
+          'End-of-Life Care' => {
+            'Bereavement' => nil,
+            'Pain Management' => nil
+          },
+          'Healthcare Financial Assistance' => {
+            'Discounted Healthcare' => nil,
+            'Health Insurance' => nil,
+            'Prescription Assistance' => nil
+          },
+          'Health Education' => {
+            'Daily Life Skills' => nil,
+            'Family Planning' => nil,
+            'Nutrition Education' => nil,
+            'Parenting Education' => nil,
+            'Safety Education' => nil,
+            'Sex Education' => nil,
+            'Understand Disability' => nil,
+            'Understand Mental Health' => nil,
+            'Disease Management' => {
+              'HIV Treatment' => nil
+            }
+          },
+          'Medical Care' => {
+            'Disability Screening' => nil,
+            'Disease Screening' => nil,
+            'Early Childhood Care' => nil,
+            'In-Home Support' => nil,
+            'Nursing Home' => nil,
+            'Pain Management' => nil,
+            'Physical Therapy' => nil,
+            'Primary Care' => nil,
+            'Residential Treatment' => nil,
+            'Specialized Therapy' => nil,
+            'Vaccinations' => nil,
+            'Disease Management' => {
+              'HIV Treatment' => nil
+            }
+          },
+          'Medications' => {
+            'Addiction Medicine' => nil,
+            'Medication Management' => nil,
+            'Mental Health Medication' => nil,
+            'Prescription Assistance' => nil
+          },
+          'Mental Health Care' => {
+            'Anger Management' => nil,
+            'Family Counseling' => nil,
+            'Group Therapy' => nil,
+            'Guardianship' => nil,
+            'Hoarding' => nil,
+            'Individual Counseling' => nil,
+            'Mental Health Evaluation' => nil,
+            'Mental Health Medication' => nil,
+            'Psychiatric Emergency Services' => nil,
+            'Residential Treatment' => nil,
+            'Substance Abuse Counseling' => nil,
+            'Understand Mental Health' => nil
+          },
+          'Sexual Reproductive Health' => {
+            'Birth Control' => nil,
+            'Family Planning' => nil,
+            'Fertility' => nil,
+            'Maternity Care' => nil,
+            'Pregnancy Tests' => nil,
+            'Postnatal Care' => nil,
+            'Sex Education' => nil,
+            'STD/STI Treatment & Prevention' => {
+              'HIV Treatment' => nil
+            }
+          },
+        },
+        'Housing' => {
+          'Independent Living' => nil,
+          'Sober Living' => nil,
+          'Transition Age Youth' => nil,
+          'Housing Counseling' => {
+            'Eviction Prevention Defense' => nil
+          },
+          'Housing Financial Assistance' => {
+            'Utilities Insurance Assistance' => nil
+          },
+          'Long-Term Housing' => {
+            'Low-income Housing' => nil
+          },
+          'Residential Care' => {
+            'Assisted Living' => nil,
+            'Nursing Home' => nil,
+            'Residential Treatment' => nil
+          },
+          'Temporary Shelter' => {
+            'Domestic Violence Shelter' => nil,
+            'Family Shelters' => nil
+          },
+        },
+        'Legal' => {
+          'Identification Recovery' => nil,
+          'Mediation' => nil,
+          'Notary' => nil,
+          'Representation' => nil,
+          'Advocacy Legal Aid' => {
+            'Adoption Foster Care' => nil,
+            'Building Code Enforcement' => nil,
+            'Discrimination Civil Rights' => nil,
+            'Guardianship' => nil,
+            'Workplace Rights' => nil
+          },
+          'Citizenship Immigration' => {
+            'English as a Second Language' => nil
+          },
+          'Criminal Justice Involvement' => {
+            'Clean Slate' => nil,
+            'Prison/Jail Related Services' => nil,
+            'Probation Parole' => nil,
+            'Re-entry Services' => nil
+          },
+          'Housing Counseling' => {
+            'Eviction Prevention Defense' => nil
+          },
+          'Translation Interpretation' => {
+            'English as a Second Language' => nil
+          }
+        },
+        'LGBTQ' => nil,
+        'MOHCD Funded' => nil,
+        'Technology' => {
+          'Computer Class' => nil,
+          'Smartphones' => nil,
+          'Computer Internet Access' => {
+            'Wifi Access' => nil
+          },
+          'Virtual Support' => {
+            'Online' => nil
+          }
+        },
+        'Transit' => {
+          'ADA Transit' => nil,
+          'Healthcare Transportation' => nil,
+          'School Transportation' => nil,
+          'Transportation Financial Assistance' => nil
+        }
+      }
+      hierarchies.each do |first_tier_category, firsts_children|
+        process_tier(first_tier_category, firsts_children)
+      end
+    end
+  end
+
+  def process_tier(category, next_tier)
+    cat = Category.find_by(name: category)
+    if cat == nil
+      puts category
+    end
+    if next_tier != nil
+      next_tier.each do |child_category, next_next_tier|
+        # put parent child relationship between category and child_category here
+        process_tier(child_category, next_next_tier)
       end
     end
   end
