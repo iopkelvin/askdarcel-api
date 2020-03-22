@@ -14,7 +14,8 @@ namespace :pitstops do
   task import: :environment do
     puts '[pitstops:import] Incorporating pitstops from JSON...'
 
-    geodata = JSON.parse(File.read(File.join(File.dirname(__FILE__), 'Pit_Stops__Hand_Washing_Stations.json')), symbolize_names: true)
+    geodata = JSON.parse(File.read(File.join(File.dirname(__FILE__),
+                                             'Pit_Stops__Hand_Washing_Stations.json')), symbolize_names: true)
 
     # category_names = %w[covid-delivery covid-food covid-hygiene covid-jobs-finances covid-quarantine covid-shelter-not-working]
 
@@ -53,13 +54,13 @@ namespace :pitstops do
     pitstops.schedule = Schedule.new
     handwashing.schedule = Schedule.new
     # add estimated hours to actual Service schedule
-    days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    days = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
     # 9am to 8pm is the most common open time for pit stops, individual location times differ so we add those hours to notes below
-    for day in days do
+    days.each do |day|
       pitstops.schedule.schedule_days.build(opens_at: 900, closes_at: 2000, day: day)
     end
     # handwashing stations are all 24/7
-    for day in days do
+    days.each do |day|
       handwashing.schedule.schedule_days.build(opens_at: 0, closes_at: 2359, day: day)
     end
     resource.schedule = handwashing.schedule
@@ -73,7 +74,6 @@ namespace :pitstops do
     note_h.note = ''
 
     geodata[:features].each do |location|
-
       # individual address
       address = Address.new
       address.city = 'San Francisco'
@@ -87,7 +87,8 @@ namespace :pitstops do
       if location[:properties][:Site_Type] == "Pit Stop"
         pitstops.addresses << address
         # Since Pit Stops have varying hours, append actual location's hours to Service Notes
-        note_p.note += location[:properties][:Neighborhood] + ": " +  location[:properties][:Name] + "\n" + location[:properties][:Hours_of_Operation] + "\n\n"
+        note_p.note += location[:properties][:Neighborhood] + ": " + location[:properties][:Name] + "\n"
+        note_p.note += location[:properties][:Hours_of_Operation] + "\n\n"
       else
         handwashing.addresses << address
       end
@@ -96,6 +97,5 @@ namespace :pitstops do
     resource.save!
 
     puts '[pitstops:import] Complete.'
-
   end
 end
