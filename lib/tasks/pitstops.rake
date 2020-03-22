@@ -85,11 +85,11 @@ namespace :pitstops do
       address.longitude = location[:properties][:Longitude]
 
       if location[:properties][:Site_Type] == "Pit Stop"
-        pitstops.addresses += address
+        pitstops.addresses << address
         # Since Pit Stops have varying hours, append actual location's hours to Service Notes
-        note_p.note += location[:properties][:Neighborhood] + ': ' +  location[:properties][:Name] + '\n' + location[:properties][:Hours_of_Operation] + '\n\n'
+        note_p.note += location[:properties][:Neighborhood] + ": " +  location[:properties][:Name] + "\n" + location[:properties][:Hours_of_Operation] + "\n\n"
       else
-        handwashing.addresses += address
+        handwashing.addresses << address
       end
     end
 
