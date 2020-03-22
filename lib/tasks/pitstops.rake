@@ -52,14 +52,16 @@ namespace :pitstops do
     pitstops.schedule = Schedule.new
     handwashing.schedule = Schedule.new
     # add estimated hours to actual Service schedule
-    days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'THursday', 'Friday', 'Saturday']
+    days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     pitstops.schedule = []
     handwashing.schedule = []
+    # 9am to 8pm is the most common open time for pit stops, individual location times differ so we add those hours to notes below
     for day in days do
-      pitstops.schedule += { opens_at: 900, closes_at: 2000, day: day }
+      pitstops.schedule.schedule_days.build(opens_at: 900, closes_at: 2000, day: day)
     end
+    # handwashing stations are all 24/7
     for day in days do
-      handwashing.schedule += { opens_at: 0, closes_at: 2359, day: day }
+      handwashing.schedule.schedule_days.build(opens_at: 0, closes_at: 2359, day: day)
     end
     resource.schedule = handwashing.schedule
 
@@ -90,12 +92,6 @@ namespace :pitstops do
       else
         handwashing.addresses += address
       end
-      
-
-    json_service[:schedules].each do |schedule|
-      open = schedule[:opens_at]
-      close = schedule[:closes_at]
-      service.schedule.schedule_days.build(opens_at: open, closes_at: close, day: schedule[:weekday])
     end
 
     resource.save!
