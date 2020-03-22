@@ -16,11 +16,11 @@ namespace :pitstops do
 
     geodata = JSON.parse(File.read(File.join(File.dirname(__FILE__), 'Pit_Stops__Hand_Washing_Stations.json')), symbolize_names: true)
 
-    category_names = %w[covid-delivery covid-food covid-hygiene covid-jobs-finances covid-quarantine covid-shelter-not-working]
+    # category_names = %w[covid-delivery covid-food covid-hygiene covid-jobs-finances covid-quarantine covid-shelter-not-working]
 
-    category_names.each do |name|
-      FactoryBot.create(:category, name: name, top_level: true)
-    end
+    # category_names.each do |name|
+    #   FactoryBot.create(:category, name: name, top_level: true)
+    # end
 
     # the city wasn't in our database as an org, so this adds it so the pit stops & hand washing stations
     #  can belong to the proper org and service
@@ -45,15 +45,15 @@ namespace :pitstops do
     pitstops.status = :approved
     handwashing.status = :approved
 
-    pitstops.categories << Category.new('covid-hygiene')
-    handwashing.categories << Category('covid-hygiene')
+    cat = Category.where('name = ?', 'covid-hygiene').first
+
+    pitstops.categories << cat
+    handwashing.categories << cat
 
     pitstops.schedule = Schedule.new
     handwashing.schedule = Schedule.new
     # add estimated hours to actual Service schedule
     days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-    pitstops.schedule = []
-    handwashing.schedule = []
     # 9am to 8pm is the most common open time for pit stops, individual location times differ so we add those hours to notes below
     for day in days do
       pitstops.schedule.schedule_days.build(opens_at: 900, closes_at: 2000, day: day)
@@ -72,7 +72,7 @@ namespace :pitstops do
     note_p.note = ''
     note_h.note = ''
 
-    geodata.features.each_value do |location|
+    geodata[:features].each do |location|
 
       # individual address
       address = Address.new
