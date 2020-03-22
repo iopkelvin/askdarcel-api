@@ -3,6 +3,8 @@
 # lib/tasks/pitstops.rake
 # invoke on command line from root directory of repo by running
 # `bundle exec rake pitstops:import`
+# or with the docker setup with
+# `docker-compose run --rm api rake pitstops:import`
 # you can also run on a production server by running
 # `bundle exec rake pitstops:import RAILS_ENV=production`
 
@@ -12,7 +14,7 @@ namespace :pitstops do
   task import: :environment do
     puts '[pitstops:import] Incorporating pitstops from JSON...'
 
-    geodata = JSON.parse(File.read('Pit_Stops__Hand_Washing_Stations.json'), symbolize_names: true)
+    geodata = JSON.parse(File.read(File.join(File.dirname(__FILE__), 'Pit_Stops__Hand_Washing_Stations.json')), symbolize_names: true)
 
     category_names = %w[covid-delivery covid-food covid-hygiene covid-jobs-finances covid-quarantine covid-shelter-not-working]
 
@@ -43,7 +45,7 @@ namespace :pitstops do
     pitstops.status = :approved
     handwashing.status = :approved
 
-    pitstops.categories << Category('covid-hygiene')
+    pitstops.categories << Category.new('covid-hygiene')
     handwashing.categories << Category('covid-hygiene')
 
     pitstops.schedule = Schedule.new
@@ -82,7 +84,7 @@ namespace :pitstops do
       address.latitude = location[:properties][:Latitude]
       address.longitude = location[:properties][:Longitude]
 
-      if location[:properties][:Site_Type] is "Pit Stop"
+      if location[:properties][:Site_Type] == "Pit Stop"
         pitstops.addresses += address
         # Since Pit Stops have varying hours, append actual location's hours to Service Notes
         note_p.note += location[:properties][:Neighborhood] + ': ' +  location[:properties][:Name] + '\n' + location[:properties][:Hours_of_Operation] + '\n\n'
@@ -92,6 +94,8 @@ namespace :pitstops do
     end
 
     resource.save!
+
+    puts '[pitstops:import] Complete.'
 
   end
 end
