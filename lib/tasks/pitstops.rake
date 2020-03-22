@@ -17,11 +17,11 @@ namespace :pitstops do
     geodata = JSON.parse(File.read(File.join(File.dirname(__FILE__),
                                              'Pit_Stops__Hand_Washing_Stations.json')), symbolize_names: true)
 
-    # category_names = %w[covid-delivery covid-food covid-hygiene covid-jobs-finances covid-quarantine covid-shelter-not-working]
+    category_names = %w[covid-delivery covid-food covid-hygiene covid-jobs-finances covid-quarantine covid-shelter-not-working]
 
-    # category_names.each do |name|
-    #   FactoryBot.create(:category, name: name, top_level: true)
-    # end
+    category_names.each do |name|
+      FactoryBot.create(:category, name: name, top_level: true)
+    end
 
     # the city wasn't in our database as an org, so this adds it so the pit stops & hand washing stations
     #  can belong to the proper org and service
