@@ -2,12 +2,11 @@
 
 # lib/tasks/pitstops.rake
 # invoke on command line from root directory of repo by running
-# `bundle exec rake linksf:import[path/to/linksf-dump.json]`
+# `bundle exec rake pitstops:import`
 # you can also run on a production server by running
-# `bundle exec rake linksf:import[path/to/linksf-dump.json] RAILS_ENV=production`
+# `bundle exec rake pitstops:import RAILS_ENV=production`
 
-require 'json' # not sure if this is necessary in ruby 2.x, json might be part of stdlib now
-require 'phonelib'
+require 'json'
 
 namespace :pitstops do
   task import: :environment do
@@ -23,9 +22,6 @@ namespace :pitstops do
 
     # the city wasn't in our database as an org, so this adds it so the pit stops & hand washing stations
     #  can belong to the proper org and service
-
-    # locations is an object with IDs as the keys, which we don't need
-
     resource = Resource.new
     resource.name = 'City of San Francisco'
     resource.website = 'https://sf.gov/'
@@ -34,6 +30,7 @@ namespace :pitstops do
     puts 'adding ' + resource.name
     puts 'resource description is :' + resource.long_description
 
+    # pitstops and handwashing are each a service of the City
     pitstops = resource.services.build
     handwashing = resource.services.build
 
@@ -95,3 +92,6 @@ namespace :pitstops do
     end
 
     resource.save!
+
+  end
+end
