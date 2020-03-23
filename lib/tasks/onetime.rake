@@ -307,26 +307,12 @@ namespace :onetime do
     end
   end
 
-  #STEP 5: Add hierarchies between categories
+  # STEP 5: Add hierarchies between categories
   desc 'Add category hierarchies into DB'
   task add_category_hierarchies: :environment do
     CategoryRelationship.transaction do
-      # Hash structure
-      # [
-      #   1st tier => [
-      #     2nd tier => [
-      #       3rd tier => [
-      #         4th tier,
-      #         ...
-      #       ],
-      #       ...
-      #     ],
-      #     ...
-      #   ],
-      #   ... 
-      # ]
-      # Essentially, each category maps to an array of its children, recursively
-      # except the last item in the ancestry (not necessarily 4th) which is a string
+      # hierarchies is a hash of String => hash to represent parent => children
+      # except for the last category in the ancestry which maps to nil
       hierarchies = {
         'Basic Needs' => {
           'Clothing' => nil,
@@ -627,7 +613,7 @@ namespace :onetime do
             'STD/STI Treatment & Prevention' => {
               'HIV Treatment' => nil
             }
-          },
+          }
         },
         'Housing' => {
           'Independent Living' => nil,
@@ -650,7 +636,7 @@ namespace :onetime do
           'Temporary Shelter' => {
             'Domestic Violence Shelter' => nil,
             'Family Shelters' => nil
-          },
+          }
         },
         'Legal' => {
           'Identification Recovery' => nil,
@@ -707,22 +693,26 @@ namespace :onetime do
 
   def process_tier(category, next_tier)
     cat_obj = Category.find_by(name: category)
-    if cat_obj == nil
+    if cat_obj.nil?
       ## this shouldn't happen; data above is already vetted to exist in db
       puts "Category " + category + " does not exist"
-      return
     end
-    if next_tier != nil
-      next_tier.each do |child_category, next_next_tier|
-        # this also shouldn't happen
-        child_cat_obj = Category.find_by(name: child_category)
-        next if child_cat_obj == nil
+    next_tier&.each do |child_category, next_next_tier|
+      child_cat_obj = Category.find_by(name: child_category)
+      # this also shouldn't happen
+      next if child_cat_obj.nil?
 
-        # put parent child relationship between category and child_category
-        CategoryRelationship.find_or_create_by({:parent_id => cat_obj["id"], :child_id => child_cat_obj["id"]})
-        # then process child
-        process_tier(child_category, next_next_tier)
-      end
+      # put parent child relationship between category and child_category
+      save_parent_child(cat_obj["id"], child_cat_obj["id"])
+      # then process child
+      process_tier(child_category, next_next_tier)
     end
+  end
+
+  def save_parent_child(parent_id, child_id)
+    CategoryRelationship.find_or_create_by(
+      parent_id: parent_id,
+      child_id: child_id
+    )
   end
 end
