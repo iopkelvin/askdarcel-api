@@ -187,7 +187,6 @@ namespace :onetime do
         'Help Find Work',
         'End of Life Care',
         'Hospice',
-        'Retirement Benefits',
         'Help Find Childcare',
         'Navigating the System',
         'Help Find Housing',
@@ -297,7 +296,10 @@ namespace :onetime do
         'Addiction Medicine',
         'Sexual & Reproductive Health',
         'Probation & Parole',
-        'Disability'
+        'Disability',
+        'Domestic Violence Counseling',
+        'Online',
+        'School Care'
       ]
       categories.each do |c|
         Category.find_or_create_by(name: c)
@@ -331,7 +333,7 @@ namespace :onetime do
           'Storage' => nil,
           'Waste Disposal' => nil,
           'Water' => nil,
-          'Computer Internet Access' => {
+          'Computer or Internet Access' => {
             'Wifi Access' => nil
           },
           'Food' => {
@@ -362,10 +364,10 @@ namespace :onetime do
           'In-Home Support' => nil,
           'Independent Living' => nil,
           'Senior Centers' => nil,
-          'Adoption Foster Care' => {
+          'Adoption & Foster Care' => {
             'Transition Age Youth' => nil
           },
-          'Counseling Support' => {
+          'Counseling & Support' => {
             'Anger Management' => nil,
             'Bereavement' => nil,
             'Family Counseling' => nil,
@@ -383,13 +385,13 @@ namespace :onetime do
             'Understand Mental Health' => nil,
             'Domestic Violence Counseling' => nil,
             'Case Manager' => {
-              'Form Paperwork Assistance' => nil
+              'Form & Paperwork Assistance' => nil
             },
             'Help Hotlines' => {
               'Domestic Violence Hotline' => nil
             },
             'Housing Counseling' => {
-              'Eviction Prevention Defense' => nil
+              'Eviction Prevention & Defense' => nil
             },
             'Support Groups' => {
               '12-Step' => nil,
@@ -416,7 +418,7 @@ namespace :onetime do
             'Spiritual Support' => nil
           },
           'Recreation' => {
-            'Fitness Exercise' => nil,
+            'Fitness & Exercise' => nil,
             'Rec Teams' => nil
           },
           'Residential Care' => {
@@ -431,7 +433,7 @@ namespace :onetime do
           'Daily Life Skills' => nil,
           'Disability Screening' => nil,
           'Hearing Tests' => nil,
-          'InHome Support' => nil,
+          'In-Home Support' => nil,
           'Independent Living' => nil,
           'Nursing Home' => nil,
           'Special Education' => nil,
@@ -473,7 +475,7 @@ namespace :onetime do
           'Job Training' => {
             'Basic Literacy' => nil,
             'Computer Class' => nil,
-            'GED High School Equivalency' => nil,
+            'GED/High-School Equivalency' => nil,
             'Interview Training' => nil,
             'Resume Development' => nil,
             'Specialized Training' => nil
@@ -485,7 +487,7 @@ namespace :onetime do
         },
         'Emergency' => {
           'Drop-In Center' => nil,
-          'Eviction Prevention Defense' => nil,
+          'Eviction Prevention & Defense' => nil,
           'Physical Safety' => {
             'Disaster Response' => nil,
             'Domestic Violence Hotline' => nil,
@@ -493,21 +495,21 @@ namespace :onetime do
             'Personal Safety Items' => nil
           }
         },
-        'Employment Jobs' => {
-          'Job Placement Skill Assessment' => nil,
+        'Employment & Jobs' => {
+          'Job Placement & Skill Assessment' => nil,
           'Supported Employment' => nil,
           'Work Expenses' => nil,
           'Workplace Rights' => nil,
           'Job Training' => {
             'Basic Literacy' => nil,
             'Computer Class' => nil,
-            'GED High School Equivalency' => nil,
+            'GED/High-School Equivalency' => nil,
             'Interview Training' => nil,
             'Resume Development' => nil,
             'Specialized Training' => nil
           }
         },
-        'Finances Benefits' => {
+        'Finances & Benefits' => {
           'Childcare Financial Assistance' => nil,
           'Education Financial Assistance' => nil,
           'Financial Education' => nil,
@@ -531,11 +533,11 @@ namespace :onetime do
           },
           'Housing Financial Assistance' => {
             'Utilities Financial Assistance' => nil,
-            'Home Renters Insurance' => nil
+            'Home & Renters Insurance' => nil
           },
           'Insurance' => {
             'Health Insurance' => nil,
-            'Home Renters Insurance' => nil
+            'Home & Renters Insurance' => nil
           }
         },
         'Health' => {
@@ -547,7 +549,7 @@ namespace :onetime do
           'Medical Supplies' => nil,
           'Traumatic Brain Injury' => nil,
           'Vision Care' => nil,
-          'Addiction Recovery' => {
+          'Addiction & Recovery' => {
             '12-Step' => nil,
             'Detox' => nil,
             'Drug Testing' => nil,
@@ -614,7 +616,7 @@ namespace :onetime do
             'Substance Abuse Counseling' => nil,
             'Understand Mental Health' => nil
           },
-          'Sexual Reproductive Health' => {
+          'Sexual & Reproductive Health' => {
             'Birth Control' => nil,
             'Family Planning' => nil,
             'Fertility' => nil,
@@ -632,10 +634,10 @@ namespace :onetime do
           'Sober Living' => nil,
           'Transition Age Youth' => nil,
           'Housing Counseling' => {
-            'Eviction Prevention Defense' => nil
+            'Eviction Prevention & Defense' => nil
           },
           'Housing Financial Assistance' => {
-            'Utilities Insurance Assistance' => nil
+            'Utilities & Insurance Assistance' => nil
           },
           'Long-Term Housing' => {
             'Low-income Housing' => nil
@@ -655,26 +657,26 @@ namespace :onetime do
           'Mediation' => nil,
           'Notary' => nil,
           'Representation' => nil,
-          'Advocacy Legal Aid' => {
-            'Adoption Foster Care' => nil,
+          'Advocacy & Legal Aid' => {
+            'Adoption & Foster Care' => nil,
             'Building Code Enforcement' => nil,
-            'Discrimination Civil Rights' => nil,
+            'Discrimination & Civil Rights' => nil,
             'Guardianship' => nil,
             'Workplace Rights' => nil
           },
-          'Citizenship Immigration' => {
+          'Citizenship & Immigration' => {
             'English as a Second Language' => nil
           },
           'Criminal Justice Involvement' => {
             'Clean Slate' => nil,
             'Prison/Jail Related Services' => nil,
-            'Probation Parole' => nil,
+            'Probation & Parole' => nil,
             'Re-entry Services' => nil
           },
           'Housing Counseling' => {
-            'Eviction Prevention Defense' => nil
+            'Eviction Prevention & Defense' => nil
           },
-          'Translation Interpretation' => {
+          'Translation & Interpretation' => {
             'English as a Second Language' => nil
           }
         },
@@ -683,7 +685,7 @@ namespace :onetime do
         'Technology' => {
           'Computer Class' => nil,
           'Smartphones' => nil,
-          'Computer Internet Access' => {
+          'Computer or Internet Access' => {
             'Wifi Access' => nil
           },
           'Virtual Support' => {
@@ -704,13 +706,21 @@ namespace :onetime do
   end
 
   def process_tier(category, next_tier)
-    cat = Category.find_by(name: category)
-    if cat == nil
-      puts category
+    cat_obj = Category.find_by(name: category)
+    if cat_obj == nil
+      ## this shouldn't happen; data above is already vetted to exist in db
+      puts "Category " + category + " does not exist"
+      return
     end
     if next_tier != nil
       next_tier.each do |child_category, next_next_tier|
-        # put parent child relationship between category and child_category here
+        # this also shouldn't happen
+        child_cat_obj = Category.find_by(name: child_category)
+        next if child_cat_obj == nil
+
+        # put parent child relationship between category and child_category
+        CategoryRelationship.find_or_create_by({:parent_id => cat_obj["id"], :child_id => child_cat_obj["id"]})
+        # then process child
         process_tier(child_category, next_next_tier)
       end
     end
