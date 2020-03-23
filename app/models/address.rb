@@ -5,4 +5,5 @@ class Address < ActiveRecord::Base
                    lat_column_name: :latitude,
                    lng_column_name: :longitude
   belongs_to :resource, touch: true
+  has_and_belongs_to_many :services
 end
