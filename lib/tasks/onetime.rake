@@ -105,7 +105,7 @@ namespace :onetime do
   ## 5. Add hierarchies between categories
 
   # STEP 1: Reassign categories in resources/services
-  desc 'Reassign categories in resources and services to avoid non-unique error when renaming'
+  desc 'HIERARCHY WORK STEP 1: Reassign categories in resources and services to avoid non-unique error when renaming'
   task reassign_categories: :environment do
     reassignments = {
       'Prevent & Treat' => 'Medical Care',
@@ -153,6 +153,8 @@ namespace :onetime do
     reassignments.each do |old, new|
       old_category = Category.find_by(name: old)
       new_category = Category.find_by(name: new)
+      next if old_category.nil? || new_category.nil?
+
       ## Update categories for services
       #### find matching rows in categories_services and just update the category id
       CategoriesService.transaction do
@@ -172,7 +174,7 @@ namespace :onetime do
   end
 
   # STEP 2: Delete categories that were reassigned
-  desc 'Delete categories in categories table that were reassigned'
+  desc 'HIERARCHY WORK STEP 2: Delete categories in categories table that were reassigned'
   task delete_categories: :environment do
     Category.transaction do
       to_delete = [
@@ -218,13 +220,13 @@ namespace :onetime do
         'Help Pay for Transit'
       ]
       to_delete.each do |c|
-        Category.find_by(name: c).delete
+        Category.find_by(name: c)&.delete
       end
     end
   end
 
   # STEP 3: Rename categories to new names
-  desc 'Rename certain categories to new names'
+  desc 'HIERARCHY WORK STEP 3: Rename certain categories to new names'
   task rename_categories: :environment do
     Category.transaction do
       renames = {
@@ -255,13 +257,13 @@ namespace :onetime do
         'Employment' => 'Employment & Jobs'
       }
       renames.each do |old, new|
-        Category.find_by(name: old).update(name: new)
+        Category.find_by(name: old)&.update(name: new)
       end
     end
   end
 
   # STEP 4: Create new categories that don't exist yet for the hierarchical categories work
-  desc 'Add missing categories'
+  desc 'HIERARCHY WORK STEP 4: Add missing categories'
   task add_new_categories_hierarchical: :environment do
     Category.transaction do
       categories = [
@@ -308,7 +310,7 @@ namespace :onetime do
   end
 
   # STEP 5: Add hierarchies between categories
-  desc 'Add category hierarchies into DB'
+  desc 'HIERARCHY WORK STEP 5: Add category hierarchies into DB'
   task add_category_hierarchies: :environment do
     CategoryRelationship.transaction do
       # hierarchies is a hash of String => hash to represent parent => children
