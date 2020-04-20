@@ -180,17 +180,34 @@ class ChangeRequestsController < ApplicationController
       phone.update field_change_hash
     elsif change_request.is_a? AddressChangeRequest
       puts "AddressChangeRequest"
+      # action = change_request.field_changes["action"]
+      action = "" # to be removed for end-to-end testing
+      #puts "ACTION: #{action}"
+      # change_request.field_changes.each do |fc|
+      #   puts "#{fc.field_name} ==== #{fc.field_value}"
+      # end
       address = Address.find(change_request.object_id)
 
-      begin
-        a = Geokit::Geocoders::GoogleGeocoder.geocode address.address_1 + "," + address.city + "," + address.state_province
-        field_change_hash["latitude"] = a.latitude
-        field_change_hash["longitude"] = a.longitude
-      rescue => error
-        puts "google geocoding failed for address " + address.id.to_s + ": " + error.message
-      end
+      if action.downcase == "remove"
+        #address.destroy
+        #puts "ID: #{change_request.object_id.to_s}"
+        begin
+          address.destroy
+        rescue => error
+          puts error.message
+        end
+        # puts "remove"
+      else
+        begin
+          a = Geokit::Geocoders::GoogleGeocoder.geocode address.address_1 + "," + address.city + "," + address.state_province
+          field_change_hash["latitude"] = a.latitude
+          field_change_hash["longitude"] = a.longitude
+        rescue => error
+          puts "google geocoding failed for address " + address.id.to_s + ": " + error.message
+        end
 
-      address.update field_change_hash
+        address.update field_change_hash
+      end
     else
       puts "invalid request"
     end
