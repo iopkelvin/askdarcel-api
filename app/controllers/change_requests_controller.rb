@@ -13,6 +13,18 @@ class ChangeRequestsController < ApplicationController
   end
 
   def create_change_request
+
+    if params[:change_request][:action] == "0"
+      handle_insert
+    elsif params[:change_request][:action] == "1"
+      handle_update 
+    else
+      puts 'unsupported action'
+    end
+  end
+
+  def handle_update
+
     if params[:resource_id]
       @change_request = ResourceChangeRequest.create(object_id: params[:resource_id], resource_id: params[:resource_id])
     elsif params[:service_id]
@@ -20,9 +32,9 @@ class ChangeRequestsController < ApplicationController
     elsif params[:address_id]
       @change_request = AddressChangeRequest.create(object_id: params[:address_id], resource_id: Address.find(params[:address_id]).resource_id)
     elsif params[:phone_id] || params[:type] == "phones"
-      resource_id = params[:parent_resource_id] || Phone.find(params[:phone_id]).resource_id
+      resource_id = params[:change_request][:parent_resource_id] || Phone.find(params[:phone_id]).resource_id
       @change_request = PhoneChangeRequest.create(object_id: params[:phone_id], resource_id: resource_id)
-    elsif params[:schedule_day_id] || params[:type] == "schedule_days"
+    elsif params[:schedule_day_id] || params[:change_request][:type] == "schedule_days"
       schedule = nil
       if params[:schedule_day_id]
         schedule = Schedule.find(ScheduleDay.find(params[:schedule_day_id]).schedule_id)
@@ -51,6 +63,52 @@ class ChangeRequestsController < ApplicationController
     persist_change (@change_request)
 
     render status: :created, json: ChangeRequestsPresenter.present(@change_request)
+  end
+
+  def handle_insert
+
+    change_request = params[:change_request]
+    if change_request[:type] == "addresses"
+      address = Address.new
+      addressattention = change_request[:field_changes][:attention]
+      address.city = change_request[:field_changes][:city]
+      address.address_1 = change_request[:field_changes][:address_1]
+      address.address_2 = change_request[:field_changes][:address_2]
+      address.address_3 = change_request[:field_changes][:address_3]
+      address.address_4 = change_request[:field_changes][:address_4]
+      address.city = change_request[:field_changes][:city]
+      address.state_province = change_request[:field_changes][:state_province]
+      address.postal_code = change_request[:field_changes][:postal_code]
+      address.country = change_request[:field_changes][:country]
+      address.online = change_request[:field_changes][:online]
+      address.region = change_request[:field_changes][:region]
+      address.name = change_request[:field_changes][:name]
+      address.description = change_request[:field_changes][:description]
+      address.transportation = change_request[:field_changes][:transportation]
+      address.resource_id = params[:parent_resource_id]
+
+      begin
+        a = Geokit::Geocoders::GoogleGeocoder.geocode address.address_1 + "," + address.city + "," + address.state_province
+        address.latitude = a.latitude
+        address.longitude = a.longitude
+      rescue => error
+        puts "google geocoding failed for address " + address.id.to_s + ": " + error.message
+      end
+
+      address.save!
+
+      @change_request = AddressChangeRequest.create(object_id: address.id, resource_id: Address.find(address.id).resource_id)
+      @change_request.field_changes = field_changes
+      persist_change (@change_request)
+
+      render status: :created, json: ChangeRequestsPresenter.present(@change_request)
+
+    elsif change_request[:type] == "phones"
+
+    else
+      render status: :precondition_failed
+    end
+
   end
 
   def index
@@ -149,7 +207,7 @@ class ChangeRequestsController < ApplicationController
 
   def persist_change(change_request)
     object_id = change_request.object_id
-    puts object_id
+
     field_change_hash = get_field_change_hash change_request
 
     if change_request.is_a? ServiceChangeRequest
@@ -233,7 +291,7 @@ class ChangeRequestsController < ApplicationController
   end
 
   def field_changes
-    params[:change_request].to_unsafe_h.map do |name, value|
+    params[:change_request][:field_changes].to_unsafe_h.map do |name, value|
       field_change_hash = {}
       # HACK: We need a better way to handle array values
       if name == "categories"

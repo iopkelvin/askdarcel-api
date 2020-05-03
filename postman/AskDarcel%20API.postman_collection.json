@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "69093694-69b2-49c9-9886-c16ecd552c4a",
+		"_postman_id": "b55d747f-047b-4932-9a9f-42b83a012bd5",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -768,12 +768,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "fa257acf-8505-4f5a-8272-0ac692801bb0",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -791,7 +792,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"website\" : \"www.google.com\"\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"resources\",\n\t\t\"action\" : \"1\", \n\t\t\"field_changes\" : {\n\t\t  \"website\" : \"www.google.com\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/resources/1/change_requests",
@@ -813,12 +814,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "72d6ec96-ce02-42a8-990d-5f3d65028302",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -836,7 +838,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"name\" : \"newname\"\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"services\",\n\t\t\"action\" : \"1\", \n\t\t\"field_changes\" : {\t\t\n\t\t  \"name\" : \"newnamee\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/services/1/change_requests",
@@ -858,12 +860,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "920e4353-a896-413e-b831-301e2876802d",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -881,7 +884,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"opens_at\" : \"1000\"\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"schedule_days\",\n\t\t\"action\" : \"1\", \n\t\t\"field_changes\" : {\n\t\t  \"opens_at\" : \"1000\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/schedule_days/1/change_requests",
@@ -948,12 +951,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "e9ae0009-c635-4c19-9682-0322fa3980d6",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -971,7 +975,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"number\" : \"4155555267\"\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"phones\",\n\t\t\"action\" : \"1\", \n\t\t  \"field_changes\" : {\n\t\t    \"number\" : \"4155555267\"\n\t\t  }\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/phones/1/change_requests",
@@ -993,12 +997,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "b2a6894b-0fab-4796-86ba-f9ee04457e15",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -1016,7 +1021,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"city\" : \"San Francisco\",\n\t\t\"state_province\" : \"CA\",\n\t\t\"address_1\" : \"140 Market Street\"\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"addresses\",\n\t\t\"action\" : \"0\", \n\t\t\"field_changes\" : {\n\t\t  \"city\" : \"San Francisco\",\n\t\t  \"state_province\" : \"CA\",\n\t\t  \"address_1\" : \"140 Market Street\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/addresses/1/change_requests",
@@ -1027,6 +1032,56 @@
 						"addresses",
 						"1",
 						"change_requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit New Address",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7b6e1780-d5c6-4eb0-bd0a-facff7d6c852",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"addresses\",\n\t\t\"action\" : \"0\",\t\t\n\t\t\"field_changes\" : {\n\t\t  \"city\" : \"San Francisco\",\n\t\t  \"state_province\" : \"CA\",\n\t\t  \"address_1\" : \"145 Market Street\",\n\t\t  \"country\" : \"USA\",\n\t\t  \"postal_code\" : \"94117\"\n\t\t}\n\t}\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/change_requests?parent_resource_id=1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"change_requests"
+					],
+					"query": [
+						{
+							"key": "parent_resource_id",
+							"value": "1"
+						}
 					]
 				}
 			},
@@ -1352,12 +1407,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "bc25c1a9-6a60-48e6-84e6-234c62ec2e01",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -1375,7 +1431,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\": {\n\t\t\"number\": \"(415) 555-5555\",\n\t\t\"service_type\": \"general inquiries\"\n\t},\n\t\"type\": \"phones\",\n\t\"parent_resource_id\": 1\n}"
+					"raw": "{  \n\t\"change_request\": {\n\t\t\"type\": \"phones\",\n\t\t\"parent_resource_id\": 1,\n\t\t\"action\": \"1\",\n\t\t\"field_changes\" : {\n\t\t  \"number\": \"(415) 555-5555\",\n\t\t  \"service_type\": \"general inquiries\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/change_requests",
@@ -1395,12 +1451,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "f287a0b2-ed34-42b3-8bff-468011e4f528",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -1418,7 +1475,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\": {\n\t\t\"day\": \"Monday\",\n\t\t\"opens_at\" : \"1000\",\n\t\t\"closes_at\" : \"2000\"\n\t},\n\t\"type\": \"schedule_days\",\n\t\"schedule_id\": 1\n}"
+					"raw": "{  \n\t\"change_request\": {\n\t\t\"type\": \"schedule_days\",\n\t\t\"action\" : \"1\", \n\t\t\"field_changes\": {\n\t\t\t\"day\": \"Monday\",\n\t\t\t\"opens_at\" : \"1000\",\n\t\t\t\"closes_at\" : \"2000\"\n\t\t}\n\t},\n\t\"schedule_id\": 1\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/change_requests",
@@ -1438,12 +1495,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "afcb4088-edf4-4048-b142-14778de4e0da",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -1461,7 +1519,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"change_request\": {\n\t\t\"categories\": [\n\t\t\t{\"name\": \"Food\", \"id\": 2},\n\t\t\t{\"name\": \"Health\", \"id\": 3}\n\t\t]\n\t}\n}"
+					"raw": "{\n\t\"change_request\": {\n\t\t\"type\" : \"services\",\n\t\t\"action\" : \"1\", \n\t\t\"field_changes\" : {\n\t\t  \"categories\": [\n\t\t\t{\"name\": \"Food\", \"id\": 2},\n\t\t\t{\"name\": \"Health\", \"id\": 3}\n\t\t  ]\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/services/1/change_requests",
@@ -1772,5 +1830,6 @@
 				]
 			}
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }
