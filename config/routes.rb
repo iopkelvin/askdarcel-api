@@ -54,6 +54,7 @@ Rails.application.routes.draw do
     resources :change_requests, only: :create
   end
   resources :change_requests do
+    post :create
     post :approve
     post :reject
     collection do

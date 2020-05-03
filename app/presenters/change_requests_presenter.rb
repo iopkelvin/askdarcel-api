@@ -5,6 +5,7 @@ class ChangeRequestsPresenter < Jsonite
   property :status
   property :type
   property :object_id
+  property :action
   property :field_changes, with: FieldChangesPresenter
 end
 
