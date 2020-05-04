@@ -105,6 +105,22 @@ class ChangeRequestsController < ApplicationController
 
     elsif change_request[:type] == "phones"
       phone = Phone.new
+      phone.description = change_request[:field_changes][:description]
+      phone.number = change_request[:field_changes][:number]
+      phone.service_type = change_request[:field_changes][:service_type]
+      if change_request[:field_changes][:service_id]
+        phone.service_id = change_request[:field_changes][:service_id]
+      end
+      phone.resource_id = change_request[:resource_id]
+
+      phone.save!
+
+      @change_request = PhoneChangeRequest.create(object_id: phone.id, resource_id: change_request[:resource_id])
+      @change_request.field_changes = field_changes
+      persist_change (@change_request)
+
+      render status: :created, json: ChangeRequestsPresenter.present(@change_request)
+
     else
       render status: :precondition_failed
     end
