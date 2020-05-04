@@ -85,7 +85,7 @@ class ChangeRequestsController < ApplicationController
       address.name = change_request[:field_changes][:name]
       address.description = change_request[:field_changes][:description]
       address.transportation = change_request[:field_changes][:transportation]
-      address.resource_id = params[:parent_resource_id]
+      address.resource_id = change_request[:resource_id]
 
       begin
         a = Geokit::Geocoders::GoogleGeocoder.geocode address.address_1 + "," + address.city + "," + address.state_province
@@ -104,7 +104,7 @@ class ChangeRequestsController < ApplicationController
       render status: :created, json: ChangeRequestsPresenter.present(@change_request)
 
     elsif change_request[:type] == "phones"
-
+      phone = Phone.new
     else
       render status: :precondition_failed
     end

@@ -1067,21 +1067,15 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"addresses\",\n\t\t\"action\" : \"0\",\t\t\n\t\t\"field_changes\" : {\n\t\t  \"city\" : \"San Francisco\",\n\t\t  \"state_province\" : \"CA\",\n\t\t  \"address_1\" : \"145 Market Street\",\n\t\t  \"country\" : \"USA\",\n\t\t  \"postal_code\" : \"94117\"\n\t\t}\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"addresses\",\n\t\t\"action\" : \"0\",\t\n\t\t\"resource_id\" : \"1\",\n\t\t\"field_changes\" : {\n\t\t  \"city\" : \"San Francisco\",\n\t\t  \"state_province\" : \"CA\",\n\t\t  \"address_1\" : \"145 Market Street\",\n\t\t  \"country\" : \"USA\",\n\t\t  \"postal_code\" : \"94117\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
-					"raw": "{{base_url}}/change_requests?parent_resource_id=1",
+					"raw": "{{base_url}}/change_requests",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"change_requests"
-					],
-					"query": [
-						{
-							"key": "parent_resource_id",
-							"value": "1"
-						}
 					]
 				}
 			},
