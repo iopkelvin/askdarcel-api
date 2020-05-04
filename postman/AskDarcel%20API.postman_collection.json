@@ -1425,7 +1425,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\": {\n\t\t\"type\": \"phones\",\n\t\t\"parent_resource_id\": 1,\n\t\t\"action\": \"1\",\n\t\t\"field_changes\" : {\n\t\t  \"number\": \"(415) 555-5555\",\n\t\t  \"service_type\": \"general inquiries\"\n\t\t}\n\t}\n}"
+					"raw": "{  \n\t\"change_request\": {\n\t\t\"type\": \"phones\",\n\t\t\"resource_id\": 1,\n\t\t\"action\": \"0\",\n\t\t\"field_changes\" : {\n\t\t  \"number\": \"(415) 555-5555\",\n\t\t  \"service_type\": \"general inquiries\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/change_requests",
