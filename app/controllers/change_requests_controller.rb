@@ -17,7 +17,9 @@ class ChangeRequestsController < ApplicationController
     if params[:change_request][:action] == "0"
       handle_insert
     elsif params[:change_request][:action] == "1"
-      handle_update 
+      handle_update
+    elsif params[:change_request][:action] == "2"
+      handle_remove 
     else
       puts 'unsupported action'
     end
@@ -123,6 +125,21 @@ class ChangeRequestsController < ApplicationController
 
     else
       render status: :precondition_failed
+    end
+
+  end
+
+  def handle_remove
+
+    ch_req = params[:change_request]
+    id = params[:id]
+    
+    # curr_add = Address.find(params[:address_id])
+    begin
+      address.destroy
+      #curr_add.destroy
+    rescue => error
+      puts error.message
     end
 
   end
