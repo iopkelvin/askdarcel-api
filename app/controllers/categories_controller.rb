@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 class CategoriesController < ApplicationController
+  def show
+    category = Category.find(params[:id])
+    render json: CategoryPresenter.present(category)
+  end
+
+  def subcategories
+    categories = Category.where("id in (select child_id from category_relationships where parent_id=?)", params[:id])
+    render json: CategoryPresenter.present(categories)
+  end
+
   def index
     categories = Category.order(:name)
     # Cast:

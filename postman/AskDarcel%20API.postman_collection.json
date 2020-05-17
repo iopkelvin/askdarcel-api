@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "69093694-69b2-49c9-9886-c16ecd552c4a",
+		"_postman_id": "86e67af4-e893-4b59-981f-4ce153d9b088",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -142,6 +142,84 @@
 		},
 		{
 			"name": "Get service by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3b18f5a7-5f3c-44d6-a3c1-a91e515c989a",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var response = pm.response.json();"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get category by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3b18f5a7-5f3c-44d6-a3c1-a91e515c989a",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var response = pm.response.json();"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get subcategories",
 			"event": [
 				{
 					"listen": "test",
@@ -1772,5 +1850,6 @@
 				]
 			}
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }
