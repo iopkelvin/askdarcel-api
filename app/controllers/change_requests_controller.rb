@@ -19,7 +19,7 @@ class ChangeRequestsController < ApplicationController
     elsif params[:change_request][:action] == "edit"
       handle_update 
     else
-      puts 'unsupported action'
+      render status: :bad_request, json: { error: "unsupported action" }
     end
   end
 
