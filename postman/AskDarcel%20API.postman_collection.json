@@ -919,7 +919,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"note\" : \"newnote\"\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\": \"notes\",\n\t\t\"action\": \"1\",\n\t\t\"field_changes\": {\n\t\t\t\"note\": \"newnote\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/notes/1/change_requests",
