@@ -1011,7 +1011,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"addresses\",\n\t\t\"action\" : \"0\", \n\t\t\"field_changes\" : {\n\t\t  \"city\" : \"San Francisco\",\n\t\t  \"state_province\" : \"CA\",\n\t\t  \"address_1\" : \"140 Market Street\"\n\t\t}\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"addresses\",\n\t\t\"action\" : \"1\", \n\t\t\"field_changes\" : {\n\t\t  \"city\" : \"San Francisco\",\n\t\t  \"state_province\" : \"CA\",\n\t\t  \"address_1\" : \"140 Market Street\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/addresses/1/change_requests",
