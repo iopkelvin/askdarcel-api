@@ -492,6 +492,48 @@
 			"response": []
 		},
 		{
+			"name": "Get eligibilities by category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"pm.test(\"Eligibilities are correctly sorted\", function () {",
+							"  var jsonData = pm.response.json();",
+							"  pm.expect(jsonData.eligibilities.length).to.eql(10);",
+							"  pm.expect(jsonData.eligibilities[0].name).to.eql('Alzheimers');",
+							"  pm.expect(jsonData.eligibilities[9].name).to.eql('Veterans');",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/eligibilities",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"eligibilities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get featured eligibilities",
 			"event": [
 				{
