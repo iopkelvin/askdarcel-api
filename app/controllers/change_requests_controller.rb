@@ -14,9 +14,9 @@ class ChangeRequestsController < ApplicationController
 
   def create_change_request
 
-    if params[:change_request][:action] == "0"
+    if params[:change_request][:action] == "insert"
       handle_insert
-    elsif params[:change_request][:action] == "1"
+    elsif params[:change_request][:action] == "edit"
       handle_update 
     else
       puts 'unsupported action'

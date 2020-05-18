@@ -782,7 +782,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"resources\",\n\t\t\"action\" : \"1\", \n\t\t\"field_changes\" : {\n\t\t  \"website\" : \"www.google.com\"\n\t\t}\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"resources\",\n\t\t\"action\" : \"edit\", \n\t\t\"field_changes\" : {\n\t\t  \"website\" : \"www.google.com\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/resources/1/change_requests",
@@ -828,7 +828,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"services\",\n\t\t\"action\" : \"1\", \n\t\t\"field_changes\" : {\t\t\n\t\t  \"name\" : \"newnamee\"\n\t\t}\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"services\",\n\t\t\"action\" : \"edit\", \n\t\t\"field_changes\" : {\t\t\n\t\t  \"name\" : \"newnamee\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/services/1/change_requests",
@@ -874,7 +874,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"schedule_days\",\n\t\t\"action\" : \"1\", \n\t\t\"field_changes\" : {\n\t\t  \"opens_at\" : \"1000\"\n\t\t}\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"schedule_days\",\n\t\t\"action\" : \"edit\", \n\t\t\"field_changes\" : {\n\t\t  \"opens_at\" : \"1000\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/schedule_days/1/change_requests",
@@ -919,7 +919,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\": \"notes\",\n\t\t\"action\": \"1\",\n\t\t\"field_changes\": {\n\t\t\t\"note\": \"newnote\"\n\t\t}\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\": \"notes\",\n\t\t\"action\": \"edit\",\n\t\t\"field_changes\": {\n\t\t\t\"note\": \"newnote\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/notes/1/change_requests",
@@ -965,7 +965,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"phones\",\n\t\t\"action\" : \"1\", \n\t\t  \"field_changes\" : {\n\t\t    \"number\" : \"4155555267\"\n\t\t  }\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"phones\",\n\t\t\"action\" : \"edit\", \n\t\t  \"field_changes\" : {\n\t\t    \"number\" : \"4155555267\"\n\t\t  }\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/phones/1/change_requests",
@@ -1011,7 +1011,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"addresses\",\n\t\t\"action\" : \"1\", \n\t\t\"field_changes\" : {\n\t\t  \"city\" : \"San Francisco\",\n\t\t  \"state_province\" : \"CA\",\n\t\t  \"address_1\" : \"140 Market Street\"\n\t\t}\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"addresses\",\n\t\t\"action\" : \"edit\", \n\t\t\"field_changes\" : {\n\t\t  \"city\" : \"San Francisco\",\n\t\t  \"state_province\" : \"CA\",\n\t\t  \"address_1\" : \"140 Market Street\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/addresses/1/change_requests",
@@ -1057,7 +1057,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"addresses\",\n\t\t\"action\" : \"0\",\t\n\t\t\"resource_id\" : \"1\",\n\t\t\"field_changes\" : {\n\t\t  \"city\" : \"San Francisco\",\n\t\t  \"state_province\" : \"CA\",\n\t\t  \"address_1\" : \"145 Market Street\",\n\t\t  \"country\" : \"USA\",\n\t\t  \"postal_code\" : \"94117\"\n\t\t}\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"type\" : \"addresses\",\n\t\t\"action\" : \"insert\",\t\n\t\t\"resource_id\" : \"1\",\n\t\t\"field_changes\" : {\n\t\t  \"city\" : \"San Francisco\",\n\t\t  \"state_province\" : \"CA\",\n\t\t  \"address_1\" : \"145 Market Street\",\n\t\t  \"country\" : \"USA\",\n\t\t  \"postal_code\" : \"94117\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/change_requests",
@@ -1415,7 +1415,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\": {\n\t\t\"type\": \"phones\",\n\t\t\"resource_id\": 1,\n\t\t\"action\": \"0\",\n\t\t\"field_changes\" : {\n\t\t  \"number\": \"(415) 555-5555\",\n\t\t  \"service_type\": \"general inquiries\"\n\t\t}\n\t}\n}"
+					"raw": "{  \n\t\"change_request\": {\n\t\t\"type\": \"phones\",\n\t\t\"resource_id\": 1,\n\t\t\"action\": \"insert\",\n\t\t\"field_changes\" : {\n\t\t  \"number\": \"(415) 555-5555\",\n\t\t  \"service_type\": \"general inquiries\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/change_requests",
@@ -1459,7 +1459,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\": {\n\t\t\"type\": \"schedule_days\",\n\t\t\"action\" : \"1\", \n\t\t\"field_changes\": {\n\t\t\t\"day\": \"Monday\",\n\t\t\t\"opens_at\" : \"1000\",\n\t\t\t\"closes_at\" : \"2000\"\n\t\t}\n\t},\n\t\"schedule_id\": 1\n}"
+					"raw": "{  \n\t\"change_request\": {\n\t\t\"type\": \"schedule_days\",\n\t\t\"action\" : \"edit\", \n\t\t\"field_changes\": {\n\t\t\t\"day\": \"Monday\",\n\t\t\t\"opens_at\" : \"1000\",\n\t\t\t\"closes_at\" : \"2000\"\n\t\t}\n\t},\n\t\"schedule_id\": 1\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/change_requests",
@@ -1503,7 +1503,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"change_request\": {\n\t\t\"type\" : \"services\",\n\t\t\"action\" : \"1\", \n\t\t\"field_changes\" : {\n\t\t  \"categories\": [\n\t\t\t{\"name\": \"Food\", \"id\": 2},\n\t\t\t{\"name\": \"Health\", \"id\": 3}\n\t\t  ]\n\t\t}\n\t}\n}"
+					"raw": "{\n\t\"change_request\": {\n\t\t\"type\" : \"services\",\n\t\t\"action\" : \"edit\", \n\t\t\"field_changes\" : {\n\t\t  \"categories\": [\n\t\t\t{\"name\": \"Food\", \"id\": 2},\n\t\t\t{\"name\": \"Health\", \"id\": 3}\n\t\t  ]\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/services/1/change_requests",
