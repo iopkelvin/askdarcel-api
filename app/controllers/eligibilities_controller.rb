@@ -5,6 +5,15 @@ class EligibilitiesController < ApplicationController
   #
   # Return all eligibilities sorted by name in ascending order.
   def index
+    if params[:category_id]
+      eligibilities = Eligibility.where(
+        "id in (select distinct eligibility_id from eligibilities_services where service_id in " \
+        "(select service_id from categories_services where category_id=?))", params[:category_id]
+      )
+      render json: EligibilityPresenter.present(eligibilities)
+      return
+    end
+
     eligibilities = Eligibility.order(:name)
 
     render json: EligibilityPresenter.present(eligibilities)
