@@ -74,7 +74,8 @@ class ChangeRequestsController < ApplicationController
   def handle_insert
 
     change_request = params[:change_request]
-    if change_request[:type] == "addresses"
+    case change_request[:type]
+    when "addresses"
       address = Address.new
       change_request_params = params.require(:change_request).permit(field_changes: [
           :attention,
@@ -113,7 +114,7 @@ class ChangeRequestsController < ApplicationController
 
       render status: :created, json: ChangeRequestsPresenter.present(@change_request)
 
-    elsif change_request[:type] == "phones"
+    when "phones"
       phone = Phone.new
       change_request_params = params.require(:change_request).permit(field_changes: [
           :description,
