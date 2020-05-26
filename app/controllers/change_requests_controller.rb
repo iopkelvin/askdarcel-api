@@ -10,6 +10,12 @@ class ChangeRequestsController < ApplicationController
     render status: :bad_request, json: unknown_attribute_error_json(e)
   rescue ActiveRecord::RecordInvalid => e
     render status: :bad_request, json: RecordInvalidPresenter.present(e)
+  rescue => e
+    logger.error e.message
+    # Log all lines in the backtrace except those coming from gems, such as
+    # ActiveRecord itself.
+    logger.error e.backtrace.reject{|l| l =~ %r|\A[^:]*/gems/|}.join("\n")
+    render status: :internal_server_error, json: { error: "Internal server error" }
   end
 
   def create_change_request
