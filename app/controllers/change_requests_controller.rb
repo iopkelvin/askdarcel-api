@@ -76,21 +76,25 @@ class ChangeRequestsController < ApplicationController
     change_request = params[:change_request]
     if change_request[:type] == "addresses"
       address = Address.new
-      addressattention = change_request[:field_changes][:attention]
-      address.city = change_request[:field_changes][:city]
-      address.address_1 = change_request[:field_changes][:address_1]
-      address.address_2 = change_request[:field_changes][:address_2]
-      address.address_3 = change_request[:field_changes][:address_3]
-      address.address_4 = change_request[:field_changes][:address_4]
-      address.city = change_request[:field_changes][:city]
-      address.state_province = change_request[:field_changes][:state_province]
-      address.postal_code = change_request[:field_changes][:postal_code]
-      address.country = change_request[:field_changes][:country]
-      address.online = change_request[:field_changes][:online]
-      address.region = change_request[:field_changes][:region]
-      address.name = change_request[:field_changes][:name]
-      address.description = change_request[:field_changes][:description]
-      address.transportation = change_request[:field_changes][:transportation]
+      change_request_params = params.require(:change_request).permit(field_changes: [
+          :attention,
+          :city,
+          :address_1,
+          :address_2,
+          :address_3,
+          :address_4,
+          :city,
+          :state_province,
+          :postal_code,
+          :country,
+          :online,
+          :region,
+          :name,
+          :description,
+          :transportation,
+      ])
+      change_request_params.require(:field_changes)
+      address.attributes = change_request_params[:field_changes]
       address.resource_id = change_request[:resource_id]
 
       begin
@@ -111,12 +115,13 @@ class ChangeRequestsController < ApplicationController
 
     elsif change_request[:type] == "phones"
       phone = Phone.new
-      phone.description = change_request[:field_changes][:description]
-      phone.number = change_request[:field_changes][:number]
-      phone.service_type = change_request[:field_changes][:service_type]
-      if change_request[:field_changes][:service_id]
-        phone.service_id = change_request[:field_changes][:service_id]
-      end
+      change_request_params = params.require(:change_request).permit(field_changes: [
+          :description,
+          :number,
+          :service_type,
+          :service_id,
+      ])
+      phone.attributes = change_request_params[:field_changes]
       phone.resource_id = change_request[:resource_id]
 
       phone.save!
