@@ -30,7 +30,7 @@ module ShelterTech
         create_categories
         create_resources
         create_eligibilities
-        NewPathwaysCategoryCreator.create_new_pathway_categories
+        NewPathwaysCategoryCreator.create_all_new_pathway_categories
       end
 
       def reset_db
@@ -116,15 +116,29 @@ module ShelterTech
     end
 
     class NewPathwaysCategoryCreator
-      def self.create_new_pathway_categories
+      def self.create_all_new_pathway_categories
+        create_new_pathway_categories('Covid-food', 1_000_001, ['Disabled', 'Seniors (55+ years old)', 'Families', 'Homeless'])
+        create_new_pathway_categories_by_subcategory('Covid-hygiene', 1_000_002,
+                                                     ['Portable Toilets and Hand-Washing Stations',
+                                                      'Hygiene kits', 'Showers', 'Laundry', 'Clothing', 'Diaper Bank'])
+      end
+
+      def self.create_new_pathway_categories(name, id, eligibilities)
         category = Category.new
-        category.name = 'Covid-food'
-        category.id = 1_000_001
+        category.name = name
+        category.id = id
         category.save!
 
-        eligibilities = ['Disabled', 'Seniors (55+ years old)', 'Families', 'Homeless']
-
         add_eligibilities(eligibilities, category)
+      end
+
+      def self.create_new_pathway_categories_by_subcategory(name, id, subcategories)
+        category = Category.new
+        category.name = name
+        category.id = id
+        category.save!
+
+        add_subcategories(subcategories, category)
       end
 
       def self.add_eligibilities(eligibilities, category)
@@ -137,6 +151,21 @@ module ShelterTech
           service = FactoryBot.create(:service, resource: resource,
                                                 long_description: Faker::ShelterTech.description, categories: [category])
           eligibility.services << service
+        end
+      end
+
+      def self.add_subcategories(subcategories, category) # rubocop:disable Metrics/MethodLength
+        subcategories.each do |subcategory_name|
+          category = Category.new
+          category.name = subcategory_name
+          category.save!
+          resource = FactoryBot.create(:resource, name: Faker::Company.name,
+                                                  short_description: Faker::Lorem.sentence,
+                                                  long_description: Faker::ShelterTech.description,
+                                                  website: Faker::Internet.url, categories: [category])
+          service = FactoryBot.create(:service, resource: resource,
+                                                long_description: Faker::ShelterTech.description, categories: [category])
+          category.services << service
         end
       end
     end
@@ -277,7 +306,6 @@ module ShelterTech
         'Short-Term Housing',
         'Sober Living',
         'Goods',
-        'Clothing',
         'Clothes for School',
         'Clothes for Work',
         'Clothing Vouchers',
