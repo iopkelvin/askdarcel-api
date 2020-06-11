@@ -116,7 +116,7 @@ module ShelterTech
     end
 
     class NewPathwaysCategoryCreator
-      def create_new_pathway_categories
+      def self.create_new_pathway_categories
         category = Category.new
         category.name = 'Covid-food'
         category.id = 1_000_001
@@ -124,10 +124,10 @@ module ShelterTech
 
         eligibilities = ['Disabled', 'Seniors (55+ years old)', 'Families', 'Homeless']
 
-        add_eligibilities(eligibilities)
+        add_eligibilities(eligibilities, category)
       end
 
-      def add_eligibilities(eligibilities)
+      def self.add_eligibilities(eligibilities, category)
         eligibilities.each do |eligibility_name|
           eligibility = Eligibility.find_by_name(eligibility_name)
           resource = FactoryBot.create(:resource, name: Faker::Company.name,
