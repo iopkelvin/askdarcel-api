@@ -30,6 +30,7 @@ module ShelterTech
         create_categories
         create_resources
         create_eligibilities
+        NewPathwaysCategoryCreator.create_new_pathway_categories
       end
 
       def reset_db
@@ -111,6 +112,32 @@ module ShelterTech
 
       def create_eligibilities
         EligibilityCreator.create
+      end
+    end
+
+    class NewPathwaysCategoryCreator
+      def create_new_pathway_categories
+        category = Category.new
+        category.name = 'Covid-food'
+        category.id = 1_000_001
+        category.save!
+
+        eligibilities = ['Disabled', 'Seniors (55+ years old)', 'Families', 'Homeless']
+
+        add_eligibilities(eligibilities)
+      end
+
+      def add_eligibilities(eligibilities)
+        eligibilities.each do |eligibility_name|
+          eligibility = Eligibility.find_by_name(eligibility_name)
+          resource = FactoryBot.create(:resource, name: Faker::Company.name,
+                                                  short_description: Faker::Lorem.sentence,
+                                                  long_description: Faker::ShelterTech.description,
+                                                  website: Faker::Internet.url, categories: [category])
+          service = FactoryBot.create(:service, resource: resource,
+                                                long_description: Faker::ShelterTech.description, categories: [category])
+          eligibility.services << service
+        end
       end
     end
 
@@ -458,16 +485,16 @@ module ShelterTech
       ].freeze
 
       ELIGIBILITY_NAMES = [
-        'Seniors (55+ years old)',
-        'Veterans',
-        'Families',
+        'Seniors (55+ years old)', 'Veterans', 'Families',
         'Transition Aged Youth',
         'Re-Entry',
         'Immigrants',
         'Foster Youth',
         'Near Homeless',
         'LGBTQ',
-        'Alzheimers'
+        'Alzheimers',
+        'Homeless',
+        'Disabled'
       ].freeze
 
       ELIGIBILITY_FEATURE_RANKS = {
