@@ -3,6 +3,9 @@
 require 'faker/sheltertech'
 
 module ShelterTech
+  # rubocop:disable Metrics/LineLength
+  # rubocop:disable Metrics/MethodLength
+
   module DB
     class FixturePopulator
       def self.populate
@@ -121,6 +124,23 @@ module ShelterTech
         create_new_pathway_categories_by_subcategory('Covid-hygiene', 1_000_002,
                                                      ['Portable Toilets and Hand-Washing Stations',
                                                       'Hygiene kits', 'Showers', 'Laundry', 'Clothing', 'Diaper Bank'])
+        create_new_pathway_categories_by_subcategory('Covid-finance', 1_000_003, ['Emergency Financial Assistance',
+                                                                                  'Financial Assistance for Living Expenses',
+                                                                                  'Unemployment Insurance-based Benefit Payments', 'Job Assistance'])
+        create_new_pathway_categories_by_subcategory('Covid-housing', 1_000_004, ['I Received a Written Eviction Notice from my Landlord',
+                                                                                  'I Received a Non-Written Eviction Notice from my Landlord and I Want to Know My Rights',
+                                                                                  'I Missed the Last Rent Payment and I Need Help Paying It',
+                                                                                  'Our Familty is Experiencing Homelessness and I Need Subsidies',
+                                                                                  'I am HIV/AIDS Positive and I Need Financial Assistance to Prevent Eviction',
+                                                                                  'I am a Veteran and I Need Financial Assistance For Rent'])
+        create_new_pathway_categories_by_subcategory('Covid-health', 1_000_005, ['Coronavirus (COVID-19) Testing', 'Coronavirus-Related Urgent Care',
+                                                                                 'Other Medical Services', 'Mental Health Urgent Care', 'Other Mental Health Services'])
+        create_new_pathway_categories_by_subcategory('Covid-domesticviolence', 1_000_006, ['Temporary Shelter for Women',
+                                                                                           'Transitional Housing for Women',
+                                                                                           'Legal Assistance', 'Domestic Violence Counseling'])
+        create_new_pathway_categories('Covid-internet', 1_000_007, ['Low-Income'])
+        create_new_pathway_categories_by_subcategory('Covid-lgbtqa', 1_000_008, ['Housing Assistance', 'Legal Assistance ',
+                                                                                 'Youth Services', 'Counseling Assistance', 'General Help'])
       end
 
       def self.create_new_pathway_categories(name, id, eligibilities)
@@ -156,15 +176,16 @@ module ShelterTech
 
       def self.add_subcategories(subcategories, category) # rubocop:disable Metrics/MethodLength
         subcategories.each do |subcategory_name|
-          category = Category.new
-          category.name = subcategory_name
-          category.save!
+          subcategory = Category.new
+          subcategory.name = subcategory_name
+          subcategory.save!
           resource = FactoryBot.create(:resource, name: Faker::Company.name,
                                                   short_description: Faker::Lorem.sentence,
                                                   long_description: Faker::ShelterTech.description,
-                                                  website: Faker::Internet.url, categories: [category])
+                                                  website: Faker::Internet.url, categories: [subcategory])
           service = FactoryBot.create(:service, resource: resource,
-                                                long_description: Faker::ShelterTech.description, categories: [category])
+                                                long_description: Faker::ShelterTech.description, categories: [subcategory])
+          category.categories << subcategory
           category.services << service
         end
       end
@@ -522,7 +543,8 @@ module ShelterTech
         'LGBTQ',
         'Alzheimers',
         'Homeless',
-        'Disabled'
+        'Disabled',
+        'Low-Income'
       ].freeze
 
       ELIGIBILITY_FEATURE_RANKS = {
@@ -544,4 +566,7 @@ module ShelterTech
       }.freeze
     end
   end
+
+  # rubocop:enable Metrics/LineLength
+  # rubocop:enable Metrics/MethodLength
 end
