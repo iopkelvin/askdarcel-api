@@ -455,7 +455,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "62427972-214c-4bc1-b119-5cfbf871d2ab",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -463,11 +463,12 @@
 							"",
 							"pm.test(\"Eligibilities are correctly sorted\", function () {",
 							"  var jsonData = pm.response.json();",
-							"  pm.expect(jsonData.eligibilities.length).to.eql(10);",
+							"  pm.expect(jsonData.eligibilities.length).to.eql(13);",
 							"  pm.expect(jsonData.eligibilities[0].name).to.eql('Alzheimers');",
-							"  pm.expect(jsonData.eligibilities[9].name).to.eql('Veterans');",
+							"  pm.expect(jsonData.eligibilities[9].name).to.eql('Re-Entry');",
 							"});"
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -497,19 +498,18 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "bf1bc364-fef6-4800-a93e-babc404f75b1",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
 							"",
-							"pm.test(\"Eligibilities are correctly sorted\", function () {",
+							"pm.test(\"Eligibilities are correctly created\", function () {",
 							"  var jsonData = pm.response.json();",
-							"  pm.expect(jsonData.eligibilities.length).to.eql(10);",
-							"  pm.expect(jsonData.eligibilities[0].name).to.eql('Alzheimers');",
-							"  pm.expect(jsonData.eligibilities[9].name).to.eql('Veterans');",
+							"  pm.expect(jsonData.eligibilities.length).to.be.above(0);",
 							"});"
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -522,12 +522,18 @@
 					}
 				],
 				"url": {
-					"raw": "{{base_url}}/eligibilities",
+					"raw": "{{base_url}}/eligibilities?category_id=12",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"eligibilities"
+					],
+					"query": [
+						{
+							"key": "category_id",
+							"value": "12"
+						}
 					]
 				}
 			},
@@ -550,8 +556,8 @@
 							"  pm.expect(jsonData.eligibilities.length).to.eql(6);",
 							"  pm.expect(jsonData.eligibilities[0].name).to.eql('Seniors (55+ years old)');",
 							"  pm.expect(jsonData.eligibilities[0].feature_rank).to.eql(1);",
-							"  pm.expect(jsonData.eligibilities[0].resource_count).to.eql(24);",
-							"  pm.expect(jsonData.eligibilities[0].service_count).to.eql(24);",
+							"  pm.expect(jsonData.eligibilities[0].resource_count).to.eql(25);",
+							"  pm.expect(jsonData.eligibilities[0].service_count).to.eql(25);",
 							"  pm.expect(jsonData.eligibilities[5].name).to.eql('Immigrants');",
 							"  pm.expect(jsonData.eligibilities[5].feature_rank).to.eql(6);",
 							"  pm.expect(jsonData.eligibilities[5].resource_count).to.eql(8);",
