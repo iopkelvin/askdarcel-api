@@ -27,11 +27,13 @@ Rails.application.routes.draw do
     resources :ratings, only: :create
     resources :change_requests, only: :create
     resources :services, only: :create
+    resources :feedbacks, only: [:create, :index]
   end
   resources :services do
     resources :ratings, only: :create
     resources :change_requests, only: :create
     resources :notes, only: :create
+    resources :feedbacks, only: :create
     post :approve
     post :reject
     post :certify

@@ -10,6 +10,7 @@ class Service < ActiveRecord::Base
   belongs_to :resource, required: true, touch: true
   belongs_to :program
   has_many :notes, dependent: :destroy
+  has_many :feedbacks, as: :feedbackable
   has_one :schedule, dependent: :destroy
   has_and_belongs_to_many :categories
   has_many :ratings, dependent: :destroy
