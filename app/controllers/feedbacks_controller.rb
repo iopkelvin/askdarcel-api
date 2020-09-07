@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FeedbacksController < ApplicationController
   before_action :load_source
   def index
@@ -6,11 +8,11 @@ class FeedbacksController < ApplicationController
   end
 
   def create
-    feedback = @feedback_source.feedbacks.new(feedbacks_params);
+    feedback = @feedback_source.feedbacks.new(feedbacks_params)
     if feedback.save
       render status: :created, json: 'Success!'
     else
-      render json: 'Something went wrong!'
+      render json: feedback.errors.full_messages, status: :unprocessable_entity
     end
   end
 
@@ -18,7 +20,7 @@ class FeedbacksController < ApplicationController
 
   def load_source
     source_type, id = request.path.split('/')[1, 2]
-    @feedback_source = source_type.classify.constantize.find(id)  
+    @feedback_source = source_type.classify.constantize.find(id)
   end
 
   def feedbacks_params

@@ -266,7 +266,6 @@ class ChangeRequestsController < ApplicationController
                                              :addresses, :phones, :categories, :notes,
                                              schedule: :schedule_days,
                                              services: [:notes, :categories, { schedule: :schedule_days }],
-                                             ratings: [:review],
                                            ])
   end
 
