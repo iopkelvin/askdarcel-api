@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_04_021230) do
+ActiveRecord::Schema.define(version: 2020_09_07_010754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,13 +166,13 @@ ActiveRecord::Schema.define(version: 2020_09_04_021230) do
   end
 
   create_table "feedbacks", force: :cascade do |t|
-    t.integer "rating"
+    t.integer "rating", null: false
     t.text "review"
-    t.string "feedbackable_type"
-    t.bigint "feedbackable_id"
+    t.string "reviewable_type"
+    t.bigint "reviewable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["feedbackable_type", "feedbackable_id"], name: "index_feedbacks_on_feedbackable_type_and_feedbackable_id"
+    t.index ["reviewable_type", "reviewable_id"], name: "index_feedbacks_on_reviewable_type_and_reviewable_id"
   end
 
   create_table "field_changes", force: :cascade do |t|
@@ -244,18 +244,6 @@ ActiveRecord::Schema.define(version: 2020_09_04_021230) do
     t.index ["resource_id"], name: "index_programs_on_resource_id"
   end
 
-  create_table "ratings", force: :cascade do |t|
-    t.decimal "rating"
-    t.integer "user_id", null: false
-    t.integer "resource_id"
-    t.integer "service_id"
-    t.index ["resource_id"], name: "index_ratings_on_resource_id"
-    t.index ["service_id"], name: "index_ratings_on_service_id"
-    t.index ["user_id", "resource_id", "service_id"], name: "index_ratings_on_user_id_and_resource_id_and_service_id", unique: true
-    t.index ["user_id", "resource_id"], name: "index_ratings_on_user_id_and_resource_id", unique: true
-    t.index ["user_id", "service_id"], name: "index_ratings_on_user_id_and_service_id", unique: true
-  end
-
   create_table "resources", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -277,12 +265,6 @@ ActiveRecord::Schema.define(version: 2020_09_04_021230) do
     t.index ["contact_id"], name: "index_resources_on_contact_id"
     t.index ["funding_id"], name: "index_resources_on_funding_id"
     t.index ["updated_at", "id"], name: "index_resources_on_updated_at_and_id"
-  end
-
-  create_table "reviews", force: :cascade do |t|
-    t.text "review"
-    t.integer "rating_id", null: false
-    t.index ["rating_id"], name: "index_reviews_on_rating_id", unique: true
   end
 
   create_table "schedule_days", force: :cascade do |t|
@@ -380,12 +362,8 @@ ActiveRecord::Schema.define(version: 2020_09_04_021230) do
   add_foreign_key "phones", "resources"
   add_foreign_key "phones", "services"
   add_foreign_key "programs", "resources"
-  add_foreign_key "ratings", "resources"
-  add_foreign_key "ratings", "services"
-  add_foreign_key "ratings", "users"
   add_foreign_key "resources", "contacts"
   add_foreign_key "resources", "fundings"
-  add_foreign_key "reviews", "ratings"
   add_foreign_key "schedule_days", "schedules"
   add_foreign_key "schedules", "resources"
   add_foreign_key "schedules", "services"

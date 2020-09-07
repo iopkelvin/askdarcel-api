@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :feedback do
     rating { 1 }
     review { "MyText" }
-    feedbackable_id { 1 }
-    feedbackable_type { "MyString" }
+    reviewable_id { 1 }
+    reviewable_type { "MyString" }
   end
 end

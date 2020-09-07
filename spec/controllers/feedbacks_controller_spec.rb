@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe FeedbacksController, type: :controller do
-
   describe "GET #index" do
     it "returns http success" do
       get :index
@@ -15,5 +16,4 @@ RSpec.describe FeedbacksController, type: :controller do
       expect(response).to have_http_status(:success)
     end
   end
-
 end
