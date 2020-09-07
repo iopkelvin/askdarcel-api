@@ -2,5 +2,6 @@
 
 class Feedback < ApplicationRecord
   validates :rating, presence: true
-  belongs_to :reviewable, polymorphic: true
+  belongs_to :resource
+  belongs_to :service
 end

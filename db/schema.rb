@@ -168,11 +168,12 @@ ActiveRecord::Schema.define(version: 2020_09_07_010754) do
   create_table "feedbacks", force: :cascade do |t|
     t.integer "rating", null: false
     t.text "review"
-    t.string "reviewable_type"
-    t.bigint "reviewable_id"
+    t.bigint "resource_id"
+    t.bigint "service_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["reviewable_type", "reviewable_id"], name: "index_feedbacks_on_reviewable_type_and_reviewable_id"
+    t.index ["resource_id"], name: "index_feedbacks_on_resource_id"
+    t.index ["service_id"], name: "index_feedbacks_on_service_id"
   end
 
   create_table "field_changes", force: :cascade do |t|
@@ -354,6 +355,8 @@ ActiveRecord::Schema.define(version: 2020_09_07_010754) do
   add_foreign_key "change_requests", "resources"
   add_foreign_key "contacts", "resources"
   add_foreign_key "contacts", "services"
+  add_foreign_key "feedbacks", "resources"
+  add_foreign_key "feedbacks", "services"
   add_foreign_key "field_changes", "change_requests"
   add_foreign_key "notes", "resources"
   add_foreign_key "notes", "services"

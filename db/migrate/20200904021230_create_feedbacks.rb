@@ -3,7 +3,8 @@ class CreateFeedbacks < ActiveRecord::Migration[5.2]
     create_table :feedbacks do |t|
       t.integer :rating, null: false
       t.text :review
-      t.belongs_to :reviewable, polymorphic: true
+      t.references :resource, index: true, foreign_key: true
+      t.references :service, index: true, foreign_key: true
 
       t.timestamps
     end
