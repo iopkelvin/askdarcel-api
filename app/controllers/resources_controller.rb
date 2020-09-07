@@ -155,7 +155,8 @@ class ResourcesController < ApplicationController
     # DB by several orders of magnitude due to duplication of tuples.
     Resource.preload(:addresses, :phones, :categories, :notes,
                      schedule: :schedule_days,
-                     services: [:notes, :categories, { schedule: :schedule_days }, :eligibilities],)
+                     services: [:notes, :categories, { schedule: :schedule_days }, :eligibilities],
+                     ratings: [:review])
   end
 
   def sort_order

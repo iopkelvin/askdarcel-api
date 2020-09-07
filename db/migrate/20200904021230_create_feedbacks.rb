@@ -1,9 +1,9 @@
 class CreateFeedbacks < ActiveRecord::Migration[5.2]
   def change
     create_table :feedbacks do |t|
-      t.integer :rating, null: false
+      t.integer :rating
       t.text :review
-      t.belongs_to :reviewable, polymorphic: true
+      t.belongs_to :feedbackable, polymorphic: true
 
       t.timestamps
     end
