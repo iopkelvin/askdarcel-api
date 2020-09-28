@@ -337,7 +337,7 @@ ActiveRecord::Schema.define(version: 2020_09_28_035159) do
   end
 
   create_table "sites", force: :cascade do |t|
-    t.string "site_code"
+    t.integer "site_code", default: 0
   end
 
   create_table "synonym_groups", force: :cascade do |t|
