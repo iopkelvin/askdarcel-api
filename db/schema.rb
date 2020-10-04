@@ -166,8 +166,9 @@ ActiveRecord::Schema.define(version: 2020_09_07_010754) do
   end
 
   create_table "feedbacks", force: :cascade do |t|
-    t.integer "rating", null: false
+    t.boolean "rating", null: false
     t.text "review"
+    t.text "tags", default: [], array: true
     t.bigint "resource_id"
     t.bigint "service_id"
     t.datetime "created_at", null: false
