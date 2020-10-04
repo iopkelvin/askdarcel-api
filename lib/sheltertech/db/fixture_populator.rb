@@ -494,7 +494,8 @@ module ShelterTech
         'MOHCD Funded Services',
         'Basic Needs & Shelter',
         'Health & Medical',
-        'Employment'
+        'Employment',
+        'sffamilies'
       ].freeze
 
       TOP_LEVEL_CATEGORY_NAMES = [
@@ -516,7 +517,8 @@ module ShelterTech
         'Prison/Jail Related Services',
         'MOHCD Funded Services',
         'Eviction Defense',
-        'Temporary Shelter'
+        'Temporary Shelter',
+        'sffamilies'
       ].freeze
 
       FEATURED_CATEGORY_NAMES = [
