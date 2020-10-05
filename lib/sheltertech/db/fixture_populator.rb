@@ -123,10 +123,10 @@ module ShelterTech
         create_new_pathway_categories('Covid-food', 1_000_001, ['Disabled', 'Seniors (55+ years old)', 'Families', 'Homeless'])
         create_new_pathway_categories_by_subcategory('Covid-hygiene', 1_000_002,
                                                      ['Portable Toilets and Hand-Washing Stations',
-                                                      'Hygiene kits', 'Showers', 'Laundry', 'Clothing', 'Diaper Bank'])
+                                                      'Hygiene kits', 'Showers', 'Laundry', 'Clothing', 'Diaper Bank'])           
         create_new_pathway_categories_by_subcategory('Covid-finance', 1_000_003, ['Emergency Financial Assistance',
                                                                                   'Financial Assistance for Living Expenses',
-                                                                                  'Unemployment Insurance-based Benefit Payments', 'Job Assistance'])
+                                                                                  'Unemployment Insurance-based Benefit Payments'])
         create_new_pathway_categories_by_subcategory('Covid-housing', 1_000_004, ['I Received a Written Eviction Notice from my Landlord',
                                                                                   'I Received a Non-Written Eviction Notice from my Landlord and I Want to Know My Rights',
                                                                                   'I Missed the Last Rent Payment and I Need Help Paying It',
@@ -141,6 +141,8 @@ module ShelterTech
         create_new_pathway_categories('Covid-internet', 1_000_007, ['Low-Income'])
         create_new_pathway_categories_by_subcategory('Covid-lgbtqa', 1_000_008, ['Housing Assistance', 'Legal Assistance ',
                                                                                  'Youth Services', 'Counseling Assistance', 'General Help'])
+        create_new_pathway_categories_by_subcategory('Covid-jobs', 1_000_009, ['Job Placement Support', 'Vocational Training Programs',
+                                                                                  'Job Boards'])
       end
 
       def self.create_new_pathway_categories(name, id, eligibilities)
