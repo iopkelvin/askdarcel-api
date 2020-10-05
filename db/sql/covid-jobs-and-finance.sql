@@ -59,4 +59,4 @@ insert into categories_services (category_id, service_id) values (1100034, 2880)
 
 -- Covid Finance Category and Subcategories
 delete from category_relationships(parent_id,child_id) where parent_id=1000003 and child_id=1100010;
-delete from category_services where category_id=1000003 and service_id=1070
+delete from categories_services where category_id=1000003 and service_id=1070;
