@@ -4,7 +4,10 @@ class Category < ActiveRecord::Base
   has_and_belongs_to_many :resources
   has_and_belongs_to_many :services
   has_and_belongs_to_many :keywords
-  has_and_belongs_to_many :sites
+
+  has_and_belongs_to_many(:sites,
+                          join_table: "categories_sites",
+                          foregin_key: "category_id")
 
   has_and_belongs_to_many(:categories,
                           join_table: "category_relationships",
