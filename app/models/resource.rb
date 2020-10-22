@@ -13,7 +13,7 @@ class Resource < ActiveRecord::Base
   has_and_belongs_to_many :keywords
   has_and_belongs_to_many(:sites,
                           join_table: "resources_sites",
-                          foregin_key: "resource_id")
+                          foreign_key: "resource_id")
   has_many :addresses, dependent: :destroy
   has_many :phones, dependent: :destroy
   has_one :schedule, dependent: :destroy
