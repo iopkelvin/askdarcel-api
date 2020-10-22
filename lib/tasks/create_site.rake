@@ -14,20 +14,24 @@ namespace :create_site do
   # to each resource, add a connection using resource_site
   desc 'Adds the sfsg site to existing resources'
   task add_sfsg_to_resources: :environment do
-    sfsg = Site.where(side_code: 'sfsg')
-    Resource.all.each do |r|
-      # for each resource, we want to create a connection through intermediate table resource_site
-      r.update!(site_id: sfsg.id)
+    sfsg_id = Site.find_by(site_code: 'sfsg').id
+    Resource.transaction do
+      Resource.all.each do |r|
+        ResourcesSites.find_or_create_by(resource_id: c.id,
+                                       site_id: sfsg_id)
+      end
     end
   end
 
   # to each category, add a connection using category_site
   desc 'Adds the sfsg site to existing categories'
   task add_sfsg_to_categories: :environment do
-    sfsg = Site.where(side_code: 'sfsg')
-    Category.all.each do |c|
-      # for each category, we want to create a connection through intermediate table category_site
-      c.update!(site_id: sfsg.id)
+    sfsg_id = Site.find_by(site_code: 'sfsg').id
+    Category.transaction do
+      Category.all.each do |c|
+        CategoriesSites.find_or_create_by(category_id: c.id,
+                                       site_id: sfsg_id)
+      end
     end
   end
 end
