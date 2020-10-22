@@ -4,6 +4,7 @@
 
 namespace :create_site do
   # create site_code of 'sfsg'
+  desc 'Creates a site for sfsg'
   task add_sfsg_site: :environment do
     Site.transaction do
       Site.find_or_create_by(site_code: 'sfsg')
@@ -11,6 +12,7 @@ namespace :create_site do
   end
   
   # to each resource, add a connection using resource_site
+  desc 'Adds the sfsg site to existing resources'
   task add_sfsg_to_resources: :environment do
     sfsg = Site.where(side_code: 'sfsg')
     Resource.all.each do |r|
@@ -20,6 +22,7 @@ namespace :create_site do
   end
 
   # to each category, add a connection using category_site
+  desc 'Adds the sfsg site to existing categories'
   task add_sfsg_to_categories: :environment do
     sfsg = Site.where(side_code: 'sfsg')
     Category.all.each do |c|
