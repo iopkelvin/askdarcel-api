@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2020_10_25_061056) do
+=======
+ActiveRecord::Schema.define(version: 2020_10_10_052534) do
+>>>>>>> master
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +108,13 @@ ActiveRecord::Schema.define(version: 2020_10_25_061056) do
     t.integer "service_id", null: false
     t.integer "category_id", null: false
     t.integer "feature_rank"
+  end
+
+  create_table "categories_sites", id: false, force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.bigint "site_id", null: false
+    t.index ["category_id"], name: "index_categories_sites_on_category_id"
+    t.index ["site_id"], name: "index_categories_sites_on_site_id"
   end
 
   create_table "category_relationships", id: false, force: :cascade do |t|
@@ -267,6 +278,13 @@ ActiveRecord::Schema.define(version: 2020_10_25_061056) do
     t.index ["updated_at", "id"], name: "index_resources_on_updated_at_and_id"
   end
 
+  create_table "resources_sites", id: false, force: :cascade do |t|
+    t.bigint "resource_id", null: false
+    t.bigint "site_id", null: false
+    t.index ["resource_id"], name: "index_resources_sites_on_resource_id"
+    t.index ["site_id"], name: "index_resources_sites_on_site_id"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.text "review"
     t.text "tags", default: [], array: true
@@ -330,6 +348,10 @@ ActiveRecord::Schema.define(version: 2020_10_25_061056) do
     t.index ["resource_id"], name: "index_services_on_resource_id"
   end
 
+  create_table "sites", force: :cascade do |t|
+    t.string "site_code", default: "sfsg"
+  end
+
   create_table "synonym_groups", force: :cascade do |t|
     t.integer "group_type"
     t.datetime "created_at", null: false
@@ -360,6 +382,8 @@ ActiveRecord::Schema.define(version: 2020_10_25_061056) do
   end
 
   add_foreign_key "addresses", "resources"
+  add_foreign_key "categories_sites", "categories"
+  add_foreign_key "categories_sites", "sites"
   add_foreign_key "change_requests", "resources"
   add_foreign_key "contacts", "resources"
   add_foreign_key "contacts", "services"
