@@ -3,4 +3,5 @@
 class FeedbackPresenter < Jsonite
   property :rating
   property :review
+  property :tags
 end

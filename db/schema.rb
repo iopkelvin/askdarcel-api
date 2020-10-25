@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_07_010754) do
+ActiveRecord::Schema.define(version: 2020_10_25_061056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -167,8 +167,6 @@ ActiveRecord::Schema.define(version: 2020_09_07_010754) do
 
   create_table "feedbacks", force: :cascade do |t|
     t.boolean "rating", null: false
-    t.text "review"
-    t.text "tags", default: [], array: true
     t.bigint "resource_id"
     t.bigint "service_id"
     t.datetime "created_at", null: false
@@ -267,6 +265,15 @@ ActiveRecord::Schema.define(version: 2020_09_07_010754) do
     t.index ["contact_id"], name: "index_resources_on_contact_id"
     t.index ["funding_id"], name: "index_resources_on_funding_id"
     t.index ["updated_at", "id"], name: "index_resources_on_updated_at_and_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.text "review"
+    t.text "tags", default: [], array: true
+    t.bigint "feedback_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feedback_id"], name: "index_reviews_on_feedback_id"
   end
 
   create_table "schedule_days", force: :cascade do |t|
@@ -368,6 +375,7 @@ ActiveRecord::Schema.define(version: 2020_09_07_010754) do
   add_foreign_key "programs", "resources"
   add_foreign_key "resources", "contacts"
   add_foreign_key "resources", "fundings"
+  add_foreign_key "reviews", "feedbacks"
   add_foreign_key "schedule_days", "schedules"
   add_foreign_key "schedules", "resources"
   add_foreign_key "schedules", "services"
