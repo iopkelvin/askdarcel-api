@@ -16,7 +16,7 @@ class FeedbacksController < ApplicationController
     } }
 
     if @feedback_source.feedbacks.create(feedback_params[:feedback])
-      render status: :created, json: {msg: "Success!"}
+      render status: :created, json: { msg: "Success!" }
     else
       render json: feedback.errors.full_messages, status: :unprocessable_entity
     end
