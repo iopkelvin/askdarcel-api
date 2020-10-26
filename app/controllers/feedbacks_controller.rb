@@ -4,8 +4,9 @@ class FeedbacksController < ApplicationController
   before_action :load_source
 
   def index
-    feedbacks = @feedback_source.feedbacks
-    render json: FeedbackPresenter.present(feedbacks)
+    # Need help to implement this part got some roadblocks
+    # feedbacks = @feedback_source.feedbacks.includes(:review)
+    # render json: FeedbackPresenter.present(feedback_data)
   end
 
   def create
@@ -15,7 +16,7 @@ class FeedbacksController < ApplicationController
     } }
 
     if @feedback_source.feedbacks.create(feedback_params[:feedback])
-      render status: :created, json: 'Success!'
+      render status: :created, json: {msg: "Success!"}
     else
       render json: feedback.errors.full_messages, status: :unprocessable_entity
     end
