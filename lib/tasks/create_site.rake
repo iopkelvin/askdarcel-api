@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-  
+
 # Tasks to add default site code of 'sfsg' to all existing resources and categories
 
 namespace :create_site do
@@ -10,15 +10,14 @@ namespace :create_site do
       Site.find_or_create_by(site_code: 'sfsg')
     end
   end
-  
   # to each resource, add a connection using resource_site
   desc 'Adds the sfsg site to existing resources'
   task add_sfsg_to_resources: :environment do
     sfsg_id = Site.find_by(site_code: 'sfsg').id
     Resource.transaction do
       Resource.all.each do |r|
-        ResourcesSites.find_or_create_by(resource_id: c.id,
-                                       site_id: sfsg_id)
+        ResourcesSites.find_or_create_by(resource_id: r.id,
+                                         site_id: sfsg_id)
       end
     end
   end
@@ -30,7 +29,7 @@ namespace :create_site do
     Category.transaction do
       Category.all.each do |c|
         CategoriesSites.find_or_create_by(category_id: c.id,
-                                       site_id: sfsg_id)
+                                          site_id: sfsg_id)
       end
     end
   end
