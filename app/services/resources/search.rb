@@ -2,12 +2,11 @@ module Resources
   module Search
     def self.perform(query, lat_lng: nil, scope: Resource)
       strategy = if Rails.configuration.x.algolia.enabled
-        AlgoliaStrategy
-      else
-        DatabaseStrategy
-      end
+                   AlgoliaStrategy
+                 else
+                   DatabaseStrategy
+                 end
       p strategy
-      p "from service"
       strategy.perform(query, lat_lng, scope)
     end
 
