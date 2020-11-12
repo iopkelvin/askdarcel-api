@@ -7,7 +7,7 @@ insert into categories (id, created_at, updated_at, name, top_level, vocabulary,
 (1100041, '18-OCT-20', '18-OCT-20', 'We are a family and we need shelter', 'f', null, 'f');
 
 insert into categories (id, created_at, updated_at, name, top_level, vocabulary, featured) values
-(1100042, '18-OCT-20', '18-OCT-20', 'I am someone between 18-24 year old in need of shelter', 'f', null, 'f');
+(1100042, '18-OCT-20', '18-OCT-20', 'I am someone between 18-24 years old in need of shelter', 'f', null, 'f');
 
 insert into categories (id, created_at, updated_at, name, top_level, vocabulary, featured) values
 (1100043, '18-OCT-20',  '18-OCT-20', 'I am a single adult and I need shelter', 'f', null, 'f');
