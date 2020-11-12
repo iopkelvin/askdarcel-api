@@ -499,7 +499,6 @@ module ShelterTech
         'Health & Medical',
         'Employment',
         'sffamilies',
-        'Covid-shelter'
       ].freeze
 
       TOP_LEVEL_CATEGORY_NAMES = [
@@ -523,7 +522,6 @@ module ShelterTech
         'Eviction Defense',
         'Temporary Shelter',
         'sffamilies',
-        'Covid-shelter'
       ].freeze
 
       FEATURED_CATEGORY_NAMES = [
