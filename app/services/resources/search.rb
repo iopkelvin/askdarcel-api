@@ -6,7 +6,6 @@ module Resources
                  else
                    DatabaseStrategy
                  end
-      p strategy
       strategy.perform(query, lat_lng, scope)
     end
 
