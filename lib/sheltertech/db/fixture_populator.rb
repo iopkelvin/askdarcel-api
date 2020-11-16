@@ -141,6 +141,9 @@ module ShelterTech
         create_new_pathway_categories('Covid-internet', 1_000_007, ['Low-Income'])
         create_new_pathway_categories_by_subcategory('Covid-lgbtqa', 1_000_008, ['Housing Assistance', 'Legal Assistance ',
                                                                                  'Youth Services', 'Counseling Assistance', 'General Help'])
+        create_new_pathway_categories_by_subcategory('Covid-shelter', 1_000_010, ['We are a family and we need shelter',
+                                                                                  'I am someone between 18-24 years old in need of shelter',
+                                                                                  'I am a single adult and I need shelter'])
       end
 
       def self.create_new_pathway_categories(name, id, eligibilities)
@@ -495,7 +498,8 @@ module ShelterTech
         'Basic Needs & Shelter',
         'Health & Medical',
         'Employment',
-        'sffamilies'
+        'sffamilies',
+        'Covid Shelter'
       ].freeze
 
       TOP_LEVEL_CATEGORY_NAMES = [
@@ -518,7 +522,8 @@ module ShelterTech
         'MOHCD Funded Services',
         'Eviction Defense',
         'Temporary Shelter',
-        'sffamilies'
+        'sffamilies',
+        'Covid Shelter'
       ].freeze
 
       FEATURED_CATEGORY_NAMES = [
