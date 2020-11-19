@@ -1,0 +1,2 @@
+class TextingsController < ApplicationController
+end
