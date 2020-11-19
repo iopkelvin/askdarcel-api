@@ -1,6 +1,7 @@
 class TextingsController < ApplicationController
   
   def create 
+
     # Make a post request to Textellent API
     response = post(textellent_params)
 
@@ -27,9 +28,9 @@ class TextingsController < ApplicationController
           tags: Array(tags),
           resources: Array(resources)
           )
-          render json: {message:'Message sent'}, status: 200
+          render json: {message:'Welcome Back! Message sent'}, status: 200
         else
-          ender json: {error: "Bad Request"}, status: 400
+          render json: {error: "Bad Request"}, status: 400
         end
 
        # If this is the first time using the texting service ? we create a new record.
@@ -50,7 +51,7 @@ class TextingsController < ApplicationController
       end
 
     else
-      render json: {error: "Bad Request", response: textellent_auth_code}, status: 400
+      render json: {error: "Bad Request"}, status: 400
     end
   end
 
