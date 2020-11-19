@@ -32,6 +32,9 @@ gem 'sentry-raven'
 # Authentication
 gem 'jwt'
 
+# External http requests
+gem "httparty"
+
 gem 'lograge'
 
 gem 'prometheus-client'

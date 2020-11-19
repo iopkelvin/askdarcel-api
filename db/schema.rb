@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_10_052534) do
+ActiveRecord::Schema.define(version: 2020_11_19_041947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -361,6 +361,16 @@ ActiveRecord::Schema.define(version: 2020_10_10_052534) do
     t.datetime "updated_at", null: false
     t.index ["synonym_group_id"], name: "index_synonyms_on_synonym_group_id"
     t.index ["word"], name: "index_synonyms_on_word"
+  end
+
+  create_table "textings", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "phone_number"
+    t.string "tags"
+    t.string "resources"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
