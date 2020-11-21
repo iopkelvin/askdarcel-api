@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "86e67af4-e893-4b59-981f-4ce153d9b088",
+		"_postman_id": "bb6f6d44-2010-4a93-b063-88783098893d",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,7 +11,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "6fc54ef1-1409-44a3-bc1e-6012a857e7dc",
+						"id": "1428b28e-35f7-432f-834e-f7b42d5aa451",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Status code is 200\"] = responseCode.code === 200;  "
@@ -51,7 +51,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "93d1fe20-84f4-4c66-b19c-a1147859046a",
+						"id": "9a6b54af-edf5-4ad0-b2e4-9672ea62ce1f",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1500ms\"] = responseTime < 1500;",
@@ -111,7 +111,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "6fc54ef1-1409-44a3-bc1e-6012a857e7dc",
+						"id": "940c4da6-d854-4465-8610-71f7937fc56d",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Status code is 200\"] = responseCode.code === 200;  "
@@ -146,7 +146,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3b18f5a7-5f3c-44d6-a3c1-a91e515c989a",
+						"id": "5ad964a1-17a8-4ff8-b188-7d3c753163e8",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 1000;",
@@ -180,12 +180,168 @@
 			"response": []
 		},
 		{
+			"name": "Get services by categories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5365e1a0-1071-4351-85ef-9708f52aee29",
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var response = pm.response.json();"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get services by category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9f6c655e-c3fe-421c-b8c8-a682153f1c38",
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var response = pm.response.json();"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get services by eligibilities",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4ab13acf-f751-47d3-84f4-c725d540a0a0",
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var response = pm.response.json();"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get services by eligibility",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a8f92a0e-215a-41a3-991f-175845034625",
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var response = pm.response.json();"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get category by id",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "3b18f5a7-5f3c-44d6-a3c1-a91e515c989a",
+						"id": "9c53ac90-f2ba-47b3-8cf2-b1320278bfd0",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 1000;",
@@ -224,7 +380,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3b18f5a7-5f3c-44d6-a3c1-a91e515c989a",
+						"id": "07dd5e99-b26a-4fde-911f-9a40dcd2d2de",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 1000;",
@@ -263,7 +419,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1403ee77-8baa-486c-aff1-5d081b1b2b2f",
+						"id": "572bd7d3-5061-4b75-8fdd-eab5e12376d2",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
 							"",
@@ -314,7 +470,8 @@
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
 							"",
 							""
-						]
+						],
+						"id": "fb75acbf-5643-4a1a-8157-99063c38f6ab"
 					}
 				}
 			],
@@ -345,7 +502,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1403ee77-8baa-486c-aff1-5d081b1b2b2f",
+						"id": "0c69e441-62e0-4902-831e-4048135837e9",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
@@ -400,7 +557,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1403ee77-8baa-486c-aff1-5d081b1b2b2f",
+						"id": "252df5cb-4e0a-46ec-b518-b5ce84470720",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
@@ -455,7 +612,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "62427972-214c-4bc1-b119-5cfbf871d2ab",
+						"id": "2d134fe6-ab51-4a38-bc95-e8a7cc80b7f8",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -498,7 +655,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "bf1bc364-fef6-4800-a93e-babc404f75b1",
+						"id": "7e899e0c-c129-4995-9b7a-696553417dd2",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -545,7 +702,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "76d9f301-73fd-4fc4-870d-47060c278e49",
+						"id": "2ae14a5f-a437-4f87-98c3-00d5932169df",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -590,7 +747,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5c9b01e5-fe7c-48aa-88d8-2240f871bd05",
+						"id": "f859bc75-5e4d-4afb-bd4a-20bc6811eb8b",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -643,7 +800,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5c9b01e5-fe7c-48aa-88d8-2240f871bd05",
+						"id": "f6f8b56c-cbd3-452f-8134-bc044c701549",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -696,7 +853,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "71310e01-0f0c-42ad-8a3a-5dc859a8b01f",
+						"id": "f51fe31f-788e-4549-bd1f-83ccbf91f9c5",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1500ms\"] = responseTime < 1500;",
@@ -769,7 +926,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "85f1eb79-27eb-4e09-ad50-1f66f58ea696"
 					}
 				}
 			],
@@ -814,7 +972,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "18e67a17-62d6-440b-943f-3a798ea47c5b"
 					}
 				}
 			],
@@ -859,7 +1018,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "448e16c7-5a5d-47ec-9afa-8dcfbbd6ac91"
 					}
 				}
 			],
@@ -904,7 +1064,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "9b019b85-b16f-4ad1-bea6-9533d0203fa2"
 					}
 				}
 			],
@@ -949,7 +1110,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "4c1559b9-e855-4a86-a5de-c16483a577d8"
 					}
 				}
 			],
@@ -994,7 +1156,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "ff0c4cd8-f80a-47e6-91cc-07973337d37b"
 					}
 				}
 			],
@@ -1034,7 +1197,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a90c9522-8402-448b-bc6b-d2348fc3890b",
+						"id": "0ee4d680-5b89-40ac-8ca7-ce6978a1a961",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -1080,7 +1243,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1ebb6056-c993-4807-a34d-fa47edd4fee3",
+						"id": "c99ec77b-d91b-496b-94c6-068d0ae0ba4e",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -1124,7 +1287,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1ebb6056-c993-4807-a34d-fa47edd4fee3",
+						"id": "d76da67f-dd5c-4163-a964-ec4ba28e13f7",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -1173,7 +1336,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "cc00296b-efb9-4d8e-b50b-25e65b8590a1"
 					}
 				}
 			],
@@ -1218,7 +1382,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "d8c40762-0d7c-4938-ac11-51fe5430d988"
 					}
 				}
 			],
@@ -1258,7 +1423,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "bb989ff4-8cf2-477d-8f41-2ebbd0da3dd0",
+						"id": "10a401cd-47ae-4cd4-bf84-f05f495dfc42",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
@@ -1303,7 +1468,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "48602fa8-3381-42a3-aced-4589bb20c064",
+						"id": "4c8ddb01-143d-4426-b06b-9a88ae99a5d5",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
@@ -1353,7 +1518,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "81f7af27-c9de-40ba-bc79-671bb6857821"
 					}
 				}
 			],
@@ -1396,7 +1562,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "6a752048-6593-4e09-b584-fe78652cbede"
 					}
 				}
 			],
@@ -1439,7 +1606,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "f3e61ffb-74e2-47a2-8a82-acefc54bb68e"
 					}
 				}
 			],
@@ -1484,7 +1652,8 @@
 							"tests[\"Response time is less than 12000ms\"] = responseTime < 12000;",
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;"
-						]
+						],
+						"id": "57413ea7-703c-48c3-8906-81e0177b1bca"
 					}
 				}
 			],
@@ -1526,7 +1695,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "d9a0b919-0685-4116-94c5-08a77896e5c5",
+				"id": "43c4d3af-a003-4c4e-919b-46a3e11783bf",
 				"type": "text/javascript",
 				"exec": [
 					"var idSchema = {",
@@ -1761,7 +1930,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "6b7b8f81-513a-4ce9-a59b-5e5d31b7bb84",
+				"id": "d6a868e9-b272-4861-a5d0-1b102bc26563",
 				"type": "text/javascript",
 				"exec": [
 					""
