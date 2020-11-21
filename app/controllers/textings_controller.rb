@@ -1,13 +1,12 @@
 class TextingsController < ApplicationController
-  
-  def create 
+
+  def create
 
     # Make a post request to Textellent API
     response = post(textellent_params)
-
     if response['status'] == 'success'
 
-      user = Texting.find_by(phone_number: db_params[:mobilePhone]) 
+      user = Texting.find_by(phone_number: db_params[:mobilePhone])
       # if the user previously used the Texting service and we have a record of their
       # phone number in our DB we just update the resources ids & tags and given name
       if user
@@ -55,7 +54,7 @@ class TextingsController < ApplicationController
     end
   end
 
-  
+
   private
 
   # data to send to Textellent.
@@ -67,8 +66,8 @@ class TextingsController < ApplicationController
   def db_params
     params.require(:data).permit(
       :firstName,
-      :lastName, 
-      :mobilePhone, 
+      :lastName,
+      :mobilePhone,
       :resourceId,
       :tags => []
       )
@@ -80,7 +79,7 @@ class TextingsController < ApplicationController
       'Content-Type' => 'application/json',
       'authCode' => ENV['TEXTELLENT_AUTH_CODE'],
     }
-    options = { 
+    options = {
       headers:  headers,
       body: data.to_json
     }

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "86e67af4-e893-4b59-981f-4ce153d9b088",
+		"_postman_id": "73fefae9-aec7-4e92-88d3-55f321b70b77",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,7 +11,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "6fc54ef1-1409-44a3-bc1e-6012a857e7dc",
+						"id": "f0ea6747-13fe-44d8-923f-9a9048a06f4a",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Status code is 200\"] = responseCode.code === 200;  "
@@ -51,7 +51,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "93d1fe20-84f4-4c66-b19c-a1147859046a",
+						"id": "19ec40da-5964-4a9d-ac55-2ac2a556a517",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1500ms\"] = responseTime < 1500;",
@@ -111,7 +111,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "6fc54ef1-1409-44a3-bc1e-6012a857e7dc",
+						"id": "077c2e0f-1d45-4a62-8e19-c9aaebe13411",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Status code is 200\"] = responseCode.code === 200;  "
@@ -146,7 +146,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3b18f5a7-5f3c-44d6-a3c1-a91e515c989a",
+						"id": "a027e487-f87c-416f-91b7-3ed9e17fdf4e",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 1000;",
@@ -185,7 +185,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3b18f5a7-5f3c-44d6-a3c1-a91e515c989a",
+						"id": "e0ec87cb-ecc9-46ad-8bbe-58eb39a93075",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 1000;",
@@ -224,7 +224,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3b18f5a7-5f3c-44d6-a3c1-a91e515c989a",
+						"id": "ef74742c-dd54-401e-8181-a4005bbaa86a",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 1000;",
@@ -263,7 +263,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1403ee77-8baa-486c-aff1-5d081b1b2b2f",
+						"id": "8b7488a5-717e-4867-a551-614ff73c52ba",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
 							"",
@@ -314,7 +314,8 @@
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
 							"",
 							""
-						]
+						],
+						"id": "c3a0c4f4-9c60-4c62-a482-d41bf9b8c96c"
 					}
 				}
 			],
@@ -345,7 +346,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1403ee77-8baa-486c-aff1-5d081b1b2b2f",
+						"id": "10b1c256-87a0-4ca6-8115-e08306bccf6b",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
@@ -400,7 +401,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1403ee77-8baa-486c-aff1-5d081b1b2b2f",
+						"id": "a14989a7-86cb-485c-b12d-767e62fa4c7e",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
@@ -455,7 +456,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "62427972-214c-4bc1-b119-5cfbf871d2ab",
+						"id": "a0d0cfc0-3e10-43cd-8c02-18316616caac",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -498,7 +499,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "bf1bc364-fef6-4800-a93e-babc404f75b1",
+						"id": "f532c43a-7235-401e-af4d-77e0325b82ee",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -545,7 +546,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "76d9f301-73fd-4fc4-870d-47060c278e49",
+						"id": "549795d5-86f2-414f-aa81-548621e6745a",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -590,7 +591,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5c9b01e5-fe7c-48aa-88d8-2240f871bd05",
+						"id": "8ec1a5da-f3c9-48d4-b274-d9759e57d29d",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -643,7 +644,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5c9b01e5-fe7c-48aa-88d8-2240f871bd05",
+						"id": "1661301f-ea2d-4684-9786-6eda0c40e94b",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -696,7 +697,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "71310e01-0f0c-42ad-8a3a-5dc859a8b01f",
+						"id": "798b6bd6-3efa-4952-b4ab-d2281410bb06",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1500ms\"] = responseTime < 1500;",
@@ -769,7 +770,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "cb499362-cf4c-4d46-96a5-dabd7e5eb41a"
 					}
 				}
 			],
@@ -814,7 +816,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "c6b3b7af-124f-4211-a83d-6416209e5d00"
 					}
 				}
 			],
@@ -859,7 +862,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "dd3f5359-277c-4895-b37d-4310cd953506"
 					}
 				}
 			],
@@ -904,7 +908,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "e41bcdbc-46ef-41cb-83e5-c60a2e281679"
 					}
 				}
 			],
@@ -949,7 +954,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "d7834170-eb7f-4bf8-98d9-1ad1361e09db"
 					}
 				}
 			],
@@ -994,7 +1000,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "2a7a70cf-956d-41f7-ae77-280ffe20ec71"
 					}
 				}
 			],
@@ -1034,7 +1041,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a90c9522-8402-448b-bc6b-d2348fc3890b",
+						"id": "a922b581-343a-46fc-859d-5fe2ef50d8e4",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -1080,7 +1087,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1ebb6056-c993-4807-a34d-fa47edd4fee3",
+						"id": "001d9616-71bd-460a-8b97-39479d05cbc5",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -1124,7 +1131,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1ebb6056-c993-4807-a34d-fa47edd4fee3",
+						"id": "ef2d13d8-484e-4ef4-86a3-24f4433b9081",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -1173,7 +1180,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "264624bf-4b63-47cc-bc35-d8b1dc9265f2"
 					}
 				}
 			],
@@ -1218,7 +1226,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "ccd0d35d-3253-492a-a2ec-d0dda09a4c4f"
 					}
 				}
 			],
@@ -1258,7 +1267,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "bb989ff4-8cf2-477d-8f41-2ebbd0da3dd0",
+						"id": "eae764f0-a879-41b1-9cc9-6a0b19b09fa8",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
@@ -1303,7 +1312,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "48602fa8-3381-42a3-aced-4589bb20c064",
+						"id": "e44cfec5-4f23-40b2-b4c4-69d3230e321c",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
@@ -1353,7 +1362,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "6289723c-0c31-49bd-b152-1a24feb87300"
 					}
 				}
 			],
@@ -1396,7 +1406,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "566c6b8c-da8b-4fdd-a4dd-4454af621659"
 					}
 				}
 			],
@@ -1439,7 +1450,8 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"id": "40f300ee-0802-4c52-9121-ff9addb838d3"
 					}
 				}
 			],
@@ -1484,7 +1496,8 @@
 							"tests[\"Response time is less than 12000ms\"] = responseTime < 12000;",
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;"
-						]
+						],
+						"id": "18964a5f-6399-4b68-9395-2837236a0c11"
 					}
 				}
 			],
@@ -1520,13 +1533,96 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Texting Resource Info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f2401665-1427-428b-a963-173fed2c5214",
+						"exec": [
+							"pm.test(\"sending resource info\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"firstName\": \"First\",\n        \"lastName\": \"text\",\n        \"mobilePhone\": \"4153333330\",\n        \"phoneAlternate\": \"\",\n        \"phoneHome\": \"\",\n        \"phoneWork\": \"\",\n        \"tags\": [\n            \"Food\"\n        ],\n        \"resourceId\": 333,\n        \"engagementType\": \"Resource Info\",\n        \"engagementInfo\": {\n            \"Org_Name\": \"Emergency Food Box Program\",\n            \"Org_Address1\": \"4999 California St.\",\n            \"Org_Address2\": \"(at 11th Ave)\",\n            \"City\": \"San Francisco\",\n            \"State\": \"CA\",\n            \"Zip\": \"94123\",\n            \"Org_Phone\": \"4157509899\"\n        }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/textings",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"textings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send empty Phone Number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f9b7b776-2e9d-4f28-a8d6-b956d5275357",
+						"exec": [
+							"pm.test(\"Sending Empty Phone Number\", function () {",
+							"    const responseJson = pm.response.json();",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.have.jsonBody(\"error\");",
+							"    pm.expect(responseJson.error).to.eql(\"Bad Request\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"firstName\": \"First\",\n        \"lastName\": \"text\",\n        \"mobilePhone\": \"\",\n        \"phoneAlternate\": \"\",\n        \"phoneHome\": \"\",\n        \"phoneWork\": \"\",\n        \"tags\": [\n            \"Food\"\n        ],\n        \"resourceId\": 333,\n        \"engagementType\": \"Resource Info\",\n        \"engagementInfo\": {\n            \"Org_Name\": \"Emergency Food Box Program\",\n            \"Org_Address1\": \"4999 California St.\",\n            \"Org_Address2\": \"(at 11th Ave)\",\n            \"City\": \"San Francisco\",\n            \"State\": \"CA\",\n            \"Zip\": \"94123\",\n            \"Org_Phone\": \"4157509899\"\n        }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/textings",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"textings"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "d9a0b919-0685-4116-94c5-08a77896e5c5",
+				"id": "af6e403c-e08c-4f10-ada7-be3a40a4885f",
 				"type": "text/javascript",
 				"exec": [
 					"var idSchema = {",
@@ -1761,7 +1857,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "6b7b8f81-513a-4ce9-a59b-5e5d31b7bb84",
+				"id": "5a9eef86-9de7-4968-8f5b-95972fb31dc0",
 				"type": "text/javascript",
 				"exec": [
 					""
