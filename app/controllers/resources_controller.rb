@@ -79,6 +79,9 @@ class ResourcesController < ApplicationController
       r.addresses.each do |a|
         fix_lat_and_long(a)
       end
+      if r.sites.empty?
+        r.sites = ['sfsg']
+      end
     end
   end
 
@@ -118,7 +121,8 @@ class ResourcesController < ApplicationController
       schedule: [{ schedule_days: %i[day opens_at closes_at open_day open_time close_day close_time] }],
       phones: %i[number service_type],
       notes: [:note],
-      categories: [:id]
+      categories: [:id],
+      :sites
     )
   end
 
@@ -156,7 +160,8 @@ class ResourcesController < ApplicationController
     Resource.preload(:addresses, :phones, :categories, :notes,
                      schedule: :schedule_days,
                      services: [:notes, :categories, { schedule: :schedule_days }, :eligibilities],
-                     ratings: [:review])
+                     ratings: [:review],
+                     :sites)
   end
 
   def sort_order
