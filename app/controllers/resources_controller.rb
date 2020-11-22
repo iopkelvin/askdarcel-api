@@ -122,8 +122,7 @@ class ResourcesController < ApplicationController
       phones: %i[number service_type],
       notes: [:note],
       categories: [:id],
-      :sites
-    )
+      :sites)
   end
 
   # Transform parameters for creating a single resource in-place.
