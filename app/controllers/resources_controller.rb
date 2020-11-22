@@ -80,7 +80,7 @@ class ResourcesController < ApplicationController
         fix_lat_and_long(a)
       end
       if r.sites.empty?
-        r.sites = ['sfsg']
+        r.sites = r.sites['sfsg']
       end
     end
   end
@@ -122,8 +122,8 @@ class ResourcesController < ApplicationController
       phones: %i[number service_type],
       notes: [:note],
       categories: [:id],
-      :sites
-      )
+      sites: [:site_code]
+    )
   end
 
   # Transform parameters for creating a single resource in-place.
@@ -157,11 +157,10 @@ class ResourcesController < ApplicationController
     # separate query per table. Otherwise, it creates one large query with many
     # joins, which amplifies the amount of data being sent between Rails and the
     # DB by several orders of magnitude due to duplication of tuples.
-    Resource.preload(:addresses, :phones, :categories, :notes,
+    Resource.preload(:addresses, :phones, :categories, :notes, :sites,
                      schedule: :schedule_days,
                      services: [:notes, :categories, { schedule: :schedule_days }, :eligibilities],
-                     ratings: [:review],
-                     :sites)
+                     ratings: [:review])
   end
 
   def sort_order
