@@ -80,7 +80,7 @@ class ResourcesController < ApplicationController
         fix_lat_and_long(a)
       end
       if r.sites.empty?
-        r.sites = r.sites['sfsg']
+        r.sites = ['sfsg']
       end
     end
   end
