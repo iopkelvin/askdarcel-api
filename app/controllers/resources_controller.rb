@@ -79,7 +79,7 @@ class ResourcesController < ApplicationController
       r.addresses.each do |a|
         fix_lat_and_long(a)
       end
-      r.sites = ['sfsg'] if r.sites.empty? #assumes sites key is always passed
+      r.sites = ['sfsg'] if r.sites.empty? # Assume sites key is always passed
     end
   end
 
