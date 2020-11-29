@@ -79,7 +79,7 @@ class ResourcesController < ApplicationController
       r.addresses.each do |a|
         fix_lat_and_long(a)
       end
-      if k.key? :sites 
+      if r.key? :sites 
         r.sites = ['sfsg'] if r.sites.empty?
       else
         r[:sites] = ['sfsg']
