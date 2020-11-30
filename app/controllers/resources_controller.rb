@@ -79,10 +79,29 @@ class ResourcesController < ApplicationController
       r.addresses.each do |a|
         fix_lat_and_long(a)
       end
+      
+      sfsg = Site.find_by site_code: "sfsg"
       if r.has_attribute? :sites 
-        r.sites = [Site.new] if r.sites.empty?
+        if r.sites.empty?
+          r.sites = [sfsg]
+        else
+          checked_sites = []
+          sff = Site.find_by site_code: "sffamilies"
+          
+          r.sites.each do |s|
+            # If more partners are supported this needs to be built out
+            checked_sites.push(sff) if s == "sffamilies" && !checked_sites.include?(sff)
+            checked_sites.push(sfsg) if s == "sfsg" && !checked_sites.include?(sfsg)
+          end
+
+          if checked_sites.empty?
+            r.sites = [sfsg]
+          else  
+            r.sites = checked_sites
+          end
+        end
       else
-        r.sites = [Site.new]
+        r.sites = [sfsg]
       end
     end
   end
